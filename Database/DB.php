@@ -3,7 +3,7 @@
 
 function getUser(int $id) : ?array
 {
-test
+testtest
 
     return NULL;
 }
