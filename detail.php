@@ -12,6 +12,8 @@ $albumId = $_GET["id"];
 
 $album = getAlbumById($albumId);
 
+
+
 $nom = $album["titre"];
 $shortName = substr($nom, 0, 25);
 $shortName .= ((strlen($nom) != strlen($shortName)) ? ("...") : (""));
