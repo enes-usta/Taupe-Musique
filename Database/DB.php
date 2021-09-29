@@ -3,7 +3,8 @@
 
 function getUser(int $id) : ?array
 {
-test
+testtest
 
+//salut c'est super'
     return NULL;
 }
