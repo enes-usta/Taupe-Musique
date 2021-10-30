@@ -12,13 +12,21 @@
 										if(isset($_POST["login"]) && isset($_POST["password"])){
 										  $login = trim(mysqli_real_escape_string($mysqli,$_POST["login"]));
 										  $pass = $_POST["password"];
-										  $str = "SELECT LOGIN,PASS,EMAIL FROM USERS WHERE LOGIN = '".$login."'";
+										  $str = "SELECT * FROM USERS WHERE LOGIN = '".$login."'";
 										  $result = query($mysqli,$str) or die ("Impossible de se connection à la base de données<br>");
 											  if(mysqli_num_rows($result)>0){
 													$row = mysqli_fetch_assoc($result);
-													if($pass == $row["PASS"]){
+													if(password_verify($pass,$row["PASS"])){
 														setcookie("user",$row["LOGIN"]);
-														unset($return);
+                                                        setcookie("civilite",$row["SEXE"]);
+                                                        setcookie("nom",$row["NOM"]);
+                                                        setcookie("prenom",$row["PRENOM"]);
+                                                        setcookie("adresse",$row["ADRESSE"]);
+                                                        setcookie("cp",$row["CODEP"]);
+                                                        setcookie("ville",$row["VILLE"]);
+                                                        setcookie("telephone",$row["TELEPHONE"]);
+
+                                                        unset($return);
 														$return["msg"] = "L'utilisateur est connecté";
 														$return["error"] = false;
 														mysqli_close($mysqli);

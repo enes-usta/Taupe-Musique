@@ -12,7 +12,7 @@ $ok = true;
 $result["msg"] = "invalide";
 
 
-		  if((isset($_POST["loginbdd"])) && (isset($_POST["passwordbdd"]))){			  
+		  if((isset($_POST["loginbdd"])) && (isset($_POST["passwordbdd"]))){
 			  if(empty($_POST["loginbdd"]) || empty($_POST["passwordbdd"])){
 				$return["pass"] = "le mot de pass est très court";
 			    $return["loginVal"] = "le login n'est pas valid";
@@ -25,29 +25,29 @@ $result["msg"] = "invalide";
 				 if(!preg_match("/^[a-zA-Z'\-\_0-9 ]+$/",$_POST["loginbdd"])){
 							  $return["loginVal"] = "le login n'est pas valid";
 							  $login = NULL;
-							
+
 					  }
-					  
-				  
+
+
 				  if(sizeof($login)>100){
 					  $return["loginLong"] = "l'login est trop long";
 					  $ok = false;
 				  }
-				  
+
 				  if(sizeof($pass)>100){
 					  $return["passLong"] = "le mot de pass est trop long";
 					  $ok = false;
 				  }
-				  
+
 			  }
-			  
+
 		  }
 		  else{
 			   $return["loginVal"] = "l'login n'est pas valid";;
 			   $return["passVal"] = "le mot de pass n'est valid";
 			   $ok = false;
 		  }
-			
+
 		  	if(isset($_POST["emailbdd"])){
 				if(!filter_var($_POST["emailbdd"], FILTER_VALIDATE_EMAIL)){
 					  $return["emailVal"] = "l'email n'est pas valid";
@@ -59,7 +59,7 @@ $result["msg"] = "invalide";
 			}else{
 				$email = NULL;
 			}
-		  
+
 		 if(isset($_POST["nombdd"])){
 			  if(empty($_POST["nombdd"])){
 				  $return["Nom"] = "le Nom n'est pas valid";
@@ -74,11 +74,11 @@ $result["msg"] = "invalide";
 					  $return["Nom"] = "le Nom est trop long";
 					   $ok = false;
 				  }
-			  } 
+			  }
 		  }else{
 			  $nom = NULL;
 		  }
-		  
+
 		  if(isset($_POST["prenombdd"])){
 			  if(empty($_POST["prenombdd"])){
 				  $prenom = NULL;
@@ -92,12 +92,12 @@ $result["msg"] = "invalide";
 					  $return["Prenom"] = "le Prénom est trop long";
 					   $ok = false;
 				  }
-			  } 
+			  }
 		  }
 		  else{
 			  $prenom = NULL;
 		  }
-		  
+
 		  if(isset($_POST["adressebdd"])){
 			  if(empty($_POST["adressebdd"])){
 			  $adresse = NULL;
@@ -111,8 +111,8 @@ $result["msg"] = "invalide";
 		  }else{
 			  $adresse = NULL;
 		  }
-		
-		
+
+
 		if(isset($_POST["villebdd"])){
 			  if(empty($_POST["villebdd"])){
 			  $ville = NULL;
@@ -127,7 +127,7 @@ $result["msg"] = "invalide";
 		  else{
 			  $ville = NULL;
 		  }
-		  
+
 		if(isset($_POST["codepostalbdd"])){
 			  if(empty($_POST["codepostalbdd"])){
 			  $codepostal = NULL;
@@ -141,7 +141,7 @@ $result["msg"] = "invalide";
 		  }else{
 			  $codepostal = NULL;
 		  }
-		  
+
 		if(isset($_POST["datebdd"])){
 			 if(empty($_POST["datebdd"])){
 			  $date = NULL;
@@ -156,7 +156,7 @@ $result["msg"] = "invalide";
 		  else{
 			  $date = NULL;
 		  }
-		  
+
 		 if(isset($_POST["telephonebdd"])){
 			 if(!preg_match("/^[0-9]{9,15}$/",$_POST["telephonebdd"])){
 					  $return["telephoneVal"] = "le telephone n'est pas valid";
@@ -168,9 +168,9 @@ $result["msg"] = "invalide";
 		  }else{
 			  $telephone = NULL;
 		  }
-		  	 
-		  
-		  
+
+
+
 		  if(isset($_POST["optradio"])){
 			  $sexe = $_POST["optradio"];
 		  }else{
@@ -184,8 +184,8 @@ $result["msg"] = "invalide";
 				  $ok = false;
 				  $return["dejaEmail"] = "l'email saisi est déjà enregistré";
 			  }
-			  
-			  
+
+
 			  $str = "SELECT LOGIN FROM USERS WHERE LOGIN = '".$login."'";
 			  $result = query($mysqli,$str) or die("Impossible de creer une compte dans ce moment<br>");
 			  if(mysqli_num_rows($result)>0){
@@ -202,16 +202,16 @@ $result["msg"] = "invalide";
 	if($ok === true){
 				$str = "INSERT INTO USERS VALUES ('".$login."','".$email."','".password_hash($pass, PASSWORD_DEFAULT)."','".$nom."','".$prenom."','".$date."','".$sexe."','".$adresse."','".$codepostal."','".$ville."','".$telephone."');";
 				query($mysqli,$str) or die("Impossible de creer une compte dans ce moment<br>");
-				setcookie('user',$login,time() + 3600);
+				//setcookie('user',$login,time() + 3600);
 				unset($return);
-				mysqli_close($mysqli);	
+				mysqli_close($mysqli);
 				header('location: index.php');
-				exit();
+		echo "<meta http-equiv='refresh' content='0'>";
 	}else{
-		
+
 		mysqli_close($mysqli);
 		$_SESSION["inscription"] = $return;
-		exit();
+		echo "<meta http-equiv='refresh' content='0'>";
 	}
 	
 

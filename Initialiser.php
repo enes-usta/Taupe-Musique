@@ -31,7 +31,7 @@
 					  ADRESSE varchar(500),
 					  CODEP int(20),
 					  VILLE varchar(50),
-					  TELEPHONE int(20)					  
+					  TELEPHONE varchar(20)					  
 					) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 				");
 				
@@ -56,16 +56,16 @@
 	query($mysqli,'CREATE TABLE IF NOT EXISTS `commande` (
   `ID_COM` bigint(20) NOT NULL AUTO_INCREMENT,
   `ID_PROD` int(11) NOT NULL,
-  `ETAT` int(1) NOT NULL,
-  `ID_CLIENT` int(11) NOT NULL,
+  `ETAT` int(1) ,
+  `ID_CLIENT` varchar(40) NOT NULL,
   `DATE` varchar(40) NOT NULL,
-  `CIVILITE` varchar(4) NOT NULL,
+  `CIVILITE` varchar(10) NOT NULL,
   `NOM` varchar(40) NOT NULL,
   `PRENOM` varchar(40) NOT NULL,
   `ADRESSE` varchar(160) NOT NULL,
   `CP` int(11) NOT NULL,
   `VILLE` varchar(80) NOT NULL,
-  `TELEPHONE` varchar(10) NOT NULL,
+  `TELEPHONE` varchar(20) NOT NULL,
   PRIMARY KEY (`ID_COM`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;');
 	

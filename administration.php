@@ -38,7 +38,7 @@ include 'fonctions/fonctionsAdministration.php';
 
 <body>
 <?php
-	if(isset($_COOKIE["user"])){
+    if(isset($_COOKIE["user"])){
 		  include("Parametres.php");
 		  include("Fonctions.inc.php");
 		  include("Donnees.inc.php");
@@ -165,7 +165,7 @@ include 'fonctions/fonctionsAdministration.php';
 						</div>					
 				
 				<div class='modal-footer'>
-					<input class='btn btn-primary' type='submit' value='Enregistrer'>
+					<input class='btn btn-primary' type='submit' value='Enregistrer'> <script type='text/JavaScript'> location.reload(); </script>
 				</div>
 				
 				</form>
@@ -174,6 +174,7 @@ include 'fonctions/fonctionsAdministration.php';
 	</div>		
 		";
 	}
+    echo '<script type="text/JavaScript"> location.reload(); </script>';
 		
 	?>
     <!-- jQuery -->
