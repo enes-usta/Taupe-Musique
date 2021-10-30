@@ -3,23 +3,16 @@
 	include("Parametres.php");
 	include("Fonctions.inc.php");
 	include("Donnees.inc.php");
-								//test
-		$mysqli=mysqli_connect($host,$user,$pass) or die("Problème de création de la base :".mysqli_error());
-		mysqli_select_db($mysqli,$base) or die("Impossible de sélectionner la base : $base");
-		
+    include("Database/DB.php");
+
 		
 		if(isset($_COOKIE["user"])){
 				$user = $_COOKIE["user"];
 				$produit = $_POST["id_produit"];
-				$str0 = 'select * from favs where id_prod = '.$produit;
-				$str = "INSERT INTO FAVS VALUES('".$user."','".$produit."')";
-				$result = query($mysqli,$str0) or die("Impossible de ajouter produit<br>");
-				if(mysqli_num_rows($result)>0){
-					query($mysqli,'delete from favs where id_prod = '.$produit.' and LOGIN = \''.$_COOKIE["user"].'\'');
-					echo 'delete set';
-				}else{
-					query($mysqli,$str);
-				}
+
+				//
+            updateFavoris($user, $produit);
+
 		}
 		else{
 			if(!isset($_COOKIE["favoris"])){
@@ -49,6 +42,6 @@
 				setcookie("favoris",json_encode($arr), time() + (86400 * 15),'/');
 			}
 		}
-	mysqli_close($mysqli);
+
 	
 ?>

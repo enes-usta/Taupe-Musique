@@ -41,7 +41,7 @@ function getUser(int $id) : ?array
 function validerCommande(): bool
 {
     /*
-     * 					$panier = json_decode($_COOKIE["panier"]);
+     * 				$panier = json_decode($_COOKIE["panier"]);
 					include("Parametres.php");
 					include("Fonctions.inc.php");
 					include("Donnees.inc.php");
@@ -54,4 +54,42 @@ function validerCommande(): bool
 					mysqli_close($mysqli);
     */
     return false;
+}
+
+/**
+ * @param $user
+ * @param $produit
+ * Met à jour les favoris de l'utilisateur
+ * Suppresion du produit s'il y est déja sinon l'ajoute
+ */
+function updateFavoris($user, $produit){
+    /*
+    $str0 = 'select * from favs where id_prod = '.$produit;
+    $str = "INSERT INTO FAVS VALUES('".$user."','".$produit."')";
+    $result = query($mysqli,$str0) or die("Impossible de ajouter produit<br>");
+    if(mysqli_num_rows($result)>0){
+        query($mysqli,'delete from favs where id_prod = '.$produit.' and LOGIN = \''.$_COOKIE["user"].'\'');
+        echo 'delete set';
+    }else{
+        query($mysqli,$str);
+    }
+
+     */
+}
+
+/**
+ * @param $user
+ * @return array de l'utilisateur
+ */
+function getFavoris($user){
+    $mysqliFav = mysqli_connect($host, $user, $pass) or die("Problème de création de la base :" . mysqli_error());
+    mysqli_select_db($mysqliFav, $base) or die("Impossible de sélectionner la base : $base");
+
+    $result = query($mysqliFav, "SELECT ID_PROD FROM favs WHERE LOGIN = '" . $_COOKIE["user"] . "'") or die("récupération des Albums favorites impossible");
+
+    $favAlbums = array();
+    while ($fav = mysqli_fetch_assoc($result)) {
+        $favAlbums[] = $fav["ID_PROD"];
+    }
+    return $favAlbums;
 }

@@ -6,7 +6,7 @@
 
   $host="localhost:3306";
   $user="root";
-  $pass="";
+  $pass="Enesdu57";
   $base="CDs";
   $id_user="0000";
   
