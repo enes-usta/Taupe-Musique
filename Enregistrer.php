@@ -1,6 +1,7 @@
 <?php
 session_start();
 require ("Database/DB.php");
+require ("Database/Database.php");
 
 
 $ok = true;
