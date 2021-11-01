@@ -1,12 +1,17 @@
 <?php
 
-include("Parametres.php");
-include("Fonctions.inc.php");
-include("Donnees.inc.php");
+include_once("Database/Parametres.php");
+include_once("Donnees.inc.php");
 
-function Database()
+/**
+ * Initialise une connexion à la BDD
+ *
+ * @return PDO
+ */
+function Database(): PDO
 {
-    return new PDO($host, $user, $password);
+    global $host, $user, $pass, $base;
+    return new PDO('mysql:host='.$host.';port=3306;dbname='.$base, $user, $pass);
 }
 
 
@@ -22,26 +27,6 @@ function getUser(int $id): ?array
     $req = $db->prepare("SELECT LOGIN,EMAIL,PASS,NOM,PRENOM,DATE,SEXE,ADRESSE,CODEP,VILLE,TELEPHONE FROM USERS WHERE LOGIN = :id");
     $req->execute(array(":id" => $id));
     return $req->fetch();
-
-    /*
-     * 	if(isset($_COOKIE["user"])){
-              $mysqli=mysqli_connect($host,$user,$pass) or die("Problème de création de la base :".mysqli_error());
-              mysqli_select_db($mysqli,$base) or die("Impossible de sélectionner la base : $base");
-                    $result = query($mysqli,$str) or die("Impossible de se connecter");
-                    $row = mysqli_fetch_assoc($result);
-                    if(is_null($row["LOGIN"])){$login = "";}else{$login = $row["LOGIN"];}
-                    if(is_null($row["EMAIL"])){$email = "";}else{$email = $row["EMAIL"];}
-                    if(is_null($row["NOM"])){$nom = "";}else{$nom = $row["NOM"];}
-                    if(is_null($row["PRENOM"])){$prenom = "";}else{$prenom = $row["PRENOM"];}
-                    if(is_null($row["DATE"])){$date = "";}else{$date = $row["DATE"];}
-                    if(is_null($row["TELEPHONE"])){$telephone = "";}else if((int)$row["TELEPHONE"] == 0){ $telephone = NULL;}else{$telephone = $row["TELEPHONE"];}
-                    if(is_null($row["ADRESSE"])){$ADRESSEe = "";}else{$ADRESSEe = $row["ADRESSE"];}
-                    if(is_null($row["CODEP"])){$codepostal = "";}else{$codepostal = $row["CODEP"];}
-                    if(is_null($row["VILLE"])){$ville = "";}else{$ville = $row["VILLE"];}
-                    if(is_null($row["SEXE"])){$sexe = "";}else{$sexe = $row["SEXE"];}
-              mysqli_close($mysqli);
-        }
-     */
 }
 
 /**
@@ -69,17 +54,6 @@ function validerCommande(): bool
             ":telephone" => $_SESSION["TELEPHONE"]
         ));
     return false;
-    /*				include("Parametres.php");
-					include("Fonctions.inc.php");
-					include("Donnees.inc.php");
-    					$mysqli=mysqli_connect($host,$user,$pass) or die("Problème de création de la base :".mysqli_error());
-					mysqli_select_db($mysqli,$base) or die("Impossible de sélectionner la base : $base");
-
-					foreach($panier as $item){
-						query($mysqli,"replace into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values ('".$item."','".$_SESSION["login"]."','".date('d/m/Y')."','".$_SESSION["CIVILITE"]."','".$_SESSION["NOM"]."','".$_SESSION["PRENOM"]."','".$_SESSION["ADRESSE"]."','".$_SESSION["CP"]."','".$_SESSION["VILLE"]."','".$_SESSION["TELEPHONE"]."')");
-					}
-					mysqli_close($mysqli);
-    */
 }
 
 /**
@@ -92,27 +66,15 @@ function updateFavoris($user, $produit)
 {
     $db = Database();
 
-
     $req = $db->prepare("select * from favs where id_prod = :produit;");
     $req->execute(array(":produit" => $produit));
     if ($req->rowCount() > 0)
-        $update = $db->prepare("DELETE from favs where LOGIN = :user and id_prod = :produit;");
+        $update = $db->prepare("DELETE FROM FAVS where LOGIN = :user AND id_prod = :produit;");
     else
         $update = $db->prepare("INSERT INTO FAVS VALUES(:user, :produit);");
 
     $update->execute(array(":user" => $user, ":produit" => $produit));
 
-    /*
-    $str = "INSERT INTO FAVS VALUES('".$user."','".$produit."')";
-    $result = query($mysqli,$str0) or die("Impossible de ajouter produit<br>");
-    if(mysqli_num_rows($result)>0){
-        query($mysqli,'delete from favs where id_prod = '.$produit.' and LOGIN = \''.$_COOKIE["user"].'\'');
-        echo 'delete set';
-    }else{
-        query($mysqli,$str);
-    }
-
-     */
 }
 
 /**
@@ -126,16 +88,50 @@ function getFavoris($user): array
     $req->execute(array(":user" => $user));
 
     return $req->fetchAll();
+}
 
-    /*
-    $mysqliFav = mysqli_connect($host, $user, $pass) or die("Problème de création de la base :" . mysqli_error());
-    mysqli_select_db($mysqliFav, $base) or die("Impossible de sélectionner la base : $base");
 
-    $result = query($mysqliFav, "SELECT ID_PROD FROM favs WHERE LOGIN = '" . $_COOKIE["user"] . "'") or die("récupération des Albums favorites impossible");
+/**
+ * @param $login
+ * @return bool Si le login est déja utilisé
+ */
+function loginExist($login): bool
+{
+    $db = Database();
+    $req = $db->prepare("SELECT LOGIN FROM USERS WHERE LOGIN = :login");
+    $req->execute(array(":login" => $login));
+    return ($req->rowCount() != 0);
+}
 
-    $favAlbums = array();
-    while ($fav = mysqli_fetch_assoc($result)) {
-        $favAlbums[] = $fav["ID_PROD"];
-    }
-    return $favAlbums;*/
+/**
+ * @param $email email dont il faut vérifier si un compte existe déja
+ * @return bool Si l'email est déja utilisé
+ */
+function emailExist($email): bool
+{
+    $db = Database();
+    $req = $db->prepare("SELECT EMAIL FROM USERS WHERE EMAIL = :email");
+    $req->execute(array(":email" => $email));
+    return ($req->rowCount() != 0);
+}
+
+function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone)
+{
+//    $str = "INSERT INTO USERS VALUES ('" . $login . "','" . $email . "','" . password_hash($pass, PASSWORD_DEFAULT) . "','" . $nom . "','" . $prenom . "','" . $date . "','" . $sexe . "','" . $adresse . "','" . $codepostal . "','" . $ville . "','" . $telephone . "');";
+    $str = "INSERT INTO USERS VALUES (:login,:email,:pass,:nom,:prenom,:date,:sexe,:adresse,:codepostal,:ville,:telephone);";
+    $db = Database();
+    $req = $db->prepare($str);
+    $req->execute(array(
+        ":login" => $login,
+        ":email" => $email,
+        ":pass" => password_hash($pass,PASSWORD_DEFAULT),
+        ":nom" => $nom,
+        ":prenom" => $prenom,
+        ":date" => $date,
+        ":sexe" => $sexe,
+        ":adresse" => $adresse,
+        ":codepostal" => $codepostal,
+        ":ville" => $ville,
+        ":telephone" => $telephone
+        ));
 }
