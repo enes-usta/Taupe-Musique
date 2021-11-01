@@ -37,9 +37,6 @@ include 'fonctions/fonctionsAdministration.php';
 </head>
 
 <body>
-<?php
-    // getUser()
-?>
 
     <!-- Navigation -->
     <?php include("./navbar.php");?>
@@ -85,10 +82,12 @@ include 'fonctions/fonctionsAdministration.php';
 	
 	
 	<?php
-	if(isset($row)){
+    $user = getUser($_COOKIE["user"]);
+
+    if(isset($user)){
 		if(empty($nom)){$nom = "Nom";}
 		if(empty($prenom)){$prenom = "Prénom";}
-		if(empty($ADRESSEe)){$ADRESSEe = "ADRESSEe";}
+		if(empty($ADRESSEe)){$ADRESSE = "ADRESSE";}
 		if(empty($ville)){$ville = "Ville";}
 		if(empty($codepostal)){$codepostal = "Code Postal";}
 		if(empty($date)){$date = "Date de Naissance";};
@@ -117,31 +116,31 @@ include 'fonctions/fonctionsAdministration.php';
 							<input type='password' class='form-control' placeholder='********' maxlength='100' name='passwordbdd' />
 						</div>
 						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='".$email."' maxlength='200' name='emailbdd'/>
+							<input type='text' class='form-control' placeholder='".$user["EMAIL"]."' maxlength='200' name='emailbdd'/>
 						</div>						
 						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='".$nom."' maxlength='200' name='nombdd'/>
+							<input type='text' class='form-control' placeholder='".$user["NOM"]."' maxlength='200' name='nombdd'/>
 						</div>
 						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='".$prenom."' maxlength='100' name='prenombdd' />
+							<input type='text' class='form-control' placeholder='".$user["PRENOM"]."' maxlength='100' name='prenombdd' />
 						</div>
 						<div class='form-group input-append date'>
 							<input type='text' class='form-control' name='datebdd' placeholder='jj/mm/aaaa'  id='datePicker2'/>
 							<span class='input-group-addon add-on'><span class='glyphicon glyphicon-calendar'></span></span>
 						</div>
 						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='".$telephone."' maxlength='15' name='telephonebdd'/>
+							<input type='text' class='form-control' placeholder='".$user["TELEPHONE"]."' maxlength='15' name='telephonebdd'/>
 						</div>
 						<div class='form-group'>
-							<input type='textarea' class='form-control' placeholder='".$ADRESSEe."' maxlength='200' name='ADRESSEebdd'/>
+							<input type='textarea' class='form-control' placeholder='".$user["ADRESSE"]."' maxlength='200' name='ADRESSEebdd'/>
 						</div>
 						<div class='form-group'>
-							<input type='textarea' class='form-control' placeholder='".$ville."' maxlength='200' name='villebdd'/>
+							<input type='textarea' class='form-control' placeholder='".$user["VILLE"]."' maxlength='200' name='villebdd'/>
 						</div>
 						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='".$codepostal."' maxlength='200' name='postalbdd'/>
+							<input type='text' class='form-control' placeholder='".$user["CODEP"]."' maxlength='200' name='postalbdd'/>
 						</div>
-						<div class='form-group'>".$sexe."
+						<div class='form-group'>".$user["SEXE"]."
 						</div>					
 				
 				<div class='modal-footer'>

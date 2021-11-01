@@ -20,7 +20,7 @@ function getUser(int $id): ?array
     $db = Database();
 
     $req = $db->prepare("SELECT LOGIN,EMAIL,PASS,NOM,PRENOM,DATE,SEXE,ADRESSE,CODEP,VILLE,TELEPHONE FROM USERS WHERE LOGIN = :id");
-    $req->execute(array(":id" =>$id));
+    $req->execute(array(":id" => $id));
     return $req->fetch();
 
     /*
@@ -52,13 +52,24 @@ function getUser(int $id): ?array
 function validerCommande(): bool
 {
     $panier = json_decode($_COOKIE["panier"]);
-    foreach($panier as $item){
-     //   query($mysqli,"replace into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values ('".$item."','".$_SESSION["login"]."','".date('d/m/Y')."','".$_SESSION["CIVILITE"]."','".$_SESSION["NOM"]."','".$_SESSION["PRENOM"]."','".$_SESSION["ADRESSE"]."','".$_SESSION["CP"]."','".$_SESSION["VILLE"]."','".$_SESSION["TELEPHONE"]."')");
-    }
 
-    /*
-     *
-					include("Parametres.php");
+    $db = Database();
+    $req = $db->prepare("REPLACE into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values (:item,:login,:date,:civilite,:nom,:prenom,:adresse,:cp,:ville,:telephone)");
+    foreach ($panier as $item)
+        $req->execute(array(
+            ":item" => $item,
+            ":login" => $_SESSION["login"],
+            ":date" => date('d/m/Y'),
+            ":civilite" => $_SESSION["CIVILITE"],
+            ":nom" => $_SESSION["NOM"],
+            ":prenom" => $_SESSION["NOM"],
+            ":adresse" => $_SESSION["ADRESSE"],
+            ":cp" => $_SESSION["CP"],
+            ":ville" => $_SESSION["VILLE"],
+            ":telephone" => $_SESSION["TELEPHONE"]
+        ));
+    return false;
+    /*				include("Parametres.php");
 					include("Fonctions.inc.php");
 					include("Donnees.inc.php");
     					$mysqli=mysqli_connect($host,$user,$pass) or die("Problème de création de la base :".mysqli_error());
@@ -69,7 +80,6 @@ function validerCommande(): bool
 					}
 					mysqli_close($mysqli);
     */
-    return false;
 }
 
 /**
@@ -80,8 +90,19 @@ function validerCommande(): bool
  */
 function updateFavoris($user, $produit)
 {
+    $db = Database();
+
+
+    $req = $db->prepare("select * from favs where id_prod = :produit;");
+    $req->execute(array(":produit" => $produit));
+    if ($req->rowCount() > 0)
+        $update = $db->prepare("DELETE from favs where LOGIN = :user and id_prod = :produit;");
+    else
+        $update = $db->prepare("INSERT INTO FAVS VALUES(:user, :produit);");
+
+    $update->execute(array(":user" => $user, ":produit" => $produit));
+
     /*
-    $str0 = 'select * from favs where id_prod = '.$produit;
     $str = "INSERT INTO FAVS VALUES('".$user."','".$produit."')";
     $result = query($mysqli,$str0) or die("Impossible de ajouter produit<br>");
     if(mysqli_num_rows($result)>0){
@@ -96,10 +117,17 @@ function updateFavoris($user, $produit)
 
 /**
  * @param $user
- * @return array de l'utilisateur
+ * @return array Favoris de l'utilisateur
  */
-function getFavoris($user)
+function getFavoris($user): array
 {
+    $db = Database();
+    $req = $db->prepare("SELECT ID_PROD FROM favs WHERE LOGIN = :user");
+    $req->execute(array(":user" => $user));
+
+    return $req->fetchAll();
+
+    /*
     $mysqliFav = mysqli_connect($host, $user, $pass) or die("Problème de création de la base :" . mysqli_error());
     mysqli_select_db($mysqliFav, $base) or die("Impossible de sélectionner la base : $base");
 
@@ -109,5 +137,5 @@ function getFavoris($user)
     while ($fav = mysqli_fetch_assoc($result)) {
         $favAlbums[] = $fav["ID_PROD"];
     }
-    return $favAlbums;
+    return $favAlbums;*/
 }
