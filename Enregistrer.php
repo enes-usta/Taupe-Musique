@@ -164,7 +164,7 @@ else
 if (isset($email)) {
     if (emailExist($email)) {
         $ok = false;
-        $return["dejaEmail"] = "L'email saisi est déja enregistré";
+        $return["dejaEmail"] = "L'email saisie est déja enregistré";
     }
 
     if (loginExist($login)) {

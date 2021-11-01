@@ -3,16 +3,6 @@
 include_once("Database/Parametres.php");
 include_once("Donnees.inc.php");
 
-/**
- * Initialise une connexion à la BDD
- *
- * @return PDO
- */
-function Database(): PDO
-{
-    global $host, $user, $pass, $base;
-    return new PDO('mysql:host='.$host.';port=3306;dbname='.$base, $user, $pass);
-}
 
 
 /**
@@ -124,7 +114,7 @@ function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adres
     $req->execute(array(
         ":login" => $login,
         ":email" => $email,
-        ":pass" => password_hash($pass,PASSWORD_DEFAULT),
+        ":pass" => password_hash($pass, PASSWORD_DEFAULT),
         ":nom" => $nom,
         ":prenom" => $prenom,
         ":date" => $date,
@@ -133,5 +123,5 @@ function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adres
         ":codepostal" => $codepostal,
         ":ville" => $ville,
         ":telephone" => $telephone
-        ));
+    ));
 }
