@@ -94,7 +94,7 @@ function loginExist($login): bool
 }
 
 /**
- * @param $email email dont il faut vérifier si un compte existe déja
+ * @param $email string Email dont il faut vérifier si un compte existe déja
  * @return bool Si l'email est déja utilisé
  */
 function emailExist($email): bool

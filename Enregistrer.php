@@ -1,69 +1,77 @@
 <?php
-session_start();
-require ("Database/DB.php");
-require ("Database/Database.php");
 
+session_start();
+require("Database/DB.php");
+require("Database/Database.php");
+
+$content = file_get_contents('php://input');
+$data = json_decode($content);
 
 $ok = true;
-$result["msg"] = "invalide";
 $db = Database();
 
 
-if ((isset($_POST["loginbdd"])) && (isset($_POST["passwordbdd"]))) {
-    if (empty($_POST["loginbdd"]) || empty($_POST["passwordbdd"])) {
-        $return["pass"] = "Le mot de passe est trop court";
+if ((isset($data->loginbdd)))
+    if (empty($data->loginbdd)) {
         $return["loginVal"] = "Veuillez saisir un login valide";
         $ok = false;
     } else {
-        $pass = $_POST["passwordbdd"];
-        $login = $_POST["loginbdd"];
-//				 $pass = mysqli_real_escape_string($mysqli,$_POST["passwordbdd"]);
-//				 $login = mysqli_real_escape_string($mysqli,$_POST["loginbdd"]);
-        $matches[] = NULL;
-        if (!preg_match("/^[a-zA-Z'\-\_0-9 ]+$/", $_POST["loginbdd"])) {
+        $login = $data->loginbdd;
+        if (!preg_match("/^[a-zA-Z'\-\_0-9 ]+$/", $data->loginbdd)) {
             $return["loginVal"] = "le login ne peut contenir que des lettres, des chiffres, des - et _";
             $login = NULL;
+            $ok = false;
         }
-
 
         if (strlen($login) > 100) {
             $return["loginLong"] = "Le login est trop long";
             $ok = false;
+            $login = NULL;
         }
+    }
+else {
+    $return["loginVal"] = "Le login n'est pas valide";
+    $ok = false;
+}
 
+if ((isset($data->passwordbdd)))
+    if (empty($data->passwordbdd)) {
+        $return["pass"] = "Le mot de passe est trop court";
+        $ok = false;
+    } else {
+        $pass = $data->passwordbdd;
         if (strlen($pass) > 100) {
-            $return["passLong"] = "le mot de pass est trop long";
+            $return["passLong"] = "Le mot de passe est trop long";
             $ok = false;
         }
-
     }
-
-} else {
-    $return["loginVal"] = "Le login n'est pas valide";;
-    $return["passVal"] = "le mot de pass n'est pas valide";
+else {
+    $return["passVal"] = "Le mot de passe est invalide";
     $ok = false;
 }
 
 // ============ EMAIL ============ //
 
 $email = NULL;
-if (isset($_POST["emailbdd"]))
-    if (!filter_var($_POST["emailbdd"], FILTER_VALIDATE_EMAIL))
+if (isset($data->emailbdd))
+    if (!filter_var($data->emailbdd, FILTER_VALIDATE_EMAIL))
         $return["emailVal"] = "Veuillez saisir une adresse email valide";
     else
-        $email = $_POST["emailbdd"];
+        $email = $data->emailbdd;
+else
+    $return["mailEmpty"] = "Veuillez saisir une adresse email";
 
 
 // ============ NOM ============ //
 
 $nom = NULL;
 
-if (isset($_POST["nombdd"]))
-    if (empty($_POST["nombdd"]))
-        $return["Nom"] = "le Nom est pas invalide";
+if (isset($data->nombdd)) {
+    if (empty($data->nombdd))
+        $return["Nom"] = "Veuillez saisir un nom";
     else {
-        $nom = $_POST["nombdd"];
-        if (!preg_match("/^[a-zA-Z'\- ]+$/", $_POST["nombdd"])) {
+        $nom = $data->nombdd;
+        if (!preg_match("/^[a-zA-Z'\- ]+$/", $data->nombdd)) {
             $return["Nom"] = "Le nom est pas invalide";
             $nom = NULL;
         } else if (strlen($nom) > 50) {
@@ -71,6 +79,10 @@ if (isset($_POST["nombdd"]))
             $ok = false;
         }
     }
+} else {
+    $ok = false;
+    $return["nameEmpty"] = "Veuillez saisir un nom";
+}
 
 
 // ============ PRENOM ============ //
@@ -78,38 +90,48 @@ if (isset($_POST["nombdd"]))
 
 $prenom = NULL;
 
-if (isset($_POST["prenombdd"]))
-    if (!empty($_POST["prenombdd"])) {
-        $prenom = $_POST["prenombdd"];
-        if (!preg_match("/^[a-zA-Z'\- ]+$/", $_POST["prenombdd"])) {
+if (isset($data->prenombdd))
+    if (!empty($data->prenombdd)) {
+        $prenom = $data->prenombdd;
+        if (!preg_match("/^[a-zA-Z'\- ]+$/", $data->prenombdd)) {
             $return["Prenom"] = "Le prénom est invalide";
             $prenom = NULL;
         } else if (strlen($prenom) > 50) {
             $return["Prenom"] = "Le prénom est trop long";
             $ok = false;
         }
+    } else {
+        $ok = false;
+        $return["prenomEmpty"] = "Veuillez saisir un prénom";
     }
 
 
 // ============ ADRESSE ============ //
 
 $adresse = NULL;
-if (isset($_POST["adressebdd"]))
-    if (!empty($_POST["adressebdd"])) {
-        $adresse = $_POST["adressebdd"];
+if (isset($data->adressebdd))
+    if (empty($data->adressebdd)) {
+        $ok = false;
+        $return["Empty"] = "Veuillez saisir une adresse";
+    } else {
+        $adresse = $data->adressebdd;
         if (strlen($adresse) > 500) {
             $return["Adresse"] = "L'adresse est invalide";
             $ok = false;
         }
     }
+else {
+    $return["Adresse"] = "Veuillez saisir une adreddsse";
+    $ok = false;
+}
 
 
 // ============ VILLE ============ //
 
 $ville = NULL;
-if (isset($_POST["villebdd"]))
-    if (!empty($_POST["villebdd"])) {
-        $ville = $_POST["villebdd"];
+if (isset($data->villebdd))
+    if (!empty($data->villebdd)) {
+        $ville = $data->villebdd;
         if (strlen($ville) > 50) {
             $return["ville"] = "La ville n'est pas valide";
             $ok = false;
@@ -119,9 +141,9 @@ if (isset($_POST["villebdd"]))
 
 // ============ CODE POSTAL ============ //
 $codepostal = NULL;
-if (isset($_POST["codepostalbdd"]))
-    if (!empty($_POST["codepostalbdd"])) {
-        $codepostal = $_POST["codepostalbdd"];
+if (isset($data->codepostalbdd))
+    if (!empty($data->codepostalbdd)) {
+        $codepostal = $data->codepostalbdd;
         if (strlen($codepostal) > 50) {
             $return["codepostal"] = "Le code postal est invalide";
             $ok = false;
@@ -131,9 +153,9 @@ if (isset($_POST["codepostalbdd"]))
 
 // ============ DATE ============ //
 $date = NULL;
-if (isset($_POST["datebdd"]))
-    if (!empty($_POST["datebdd"])) {
-        $date = $_POST["datebdd"];
+if (isset($data->datebdd))
+    if (!empty($data->datebdd)) {
+        $date = $data->datebdd;
         if (strlen($date) > 50) {
             $return["date"] = "la date n'est pas valid";
             $ok = false;
@@ -145,17 +167,17 @@ if (isset($_POST["datebdd"]))
 
 
 $telephone = NULL;
-if (isset($_POST["telephonebdd"]))
-    if (!preg_match("/^[0-9]{9,15}$/", $_POST["telephonebdd"]))
+if (isset($data->telephonebdd))
+    if (!preg_match("/^[0-9]{9,15}$/", $data->telephonebdd))
         $return["telephoneVal"] = "Le numéro de téléphone est invalide";
     else
-        $telephone = $_POST["telephonebdd"];
+        $telephone = $data->telephonebdd;
 
 
 // ============ SEXE ============ //
 
-if (isset($_POST["optradio"]))
-    $sexe = $_POST["optradio"];
+if (isset($data->optradio))
+    $sexe = $data->optradio;
 else
     $sexe = NULL;
 
@@ -167,24 +189,29 @@ if (isset($email)) {
         $ok = false;
         $return["dejaEmail"] = "L'email saisie est déja enregistré";
     }
-
+}
+if (isset($login))
     if (loginExist($login)) {
         $ok = false;
         $return["dejaLogin"] = "Le login saisi est déjà enregistré";
-    }
-} else
-    $ok = false;
+    } else
+        $ok = false;
 
 
 // ============ SI TOUT VALIDE, INSCRIPTION ============ //
 
 if ($ok === true) {
-    registerUser($login, $email, $_POST["passwordbdd"], $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
+    registerUser($login, $email, $data->passwordbdd, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
     //setcookie('user',$login,time() + 3600);
     unset($return);
-    header('location: index.php');
-} else
-    $_SESSION["inscription"] = $return;
+//    header('location: index.php');
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(array("ok" => true, 'error' => false));
+} else {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(array("ok" => false, 'error' => true, 'errors' => $return));
+}
+//    $_SESSION["inscription"] = $return;
 
-echo "<meta http-equiv='refresh' content='0'>";
+//echo "<meta http-equiv='refresh' content='0'>";
 

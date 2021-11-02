@@ -1,6 +1,6 @@
 <?php
 
-	include("Parametres.php");
+	include("Database/Parametres.php");
 	include("Fonctions.inc.php");
 	include("Donnees.inc.php");
     include("Database/DB.php");
