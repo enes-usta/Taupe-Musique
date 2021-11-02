@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    $('#reponse').hide();
+
+    document.getElementById("reponse").style.display = '';
+
     $('#logform').submit(function (e) {
         e.preventDefault();
         formdata = $('#logform').serialize();
@@ -27,6 +29,21 @@ $(document).ready(function () {
         });
 
 });
+
+document.getElementById('logform')
+    .addEventListener('submit', (e) => {
+            $('#reponse').removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).fadeIn(500);
+
+
+            if ($('#reponse').hasClass('error')) {
+                $('#reponse').fadeOut(4000);
+            } else
+                location.reload();
+
+        }
+    );
+
+// Fetch POST pour Register
 document.getElementById('enregform')
     .addEventListener('submit',
         (e) => {
@@ -36,7 +53,7 @@ document.getElementById('enregform')
             fetch('Enregistrer.php', {
                 method: "POST",
                 body: JSON.stringify(value),
-                headers:{
+                headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
@@ -48,20 +65,39 @@ document.getElementById('enregform')
                     let response = document.getElementById('reponse1');
                     response.className = (r.error) ? 'error' : 'success';
                     response.innerHTML = '';
-                    if (r.error)
-                        for (const err in r.errors)
-                            response.innerHTML += '<li>' + r.errors[err] + '</li>';
-                    else
+                    response.style.display = '';
+                    if (r.ok) {
                         response.innerHTML = 'Inscription effectuée avec succès';
 
-                    response.style.display = '';
-                    response.style.color = 'red';
-//                    if (response.classList.contains('error'))
-//                        response.style.display = 'block';
+                    } else {
+                        response.style.color = 'red';
+                        for (const err in r.errors)
+                            response.innerHTML += '<li>' + r.errors[err] + '</li>';
+                    }
+
                     if (!response.classList.contains('error'))
                         location.reload();
                 });
         });
+
+
+
+function updateDetails(formdata) {
+    var str = '';
+    $.ajax({
+        type: 'POST',
+        url: 'Update.php',
+        data: formdata,
+        dataType: 'json',
+        cahce: false,
+        success: function (data) {
+            location.reload();
+        },
+    });
+}
+
+// ========== Devenu USELESS ==============
+
 
 function submitForm(formdata) {
     $.ajax({
@@ -83,8 +119,6 @@ function submitForm(formdata) {
         },
     });
 }
-
-
 function submitDetails(formdata) {
     $.ajax({
         type: 'POST',
@@ -109,21 +143,6 @@ function submitDetails(formdata) {
                 location.reload();
             }
 
-        },
-    });
-}
-
-
-function updateDetails(formdata) {
-    var str = '';
-    $.ajax({
-        type: 'POST',
-        url: 'Update.php',
-        data: formdata,
-        dataType: 'json',
-        cahce: false,
-        success: function (data) {
-            location.reload();
         },
     });
 }

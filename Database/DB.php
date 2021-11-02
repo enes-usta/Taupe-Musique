@@ -4,7 +4,6 @@ include_once("Database/Parametres.php");
 include_once("Donnees.inc.php");
 
 
-
 /**
  * @param int $id : Id de l'utilisateur
  * @return array|null : Données de l'utilisateur {"LOGIN","EMAIL","NOM","PRENOM","DATE","TELEPHONE","ADRESSE","CODEP","VILLE","SEXE")
@@ -124,4 +123,36 @@ function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adres
         ":ville" => $ville,
         ":telephone" => $telephone
     ));
+}
+
+
+function isValid($login, $password)
+{
+    $db = Database();
+    $req = $db->prepare("SELECT LOGIN, PASS FROM USERS WHERE LOGIN = :login");
+    $req->execute(array(":login" => $login));
+
+    if ($req->rowCount() != 0)
+        if ($password)
+
+
+        if (password_verify($pass, $row["PASS"])) {
+            setcookie("user", $row["LOGIN"]);
+            setcookie("civilite", $row["SEXE"]);
+            setcookie("nom", $row["NOM"]);
+            setcookie("prenom", $row["PRENOM"]);
+            setcookie("adresse", $row["ADRESSE"]);
+            setcookie("cp", $row["CODEP"]);
+            setcookie("ville", $row["VILLE"]);
+            setcookie("telephone", $row["TELEPHONE"]);
+
+            unset($return);
+            $return["msg"] = "L'utilisateur est connecté";
+            $return["error"] = false;
+            mysqli_close($mysqli);
+            echo json_encode($return);
+            exit();
+        }
+
+
 }

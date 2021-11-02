@@ -184,34 +184,28 @@ else
 
 // ============ EXISTENCE LOGIN ============ //
 
-if (isset($email)) {
+if (isset($email))
     if (emailExist($email)) {
         $ok = false;
         $return["dejaEmail"] = "L'email saisie est déja enregistré";
     }
-}
+
 if (isset($login))
     if (loginExist($login)) {
         $ok = false;
         $return["dejaLogin"] = "Le login saisi est déjà enregistré";
-    } else
-        $ok = false;
-
+    }
 
 // ============ SI TOUT VALIDE, INSCRIPTION ============ //
 
-if ($ok === true) {
-    registerUser($login, $email, $data->passwordbdd, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
-    //setcookie('user',$login,time() + 3600);
-    unset($return);
-//    header('location: index.php');
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(array("ok" => true, 'error' => false));
-} else {
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(array("ok" => false, 'error' => true, 'errors' => $return));
-}
-//    $_SESSION["inscription"] = $return;
+header('Content-Type: application/json; charset=utf-8');
 
-//echo "<meta http-equiv='refresh' content='0'>";
+if ($ok == true) {
+    registerUser($login, $email, $data->passwordbdd, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
+    setcookie('user',$login,time() + 3600);
+    unset($return);
+    echo json_encode(array("ok" => true, 'error' => false, 'errors' => array()));
+} else
+    echo json_encode(array("ok" => false, 'error' => true, 'errors' => $return));
+
 
