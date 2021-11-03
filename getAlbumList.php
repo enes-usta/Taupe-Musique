@@ -74,7 +74,7 @@ function displayBox($albumId, $heartClass)
 {
 
     $album = getAlbumById($albumId);
-    
+
 
     $nom = $album["titre"];
     $shortName = substr($nom, 0, 25);
