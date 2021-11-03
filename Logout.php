@@ -11,7 +11,7 @@
 	setcookie('user','',-1);
 	setcookie('admin','',-1);
 	setcookie('panier','',-1);
-	header('Location: index.php');
+	header('Location: /index.php');
 ?>
 </body>
 </html>

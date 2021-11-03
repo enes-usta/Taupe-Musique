@@ -19,7 +19,7 @@ if (!isset($_POST["ingr"])) {
     $step = 0;
     if ($_POST["favOnly"] == "true") {
 
-        foreach ($favAlbums as $id) {
+        foreach ($favAlbums as $id=>$tab) {
             echo displayBox($id, "heart fullHeart");
             $step++;
             if ($step == 3) {
@@ -74,6 +74,7 @@ function displayBox($albumId, $heartClass)
 {
 
     $album = getAlbumById($albumId);
+    
 
     $nom = $album["titre"];
     $shortName = substr($nom, 0, 25);
