@@ -10,7 +10,6 @@ $data = json_decode($content);
 $ok = true;
 $db = Database();
 
-
 if ((isset($data->loginbdd)))
     if (empty($data->loginbdd)) {
         $return["loginVal"] = "Veuillez saisir un login valide";
@@ -129,7 +128,7 @@ else {
 // ============ VILLE ============ //
 
 $ville = NULL;
-if (!isset($data->villebdd) || empty($data->villebdd) || strlen($ville) > 50) {
+if (!isset($data->villebdd) || empty($data->villebdd) || strlen($data->villebdd) > 50) {
     $ok = false;
     $return['ville'] = 'Veuillez saisir une ville';
 } else
@@ -168,8 +167,6 @@ if (isset($data->datebdd))
 
 
 // ============ TELEPHONE ============ //
-
-
 $telephone = NULL;
 if (isset($data->telephonebdd))
     if (!preg_match("/^[0-9]{9,15}$/", $data->telephonebdd))
@@ -205,7 +202,7 @@ if (isset($login))
 header('Content-Type: application/json;');
 
 if ($ok == true) {
-    registerUser($login, $email, $data->passwordbdd, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
+    registerUser($login, $email, password_hash($pass, PASSWORD_DEFAULT), $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
     setcookie('user', $login, time() + 3600);
     unset($return);
     echo json_encode(array("ok" => true, 'error' => false, 'errors' => array()));

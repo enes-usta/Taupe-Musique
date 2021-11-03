@@ -26,15 +26,6 @@ include("Donnees.inc.php");
 	<link rel="stylesheet" href="css/datepicker.min.css" />
 	<link rel="stylesheet" href="css/datepicker3.min.css" />
 
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 <body>
@@ -51,7 +42,7 @@ include("Donnees.inc.php");
 				if(is_null($row["PRENOM"])){$prenom = "";}else{$prenom = $row["PRENOM"];}
 				if(is_null($row["DATE"])){$date = "";}else{$date = $row["DATE"];}
 				if(is_null($row["TELEPHONE"])){$telephone = "";}else if((int)$row["TELEPHONE"] == 0){ $telephone = NULL;}else{$telephone = $row["TELEPHONE"];}
-				if(is_null($row["ADRESSE"])){$ADRESSEe = "";}else{$ADRESSEe = $row["ADRESSE"];}
+				if(is_null($row["ADRESSE"])){$adresse = "";}else{$adresse = $row["ADRESSE"];}
 				if(is_null($row["CODEP"])){$codepostal = "";}else{$codepostal = $row["CODEP"];}
 				if(is_null($row["VILLE"])){$ville = "";}else{$ville = $row["VILLE"];}
 				if(is_null($row["SEXE"])){$sexe = "";}else{$sexe = $row["SEXE"];}
@@ -109,7 +100,7 @@ include("Donnees.inc.php");
 						</tr>
 						
 						<tr>
-							<td><p><strong>ADRESSEe</strong></p></td><td>".$ADRESSEe."</td>
+							<td><p><strong>Adresse</strong></p></td><td>".$adresse."</td>
 						</tr>
 						<tr>
 							<td><p><strong>Ville</strong></p></td><td>".$ville."</td>
@@ -153,7 +144,7 @@ include("Donnees.inc.php");
 	if(isset($row)){
 		if(empty($nom)){$nom = "Nom";}
 		if(empty($prenom)){$prenom = "Prénom";}
-		if(empty($ADRESSEe)){$ADRESSEe = "ADRESSEe";}
+		if(empty($adresse)){$adresse = "ADRESSEe";}
 		if(empty($ville)){$ville = "Ville";}
 		if(empty($codepostal)){$codepostal = "Code Postal";}
 		if(empty($date)){$date = "Date de Naissance";};
@@ -198,7 +189,7 @@ include("Donnees.inc.php");
 							<input type='text' class='form-control' placeholder='".$telephone."' maxlength='15' name='telephonebdd'/>
 						</div>
 						<div class='form-group'>
-							<input type='textarea' class='form-control' placeholder='".$ADRESSEe."' maxlength='200' name='ADRESSEebdd'/>
+							<input type='textarea' class='form-control' placeholder='".$adresse."' maxlength='200' name='adressebdd'/>
 						</div>
 						<div class='form-group'>
 							<input type='textarea' class='form-control' placeholder='".$ville."' maxlength='200' name='villebdd'/>
