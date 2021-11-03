@@ -163,7 +163,6 @@ include("API.php");
 <script src="js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="js/jq.js"></script>
 <script src="js/heart.js"></script>
-<script src="js/jq.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/daterangepicker.js"></script>
 <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>

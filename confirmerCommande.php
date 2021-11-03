@@ -1,27 +1,38 @@
 <?php
-	session_start();
-	if(isset($_COOKIE["panier"]) && isset($_COOKIE["user"])){
-					$panier = json_decode($_COOKIE["panier"]);		
-					include("Parametres.php");
-					include("Fonctions.inc.php");
-					include("Donnees.inc.php");
+session_start();
+if (isset($_COOKIE["panier"]) && isset($_COOKIE["user"])) {
+    $panier = json_decode($_COOKIE["panier"]);
+    include("Fonctions.inc.php");
+    include("Donnees.inc.php");
+    include_once("Database/DB.php");
 
-					$mysqli=mysqli_connect($host,$user,$pass) or die("Problème de création de la base :".mysqli_error());
-					mysqli_select_db($mysqli,$base) or die("Impossible de sélectionner la base : $base");
-					
-					foreach($panier as $item){
-						query($mysqli,"replace into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values ('".$item."','".$_COOKIE["user"]."','".date('d/m/Y')."','".$_COOKIE["civilite"]."','".$_COOKIE["nom"]."','".$_COOKIE["prenom"]."','".$_COOKIE["adresse"]."','".$_COOKIE["cp"]."','".$_COOKIE["ville"]."','".$_COOKIE["telephone"]."')");
-					}
-					setcookie("panier", "", time()-3600,"/");
-					mysqli_close($mysqli);
-					$_SESSION["paiement"] = "opération réussie";
-					$_SESSION["color"] = "green";
+    $db = Database();
+    $req = $db->prepare("replace into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values (:item,:login,:date,:civilite,:nom,:prenom,:adresse,:cp,:ville,:telephone);");
+    $user = getUser($_COOKIE['user']);
 
-	}else{
-		$_SESSION["paiement"] = "donnees incorrectes <br/> Veuillez essayer de nouveau";
-		$_SESSION["color"] = "red";
-	}
-	
-	header('location: panier.php');
+    foreach ($panier as $item) {
+        $req->execute(array(
+            ':item' => $item,
+            ':login' => $user->login,
+            ':date' => date('d/m/Y'),
+            ':civilite' => $user->sexe,
+            ':nom' => $user->nom,
+            ':prenom' => $user->prenom,
+            ':adresse' => $user->adresse,
+            ':cp' => $user->codep,
+            ':ville' => $user->ville,
+            ':telephone' => $user->telephone
+        ));
+    }
+    setcookie("panier", "", time() - 3600, "/");
+    
+    $_SESSION["paiement"] = "opération réussie";
+    $_SESSION["color"] = "green";
 
-?>
+} else {
+    $_SESSION["paiement"] = "donnees incorrectes <br/> Veuillez essayer de nouveau";
+    $_SESSION["color"] = "red";
+}
+
+header('location: panier.php');
+

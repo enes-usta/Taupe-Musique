@@ -10,12 +10,14 @@ include_once("Donnees.inc.php");
  * @return mixed : Données de l'utilisateur {"LOGIN","EMAIL","NOM","PRENOM","DATE","TELEPHONE","ADRESSE","CODEP","VILLE","SEXE")
  * @see administration.php Ligne 41
  */
-function getUser($login)
+function getUser($login): mixed
 {
     $db = Database();
     $req = $db->prepare("SELECT login, email, pass, nom, prenom, date, sexe, adresse, codep, ville, telephone  FROM users WHERE LOGIN = :login;");
     $req->execute(array(":login" => $login));
-    return $req->fetch(PDO::FETCH_OBJ);
+    if($req->rowCount() > 0)
+        return $req->fetch(PDO::FETCH_OBJ);
+    else return null;
 }
 
 /**
@@ -93,7 +95,7 @@ function loginExist($login): bool
 }
 
 /**
- * @param $email string Email dont il faut vérifier si un compte existe déja
+ * @param $email
  * @return bool Si l'email est déja utilisé
  */
 function emailExist($email): bool

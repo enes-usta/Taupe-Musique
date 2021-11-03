@@ -113,7 +113,7 @@ function updateDetails(formdata) {
 
 // ========== Devenu USELESS ==============
 
-
+/*
 function submitForm(formdata) {
     $.ajax({
         type: 'POST',
@@ -134,7 +134,7 @@ function submitForm(formdata) {
         },
     });
 }
-
+/*
 function submitDetails(formdata) {
     $.ajax({
         type: 'POST',
@@ -161,4 +161,4 @@ function submitDetails(formdata) {
 
         },
     });
-}
+}*/

@@ -129,14 +129,11 @@ else {
 // ============ VILLE ============ //
 
 $ville = NULL;
-if (isset($data->villebdd))
-    if (!empty($data->villebdd)) {
-        $ville = $data->villebdd;
-        if (strlen($ville) > 50) {
-            $return["ville"] = "La ville n'est pas valide";
-            $ok = false;
-        }
-    }
+if (!isset($data->villebdd) || empty($data->villebdd) || strlen($ville) > 50) {
+    $ok = false;
+    $return['ville'] = 'Veuillez saisir une ville';
+} else
+    $ville = $data->villebdd;
 
 
 // ============ CODE POSTAL ============ //
@@ -145,10 +142,17 @@ if (isset($data->codepostalbdd))
     if (!empty($data->codepostalbdd)) {
         $codepostal = $data->codepostalbdd;
         if (strlen($codepostal) > 50) {
-            $return["codepostal"] = "Le code postal est invalide";
+            $return["codepostal"] = "Le code postal est trop long";
             $ok = false;
         }
+    } else {
+        $return["codepostal"] = "Veuillez saisir un code postal";
+        $ok = false;
     }
+else {
+    $return["codepostal"] = "Veuillez saisir un code postal";
+    $ok = false;
+}
 
 
 // ============ DATE ============ //
@@ -202,7 +206,7 @@ header('Content-Type: application/json;');
 
 if ($ok == true) {
     registerUser($login, $email, $data->passwordbdd, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
-    setcookie('user',$login,time() + 3600);
+    setcookie('user', $login, time() + 3600);
     unset($return);
     echo json_encode(array("ok" => true, 'error' => false, 'errors' => array()));
 } else
