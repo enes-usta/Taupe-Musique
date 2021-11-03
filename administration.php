@@ -73,7 +73,7 @@ include_once("Database/DB.php");
     <footer>
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy; 2015</p>
+                <p>Copyright &copy; 2021</p>
             </div>
         </div>
     </footer>
@@ -81,87 +81,6 @@ include_once("Database/DB.php");
 </div>
 
 
-<?php
-
-if (isset($_COOKIE["user"])) {
-    $user = getUser($_COOKIE["user"]);
-    if (empty($nom))
-        $nom = "Nom";
-    if (empty($prenom))
-        $prenom = "Prénom";
-    if (empty($ADRESSEe))
-        $ADRESSE = "ADRESSE";
-    if (empty($ville))
-        $ville = "Ville";
-    if (empty($codepostal))
-        $codepostal = "Code Postal";
-    if (empty($date))
-        $date = "Date de Naissance";
-    if ($sexe == "Homme") {
-        $sexe = "<label class='radio-inline active'><input type='radio' name='optradio' value='Homme' checked='' >Homme</label>
-							<label class='radio-inline'><input type='radio' name='optradio' value='Femme'>Femme</label>";
-    } else {
-        $sexe = "<label class='radio-inline'><input type='radio' name='optradio' value='Homme'>Homme</label>
-							<label class='radio-inline active'><input type='radio' name='optradio' value='Femme' checked=''>Femme</label>";
-    }
-    echo "
-		<div class='modal fade' id='Modifier' role='dialog'>
-		<div class='modal-dialog'>
-			<div class = 'modal-content'>
-				<div class='modal-header'>
-					<h4>Modifier mes donnèes</h4>
-				</div>
-				<div class='modal-body'>
-					
-					<form role='form' method='post' id='modiform'>
-					
-					<div class='form-group'>
-							<label id='reponse2'></label>
-						</div>
-						<div class='form-group'>
-							<input type='password' class='form-control' placeholder='********' maxlength='100' name='passwordbdd' />
-						</div>
-						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='" . $user["EMAIL"] . "' maxlength='200' name='emailbdd'/>
-						</div>						
-						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='" . $user["NOM"] . "' maxlength='200' name='nombdd'/>
-						</div>
-						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='" . $user["PRENOM"] . "' maxlength='100' name='prenombdd' />
-						</div>
-						<div class='form-group input-append date'>
-							<input type='text' class='form-control' name='datebdd' placeholder='jj/mm/aaaa'  id='datePicker2'/>
-							<span class='input-group-addon add-on'><span class='glyphicon glyphicon-calendar'></span></span>
-						</div>
-						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='" . $user["TELEPHONE"] . "' maxlength='15' name='telephonebdd'/>
-						</div>
-						<div class='form-group'>
-							<input type='textarea' class='form-control' placeholder='" . $user["ADRESSE"] . "' maxlength='200' name='ADRESSEebdd'/>
-						</div>
-						<div class='form-group'>
-							<input type='textarea' class='form-control' placeholder='" . $user["VILLE"] . "' maxlength='200' name='villebdd'/>
-						</div>
-						<div class='form-group'>
-							<input type='text' class='form-control' placeholder='" . $user["CODEP"] . "' maxlength='200' name='postalbdd'/>
-						</div>
-						<div class='form-group'>" . $user["SEXE"] . "
-						</div>					
-				
-				<div class='modal-footer'>
-					<input class='btn btn-primary' type='submit' value='Enregistrer'> <script type='text/JavaScript'> </script>
-				</div>
-				
-				</form>
-			</div>
-		</div>
-	</div>		
-		";
-}
-
-
-?>
 <!-- jQuery -->
 <script src="js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="js/jq.js"></script>

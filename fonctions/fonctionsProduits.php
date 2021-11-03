@@ -16,7 +16,7 @@
 					echo "<tr><td colspan='3'><hr></td></tr>";
 					foreach($Albums as $index => $item){
 						echo "<tr>";
-						echo "<td id='item'><a href='details.php?prod=".$index."'>".$index."</a></td><td> ".$item["titre"]."</td><td> </td>";
+						echo "<td id='item'><a href='details.php?prod=".$index."'>".$index."</a></td><td> ".$item["titre"]."</td><td>".$item["prix"]."</td>";
 						echo "<td><button id='effacer' onclick='removeItem(".$index.")'>effacer</button></td>";
 						echo "</tr>";
 						echo "<tr><td colspan='3'><hr></td></tr>";

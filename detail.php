@@ -12,6 +12,9 @@ $albumId = $_GET["id"];
 
 $album = getAlbumById($albumId);
 
+if($album == -1){
+    header("Location: index.php");
+}
 
 $nom = $album["titre"];
 $shortName = substr($nom, 0, 25);

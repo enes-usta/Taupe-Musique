@@ -51,6 +51,10 @@ function getAlbumsWith($chansons) {
 
 function getAlbumById($id) {
 	global $Albums;
-	return $Albums[$id];
+    if(isset($Albums[$id])) {
+        return $Albums[$id];
+    }else{
+        return -1;
+    }
 }
 ?>
