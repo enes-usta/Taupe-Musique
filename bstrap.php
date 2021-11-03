@@ -8,7 +8,9 @@
 
                 <form role="form" method="post" id="logform">
                     <div class="form-group">
-                        <font color="red"><label id="reponse"></label></font>
+                        <div id="reponse" style="display: flex; flex-direction: column;">
+
+                        </div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Login d'utilisateur" maxlength="200"
@@ -43,7 +45,7 @@
                         <input class="btn btn-primary" type="submit" value="Enregistrer">
                     </div>
                     <div class="form-group">
-                        <div id="reponse1" style="display: flex; flex-direction: row;">
+                        <div id="reponse1" style="display: flex; flex-direction: column;">
                         </div>
                     </div>
                     <div class="form-group">

@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-require("Database/DB.php");
-require("Database/Database.php");
+include_once("Database/DB.php");
+include_once("Database/Database.php");
 
 $content = file_get_contents('php://input');
 $data = json_decode($content);
@@ -198,7 +198,7 @@ if (isset($login))
 
 // ============ SI TOUT VALIDE, INSCRIPTION ============ //
 
-header('Content-Type: application/json; charset=utf-8');
+header('Content-Type: application/json;');
 
 if ($ok == true) {
     registerUser($login, $email, $data->passwordbdd, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);

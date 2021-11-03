@@ -1,21 +1,21 @@
 <?php
 
 include_once("Database/Parametres.php");
+include_once("Database/Database.php");
 include_once("Donnees.inc.php");
 
 
 /**
- * @param int $id : Id de l'utilisateur
- * @return array|null : Données de l'utilisateur {"LOGIN","EMAIL","NOM","PRENOM","DATE","TELEPHONE","ADRESSE","CODEP","VILLE","SEXE")
+ * @param $login
+ * @return mixed : Données de l'utilisateur {"LOGIN","EMAIL","NOM","PRENOM","DATE","TELEPHONE","ADRESSE","CODEP","VILLE","SEXE")
  * @see administration.php Ligne 41
  */
-function getUser(int $id): ?array
+function getUser($login)
 {
     $db = Database();
-
-    $req = $db->prepare("SELECT LOGIN,EMAIL,PASS,NOM,PRENOM,DATE,SEXE,ADRESSE,CODEP,VILLE,TELEPHONE FROM USERS WHERE LOGIN = :id");
-    $req->execute(array(":id" => $id));
-    return $req->fetch();
+    $req = $db->prepare("SELECT login, email, pass, nom, prenom, date, sexe, adresse, codep, ville, telephone  FROM users WHERE LOGIN = :login;");
+    $req->execute(array(":login" => $login));
+    return $req->fetch(PDO::FETCH_OBJ);
 }
 
 /**
@@ -126,33 +126,21 @@ function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adres
 }
 
 
-function isValid($login, $password)
+/**
+ * @param $login
+ * @param $password
+ * @return bool Validite des identifiants saisis
+ */
+function isValid($login, $password): bool
 {
     $db = Database();
     $req = $db->prepare("SELECT LOGIN, PASS FROM USERS WHERE LOGIN = :login");
     $req->execute(array(":login" => $login));
 
-    if ($req->rowCount() != 0)
-        if ($password)
-
-
-        if (password_verify($pass, $row["PASS"])) {
-            setcookie("user", $row["LOGIN"]);
-            setcookie("civilite", $row["SEXE"]);
-            setcookie("nom", $row["NOM"]);
-            setcookie("prenom", $row["PRENOM"]);
-            setcookie("adresse", $row["ADRESSE"]);
-            setcookie("cp", $row["CODEP"]);
-            setcookie("ville", $row["VILLE"]);
-            setcookie("telephone", $row["TELEPHONE"]);
-
-            unset($return);
-            $return["msg"] = "L'utilisateur est connecté";
-            $return["error"] = false;
-            mysqli_close($mysqli);
-            echo json_encode($return);
-            exit();
-        }
-
-
+    if ($req->rowCount() != 0) {
+        $res = $req->fetch(PDO::FETCH_OBJ);
+        if (password_verify($password, $res->PASS))
+            return true;
+    }
+    return false;
 }

@@ -2,11 +2,11 @@ $(document).ready(function () {
 
     document.getElementById("reponse").style.display = '';
 
-    $('#logform').submit(function (e) {
-        e.preventDefault();
-        formdata = $('#logform').serialize();
-        submitForm(formdata);
-    });
+    /*    $('#logform').submit(function (e) {
+            e.preventDefault();
+            formdata = $('#logform').serialize();
+            submitForm(formdata);
+        });*/
 
     $('#modiform').submit(function (e) {
         e.preventDefault();
@@ -32,16 +32,36 @@ $(document).ready(function () {
 
 document.getElementById('logform')
     .addEventListener('submit', (e) => {
-            $('#reponse').removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).fadeIn(500);
+            e.preventDefault();
 
-
-            if ($('#reponse').hasClass('error')) {
-                $('#reponse').fadeOut(4000);
-            } else
-                location.reload();
-
+            const data = new FormData(document.getElementById('logform'));
+            const value = Object.fromEntries(data.entries());
+            fetch('Login.php', {
+                method: "POST",
+                body: JSON.stringify(value),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+                .then((r) => {
+                    return r.json();
+                })
+                .then((message) => {
+                    let response = document.getElementById('reponse');
+                    response.className = (message.error) ? 'error' : 'success';
+                    if (message.ok) {
+                        response.style.color = 'green';
+                        response.innerHTML = 'Connexion effectuee avec succes. vous allez etre redirige ...';
+                        setTimeout(() => { location.reload();}, 4000);
+                    } else {
+                        response.style.color = 'red';
+                        response.innerHTML = 'Identifiant ou mot de passe invalide.';
+                    }
+                });
         }
-    );
+    )
+;
 
 // Fetch POST pour Register
 document.getElementById('enregform')
@@ -58,32 +78,27 @@ document.getElementById('enregform')
                     'Accept': 'application/json'
                 }
             })
-                .then(r => {
+                .then((r) => {
                     return r.json();
                 })
-                .then((r) => {
+                .then((message) => {
                     let response = document.getElementById('reponse1');
-                    response.className = (r.error) ? 'error' : 'success';
+                    response.className = (message.error) ? 'error' : 'success';
                     response.innerHTML = '';
-                    response.style.display = '';
-                    if (r.ok) {
-                        response.innerHTML = 'Inscription effectuée avec succès';
-
+                    if (message.ok) {
+                        response.style.color = 'green';
+                        response.innerHTML = '<li>Inscription effectuée avec succès.</li><li>Vous allez etre redirige ...</li>';
+                        setTimeout(() => { location.reload();}, 4000);
                     } else {
                         response.style.color = 'red';
-                        for (const err in r.errors)
-                            response.innerHTML += '<li>' + r.errors[err] + '</li>';
+                        for (const err in message.errors)
+                            response.innerHTML += '<li>' + message.errors[err] + '</li>';
                     }
-
-                    if (!response.classList.contains('error'))
-                        location.reload();
                 });
         });
 
 
-
 function updateDetails(formdata) {
-    var str = '';
     $.ajax({
         type: 'POST',
         url: 'Update.php',
@@ -119,6 +134,7 @@ function submitForm(formdata) {
         },
     });
 }
+
 function submitDetails(formdata) {
     $.ajax({
         type: 'POST',
