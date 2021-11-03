@@ -10,7 +10,7 @@ if (isset($_COOKIE["panier"]) && isset($_COOKIE["user"])) {
     $req = $db->prepare("replace into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values (:item,:login,:date,:civilite,:nom,:prenom,:adresse,:cp,:ville,:telephone);");
     $user = getUser($_COOKIE['user']);
 
-    foreach ($panier as $item) {
+    foreach ($panier as $item)
         $req->execute(array(
             ':item' => $item,
             ':login' => $user->login,
@@ -23,7 +23,7 @@ if (isset($_COOKIE["panier"]) && isset($_COOKIE["user"])) {
             ':ville' => $user->ville,
             ':telephone' => $user->telephone
         ));
-    }
+
     setcookie("panier", "", time() - 3600, "/");
 
     $_SESSION["paiement"] = "opération réussie";
