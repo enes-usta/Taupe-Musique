@@ -25,7 +25,7 @@ if (isset($_COOKIE["panier"]) && isset($_COOKIE["user"])) {
         ));
     }
     setcookie("panier", "", time() - 3600, "/");
-    
+
     $_SESSION["paiement"] = "opération réussie";
     $_SESSION["color"] = "green";
 

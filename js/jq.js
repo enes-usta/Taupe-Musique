@@ -2,17 +2,6 @@ $(document).ready(function () {
 
     document.getElementById("reponse").style.display = '';
 
-    /*    $('#logform').submit(function (e) {
-            e.preventDefault();
-            formdata = $('#logform').serialize();
-            submitForm(formdata);
-        });*/
-
-    $('#modiform').submit(function (e) {
-        e.preventDefault();
-        formdata = $('#modiform').serialize();
-        updateDetails(formdata);
-    });
 
     $('#datePicker')
         .datepicker({
@@ -29,6 +18,27 @@ $(document).ready(function () {
         });
 
 });
+
+
+document.getElementById('modiform')
+    .addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const data = new FormData(document.getElementById('modiform'));
+            const value = Object.fromEntries(data.entries());
+            fetch('Update.php', {
+                method: "POST",
+                body: JSON.stringify(value),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(() => {
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+            });
+        }
+    );
 
 document.getElementById('logform')
     .addEventListener('submit', (e) => {
@@ -53,15 +63,16 @@ document.getElementById('logform')
                     if (message.ok) {
                         response.style.color = 'green';
                         response.innerHTML = 'Connexion effectuee avec succes. vous allez etre redirige ...';
-                        setTimeout(() => { location.reload();}, 4000);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 4000);
                     } else {
                         response.style.color = 'red';
                         response.innerHTML = 'Identifiant ou mot de passe invalide.';
                     }
                 });
         }
-    )
-;
+    );
 
 // Fetch POST pour Register
 document.getElementById('enregform')
@@ -88,7 +99,9 @@ document.getElementById('enregform')
                     if (message.ok) {
                         response.style.color = 'green';
                         response.innerHTML = '<li>Inscription effectuée avec succès.</li><li>Vous allez etre redirige ...</li>';
-                        setTimeout(() => { location.reload();}, 4000);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 4000);
                     } else {
                         response.style.color = 'red';
                         for (const err in message.errors)
@@ -97,6 +110,10 @@ document.getElementById('enregform')
                 });
         });
 
+
+// ========== Devenu USELESS ==============
+
+/*
 
 function updateDetails(formdata) {
     $.ajax({
@@ -111,9 +128,6 @@ function updateDetails(formdata) {
     });
 }
 
-// ========== Devenu USELESS ==============
-
-/*
 function submitForm(formdata) {
     $.ajax({
         type: 'POST',
