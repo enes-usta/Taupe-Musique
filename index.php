@@ -65,7 +65,7 @@ include("API.php");
                 },
             });
 
-        };
+        }
         function addPanier(e) {
             $.ajax({
                 type: 'POST',
@@ -144,13 +144,9 @@ include("API.php");
                 <div class="col-sm-6 col-lg-6 col-md-6">
                     <h2>Pas de produits dans la base de données</h2>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 
