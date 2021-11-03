@@ -15,7 +15,7 @@ function getUser($login): mixed
     $db = Database();
     $req = $db->prepare("SELECT login, email, pass, nom, prenom, date, sexe, adresse, codep, ville, telephone  FROM users WHERE LOGIN = :login;");
     $req->execute(array(":login" => $login));
-    if($req->rowCount() > 0)
+    if ($req->rowCount() > 0)
         return $req->fetch(PDO::FETCH_OBJ);
     else return null;
 }
@@ -57,12 +57,12 @@ function updateFavoris($user, $produit)
 {
     $db = Database();
 
-    $req = $db->prepare("select * from FAVS where id_prod = :produit;");
-    $req->execute(array(":produit" => $produit));
-    if ($req->rowCount() > 0)
-        $update = $db->prepare("DELETE FROM FAVS where LOGIN = :user AND id_prod = :produit;");
+    $req = $db->prepare("select * from FAVS where id_prod = :produit AND LOGIN = :user;");
+    $req->execute(array(":produit" => $produit, ":user" => $user));
+    if ($req->rowCount() != 0)
+        $update = $db->prepare("DELETE FROM favs where LOGIN = :user AND ID_PROD = :produit;");
     else
-        $update = $db->prepare("INSERT INTO FAVS VALUES(:user, :produit);");
+        $update = $db->prepare("INSERT INTO favs VALUES(:user, :produit);");
 
     $update->execute(array(":user" => $user, ":produit" => $produit));
 

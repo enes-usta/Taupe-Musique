@@ -121,7 +121,7 @@ function displayBox($albumId, $heartClass)
 				<div class="ratings">
 					<p class="pull-right"><a href="#" id="addPan" onclick="addPanier(' . $albumId . ')">Ajouter au panier</a></p>
 				</div>
-				<div id="toolt" class="' . $heartClass . '" data-album="' . $albumId . '" data-toggle="tooltip" title="Favoris" onclick="addFav(' . $albumId . ')"></div>
+				<div id="toolt" class="' . $heartClass . '" data-album="' . $albumId . '" data-toggle="tooltip" title="Favoris" onclick="addFav(' . $albumId . ')" ' .'></div>
 			</div>
 			</div></td>';
     }

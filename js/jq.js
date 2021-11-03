@@ -89,24 +89,6 @@ document.getElementById('enregform')
         });
 
 
-document.getElementById('modiform').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const data = new FormData(document.getElementById('modiform'));
-        const value = Object.fromEntries(data.entries());
-        fetch('Update.php', {
-            method: "POST",
-            body: JSON.stringify(value),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(() => {
-            setTimeout(() => {
-                location.reload();
-            }, 100);
-        });
-    }
-);
 
 // ========== Devenu USELESS ==============
 
