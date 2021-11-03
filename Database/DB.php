@@ -57,7 +57,7 @@ function updateFavoris($user, $produit)
 {
     $db = Database();
 
-    $req = $db->prepare("select * from favs where id_prod = :produit;");
+    $req = $db->prepare("select * from FAVS where id_prod = :produit;");
     $req->execute(array(":produit" => $produit));
     if ($req->rowCount() > 0)
         $update = $db->prepare("DELETE FROM FAVS where LOGIN = :user AND id_prod = :produit;");
@@ -75,7 +75,7 @@ function updateFavoris($user, $produit)
 function getFavoris($user): array
 {
     $db = Database();
-    $req = $db->prepare("SELECT ID_PROD FROM favs WHERE LOGIN = :user");
+    $req = $db->prepare("SELECT ID_PROD FROM FAVS WHERE LOGIN = :user");
     $req->execute(array(":user" => $user));
 
     return $req->fetchAll();
