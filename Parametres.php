@@ -1,5 +1,5 @@
 <?php
 $host = 'localhost';
-$user = 'enes';
-$pass = 'enes57';
+$user = 'root';
+$pass = 'root';
 $base = 'cds';

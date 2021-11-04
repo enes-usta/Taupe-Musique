@@ -82,6 +82,8 @@ function getFavoris($user): array
 }
 
 
+
+
 /**
  * @param $login
  * @return bool Si le login est déja utilisé

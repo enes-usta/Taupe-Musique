@@ -8,24 +8,39 @@ $favAlbums = array();
 if (isset($_COOKIE["user"]))
     $favAlbums[] = getFavoris($_COOKIE["user"]); // BDD
 
+
 else if (isset($_COOKIE['favoris']))
     $favAlbums = json_decode($_COOKIE['favoris'], true);
 
 else $favAlbums = array();
 
-
 if (!isset($_POST["ingr"])) {
     echo '<table><tr>';
     $step = 0;
     if ($_POST["favOnly"] == "true") {
+        if (isset($_COOKIE["user"])) {
+            if (!empty($favAlbums[0])) {
+                foreach ($favAlbums[0] as $id => $tab) {
 
-        foreach ($favAlbums as $id=>$tab) {
-            echo displayBox($id, "heart fullHeart");
-            $step++;
-            if ($step == 3) {
-                $step = 0;
-                echo '</tr><tr>';
+                    echo displayBox((isset($_COOKIE["user"]) ? $tab["ID_PROD"] : $tab), "heart fullHeart");
+                    $step++;
+                    if ($step == 3) {
+                        $step = 0;
+                        echo '</tr><tr>';
+                    }
+                }
             }
+        } else {
+            foreach ($favAlbums as $id => $tab) {
+
+                echo displayBox($tab, "heart fullHeart");
+                $step++;
+                if ($step == 3) {
+                    $step = 0;
+                    echo '</tr><tr>';
+                }
+            }
+
         }
     } else {
         foreach ($Albums as $id => $album) {
@@ -122,7 +137,7 @@ function displayBox($albumId, $heartClass)
 				<div class="ratings">
 					<p class="pull-right"><a href="#" id="addPan" onclick="addPanier(' . $albumId . ')">Ajouter au panier</a></p>
 				</div>
-				<div id="toolt" class="' . $heartClass . '" data-album="' . $albumId . '" data-toggle="tooltip" title="Favoris" onclick="addFav(' . $albumId . ')" ' .'></div>
+				<div id="toolt" class="' . $heartClass . '" data-album="' . $albumId . '" data-toggle="tooltip" title="Favoris" onclick="addFav(' . $albumId . ')" ' . '></div>
 			</div>
 			</div></td>';
     }
