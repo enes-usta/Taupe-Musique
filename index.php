@@ -85,7 +85,7 @@ include("API.php");
 <body>
 
 <!-- Navigation -->
-<?php include("./includes/navbar.php"); ?>
+<?php include("includes/navbar.php"); ?>
 
 <!-- Page Content -->
 <div class="container">
@@ -152,7 +152,7 @@ include("API.php");
 
 <div class="container">
     <hr>
-    <?php include("./footer.php"); ?>
+    <?php include("includes/footer.php"); ?>
 
 </div>
 

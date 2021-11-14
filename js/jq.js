@@ -58,7 +58,7 @@ document.getElementById('enregform')
             e.preventDefault();
             const data = new FormData(document.getElementById('enregform'));
             const value = Object.fromEntries(data.entries());
-            fetch('Enregistrer.php', {
+            fetch('Auth/Enregistrer.php', {
                 method: "POST",
                 body: JSON.stringify(value),
                 headers: {

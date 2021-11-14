@@ -1,5 +1,5 @@
 <?php
-include($_SERVER['TAUPE_SRC']."Database/DB.php");
+include("Database/DB.php");
 session_start();
 
 $content = file_get_contents('php://input');

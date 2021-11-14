@@ -64,7 +64,7 @@ if (isset($data->telephonebdd))
 if (isset($data->optradio))
     $sexe = $data->optradio;
 
-$user = getUser($_COOKIE['user']);
+$user = getUser($_SESSION['user']);
 $db = Database();
 
 $req = $db->prepare('UPDATE users SET LOGIN = :login, EMAIL = :email, PASS = :pass, DATE = :date, SEXE = :sexe, ADRESSE = :adresse, CODEP = :codepostal, VILLE = :ville, TELEPHONE = :telephone, NOM = :nom, PRENOM = :prenom WHERE LOGIN = :current_login;');

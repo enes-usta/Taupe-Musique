@@ -1,7 +1,7 @@
 <?php
 
-include_once($_SERVER['TAUPE_SRC']."Database/Database.php");
-include_once($_SERVER['TAUPE_SRC']."Donnees.inc.php");
+include_once("Database/Database.php");
+include_once("Donnees.inc.php");
 
 
 /**
