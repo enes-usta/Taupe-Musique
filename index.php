@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("API.php");
 ?>
 <!DOCTYPE html>
@@ -84,7 +85,7 @@ include("API.php");
 <body>
 
 <!-- Navigation -->
-<?php include("./navbar.php"); ?>
+<?php include("./includes/navbar.php"); ?>
 
 <!-- Page Content -->
 <div class="container">
@@ -127,9 +128,8 @@ include("API.php");
                     }
                 }
 
-                foreach (getRoots() as $root) {
+                foreach (getRoots() as $root)
                     displayList($root, 0);
-                }
 
                 ?>
             </div>

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     document.getElementById("reponse").style.display = '';
 
     $('#datePicker')
@@ -24,7 +23,7 @@ document.getElementById('logform')
 
             const data = new FormData(document.getElementById('logform'));
             const value = Object.fromEntries(data.entries());
-            fetch('Login.php', {
+            fetch('Auth/Login.php', {
                 method: "POST",
                 body: JSON.stringify(value),
                 headers: {
@@ -87,71 +86,3 @@ document.getElementById('enregform')
                     }
                 });
         });
-
-
-
-// ========== Devenu USELESS ==============
-
-/*
-
-function updateDetails(formdata) {
-    $.ajax({
-        type: 'POST',
-        url: 'Update.php',
-        data: formdata,
-        dataType: 'json',
-        cahce: false,
-        success: function (data) {
-            location.reload();
-        },
-    });
-}
-
-function submitForm(formdata) {
-    $.ajax({
-        type: 'POST',
-        url: 'Login.php',
-        data: formdata,
-        dataType: 'json',
-        cahce: false,
-        success: function (data) {
-            $('#reponse').removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).fadeIn(500);
-
-
-            if ($('#reponse').hasClass('error')) {
-                $('#reponse').fadeOut(4000);
-            } else {
-                location.reload();
-            }
-
-        },
-    });
-}
-/*
-function submitDetails(formdata) {
-    $.ajax({
-        type: 'POST',
-        url: 'Enregistrer.php',
-        data: formdata,
-        dataType: 'json',
-        cahce: false,
-        success: function (data) {
-            console.log("send form");
-            console.log(data);
-            if (data.ok === false) {
-
-                $('#reponse1').show();
-                $.each(data, function (i, item) {
-                    if (item != data.ok) {
-                        str += '<li>' + item + '</li>'
-                    }
-                    $('#reponse1').html('<font color="red"><ul>' + str + '</ul></font">');
-                    $('#reponse1').fadeOut(5000);
-                });
-            } else {
-                location.reload();
-            }
-
-        },
-    });
-}*/

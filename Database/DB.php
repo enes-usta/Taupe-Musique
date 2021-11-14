@@ -1,8 +1,7 @@
 <?php
 
-include_once("Database/Parametres.php");
-include_once("Database/Database.php");
-include_once("Donnees.inc.php");
+include_once($_SERVER['TAUPE_SRC']."Database/Database.php");
+include_once($_SERVER['TAUPE_SRC']."Donnees.inc.php");
 
 
 /**
@@ -18,6 +17,25 @@ function getUser($login): mixed
     if ($req->rowCount() > 0)
         return $req->fetch(PDO::FETCH_OBJ);
     else return null;
+}
+
+/**
+ * @return bool Si l'utilisateur actuel est connecté ou non
+ */
+function isLogged(): bool
+{
+    return isset($_SESSION['user']);
+}
+
+/**
+ * @return bool Si l'utilisateur actuel est administrateur ou non
+ */
+function isAdmin(): bool
+{
+    $admins_list = array('admin');
+    if(!isLogged())
+        return false;
+    return in_array(getUser($_SESSION['user'])->login, $admins_list);
 }
 
 /**

@@ -203,7 +203,7 @@ header('Content-Type: application/json;');
 
 if ($ok == true) {
     registerUser($login, $email, password_hash($pass, PASSWORD_DEFAULT), $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
-    setcookie('user', $login, time() + 3600);
+    $_SESSION['user'] = $login;
     unset($return);
     echo json_encode(array("ok" => true, 'error' => false, 'errors' => array()));
 } else

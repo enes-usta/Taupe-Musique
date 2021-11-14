@@ -35,7 +35,7 @@
 										location.reload();
 							},
 						});
-					};	
+					};
 	</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -50,7 +50,7 @@
 <body>
 
     <!-- Navigation -->
-    <?php include("./navbar.php");?>
+    <?php include("./includes/navbar.php");?>
 
     <!-- Page Content -->
     <div class="container">
