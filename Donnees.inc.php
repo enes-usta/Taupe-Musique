@@ -160,5 +160,4 @@ $Hierarchie=array (
       0 => 'Indice',
     ),
   ),
-); 
-?>
+);

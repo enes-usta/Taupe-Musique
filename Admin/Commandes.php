@@ -25,7 +25,6 @@ include 'fonctions/Orders.php';
 </head>
 
 <body>
-<!-- Navigation -->
 <?php include("includes/navbar.php"); ?>
 
 <!-- Page Content -->

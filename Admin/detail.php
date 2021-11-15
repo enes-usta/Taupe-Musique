@@ -1,20 +1,18 @@
 <?php
-include ("API.php");
-?>
+session_start();
+include 'authorized.php';
+include("API.php");
 
-<?php
 
-if(!isset($_GET["id"])) {
+if(!isset($_GET["id"]))
 	header("location: ./");
-}
 
 $albumId = $_GET["id"];
-
 $album = getAlbumById($albumId);
 
-if($album == -1){
+if($album == -1)
     header("Location: index.php");
-}
+
 
 $nom = $album["titre"];
 $shortName = substr($nom, 0, 25);
@@ -23,8 +21,6 @@ $prep = $album["descriptif"];
 $prix = $album["prix"];
 $ingr = explode("|", $album["chansons"]);
 $imgURL = (file_exists("img_cover/$nom.jpg") != false) ? ("img_cover/$nom.jpg") : ("images/tech.jpg");
-
-
 
 ?>
 <!DOCTYPE html>
@@ -41,68 +37,35 @@ $imgURL = (file_exists("img_cover/$nom.jpg") != false) ? ("img_cover/$nom.jpg") 
 
 	<title>Taupe Musique</title>
 
-	<!-- Custom CSS -->
-	<link href="css/shop-homepage.css" rel="stylesheet">
-
-    <!--
-    [if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]
-    -->
-
+	<link href="../css/shop-homepage.css" rel="stylesheet">
 </head>
-
 <body>
+	<?php include("includes/navbar.php");?>
 
-
-	<!-- Navigation -->
-	<?php include("./navbar.php");?>
-
-	<!-- Page Content -->
 	<div class="container">
-
 		<div class="col-xs-5">
-
-			<img style="width: 100%;" src="<?=$imgURL?>"></img>
-
+            <img style="width: 100%;" src="<?=$imgURL?>"/>
 		</div>
-
 		<div class="col-xs-7">
-
 			<h1><?=$nom?></h1>
-
 			<h3>Chansons</h3>
-
 			<ul>
 				<?php
-
-				foreach ($ingr as $chanson) {
+				foreach ($ingr as $chanson)
 					echo "<li>".$chanson."</li>";
-				}
-
 				?>
 			</ul>
 
 			<h3>Critique</h3>
-
 			<p><?=$prep?></p>
 			<hr>
 			<h3><?=$prix?> €  </h3><button class="btn btn-default">Ajouter au panier</button>
 		</div>
-		
-
 	</div>
-
 </div>
-<!-- /.container -->
-
 <div class="container">
-
 	<hr>
-
-	<!-- Footer -->
-	<?php include("./footer.php");?>
+	<?php include("includes/footer.php");?>
 </body>
 
 </html>

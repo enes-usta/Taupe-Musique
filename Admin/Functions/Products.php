@@ -1,28 +1,38 @@
 <?php
+include "DB.php";
 
 function afficherProduits()
 {
-    include("Donnees.inc.php");
+    ?>
 
-    echo "<a href='ajouterProd.php'>Ajouter un produit</a><br/>";
-    //echo "<a href='ajouterProd.php'>Ajouter une rubrique</a><br/>";
-    echo "<hr>";
-    echo "<h2>Produits</h2><br/>";
+    <a href='ajouterProd.php'>Ajouter un produit</a><br/>
+    <a href=''>Ajouter une rubrique</a><br/>
+    <hr>
+    <h2>Produits</h2><br/>
 
-    if (count($Albums) <= 0) {
+    <?php
+    $albums = getAlbums();
+    if ($albums == false)
         echo "Aucun enregistrement dans la base de données";
-    } else {
-        echo "<table>";
-        echo "<tr><td width='50px'>ID</td><td width='80px'>Titre</td><td width='80px'>Prix</td></tr>";
-        echo "<tr><td colspan='3'><hr></td></tr>";
-        foreach ($Albums as $index => $item) {
-            echo "<tr>";
-            echo "<td id='item'><a href='details.php?prod=" . $index . "'>" . $index . "</a></td><td> " . $item["titre"] . "</td><td>" . $item["prix"] . "</td>";
-            echo "<td><button id='effacer' onclick='removeItem(" . $index . ")'>effacer</button></td>";
-            echo "</tr>";
-            echo "<tr><td colspan='3'><hr></td></tr>";
+    else {
+        ?>
+        <table>
+        <tr><td width='50px'>ID</td><td width='80px'>Titre</td><td width='80px'>Prix</td></tr>
+        <tr><td colspan='3'><hr></td></tr>
+        <?php
+        foreach ($albums as $a) {
+            ?>
+        <tr>
+            <td id='item'><a href='detail.php?prod=<?= $a->ID_PROD ?>'><?= $a->ID_PROD ?></a></td>
+            <td><?= $a->TITRE ?></td>
+            <td><?= $a->PRIX ?></td>
+            <td><button id='effacer' onclick='removeItem(<?= $a->ID_PROD ?>)'>effacer</button></td>
+        </tr>
+        <tr>
+            <td colspan='3'><hr></td>
+        </tr>
+    <?php
         }
         echo "</table>";
     }
 }
-
