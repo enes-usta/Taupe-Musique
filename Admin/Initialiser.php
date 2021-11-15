@@ -1,3 +1,8 @@
+<?php
+session_start();
+include 'authorized.php';
+?>
+
 <html>
 <head>
 	<title>Initialisation de la base de données</title>

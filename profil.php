@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'fonctions/fonctionsLayout.php';
+include 'fonctions/Layout.php';
 include_once("Database/DB.php");
 ?>
 

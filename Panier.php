@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include 'fonctions/fonctionsLayout.php';
+	include 'fonctions/Layout.php';
 	include 'fonctions/fonctionsAcheter.php';
 ?>
 
@@ -35,7 +35,7 @@
 										location.reload();
 							},
 						});
-					};
+					}
 	</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

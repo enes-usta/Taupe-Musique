@@ -8,7 +8,7 @@ include("Donnees.inc.php");
 /**
  * @param int $id : Id de l'utilisateur
  * @return array|null : Données de l'utilisateur {"LOGIN","EMAIL","NOM","PRENOM","DATE","TELEPHONE","ADRESSE","CODEP","VILLE","SEXE")
- * @see administration.php Ligne 41
+ * @see index.php Ligne 41
  */
 function getUser(int $id): ?array
 {

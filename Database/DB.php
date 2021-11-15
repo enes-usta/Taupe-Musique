@@ -1,13 +1,9 @@
 <?php
-
 include_once("Database/Database.php");
-include_once("Donnees.inc.php");
-
-
 /**
  * @param $login
  * @return mixed : Données de l'utilisateur {"LOGIN","EMAIL","NOM","PRENOM","DATE","TELEPHONE","ADRESSE","CODEP","VILLE","SEXE")
- * @see administration.php Ligne 41
+ * @see index.php Ligne 41
  */
 function getUser($login): mixed
 {
@@ -32,7 +28,7 @@ function isLogged(): bool
  */
 function isAdmin(): bool
 {
-    $admins_list = array('admin');
+    global $admins_list;
     if(!isLogged())
         return false;
     return in_array(getUser($_SESSION['user'])->login, $admins_list);
@@ -99,9 +95,6 @@ function getFavoris($user): array
     return $req->fetchAll();
 }
 
-
-
-
 /**
  * @param $login
  * @return bool Si le login est déja utilisé
@@ -161,8 +154,7 @@ function isValid($login, $password): bool
 
     if ($req->rowCount() != 0) {
         $res = $req->fetch(PDO::FETCH_OBJ);
-        if (password_verify($password, $res->PASS))
-            return true;
+        return password_verify($password, $res->PASS);
     }
     return false;
 }

@@ -1,4 +1,14 @@
 <?php
+function afficherCadreCompte()
+{
+    ?>
+    <div style="padding-left:8px; padding-right:8px;">
+        <?= isAdmin() ? "<a class='btn btn-default' href='/admin'>Administration</a><br /><br />" : "" ?>
+        <?= isLogged() ? '<a class="btn btn-default" href="'.parse_url('/profil.php', PHP_URL_PATH).'">Mon compte</a><br/><br/>' : '' ?>
+    </div>
+    <?php
+}
+/*
 function afficherMenuGauche()
 {
     echo '<ul class="menuh">';
@@ -8,7 +18,6 @@ function afficherMenuGauche()
 
     echo '</ul>';
 }
-
 function afficherBarreRecherche()
 {
     echo '<span style="color:#1db6f6; font-weight:bold; float:left; padding-left:13px">Recherche</span>';
@@ -43,15 +52,4 @@ function afficherCadrePanier()
 
     echo '</a>';
 }
-
-function afficherCadreCompte()
-{
-    ?>
-
-    <div style="padding-left:8px; padding-right:8px;">
-    <?= isAdmin() ? "<a class='btn btn-default' href='administration.php'>Administration</a><br /><br />" : "" ?>
-    <?= isLogged() ? '<a class="btn btn-default" href="profil.php">Mon compte</a><br/><br/>' : '' ?>
-    </div>
-    <?php
-}
-?>
+*/

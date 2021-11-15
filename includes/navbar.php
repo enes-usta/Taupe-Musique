@@ -1,6 +1,4 @@
-<?php
-include_once('Database/DB.php');
-?>
+<?php include_once('Database/DB.php');?>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -19,7 +17,7 @@ include_once('Database/DB.php');
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <?= (isAdmin()) ? '<a href="Administration.php">Profil</a>' : '<a href="Profil.php">Profil</a>'; ?>
+                        <?= (isAdmin()) ? '<a href="' .parse_url('/admin/', PHP_URL_PATH) .'">Profil</a>' : '<a href="' .parse_url('/profil.php', PHP_URL_PATH) .'">Profil</a>'; ?>
                     </li>
                     <li id="conn">
                         <?= (isLogged()) ? "<a href='./Auth/Logout.php'>Log Out</a>" : "<a href='#Login' data-toggle='modal'>Log In</a>"; ?>
