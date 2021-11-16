@@ -28,18 +28,23 @@ $imgURL = (file_exists("img_cover/$album->titre.jpg") != false) ? ("img_cover/$a
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <?php include("imports.html"); ?>
 
     <title>Taupe Musique</title>
 
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link href="../css/shop-homepage.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/datepicker.min.css"/>
+    <link rel="stylesheet" href="../css/datepicker3.min.css"/>
 </head>
 <body>
 <?php include("includes/navbar.php"); ?>
 
 <div class="container">
     <div class="col-xs-5">
-        <img style="width: 100%;" src="<?= '' . $album->PHOTO ?>"/>
+        <img style="width: 100%;" src="<?= '../img_cover/' . $album->photo ?>"/>
     </div>
     <div class="col-xs-7">
         <h1><?= $album->titre ?></h1>
@@ -62,6 +67,16 @@ $imgURL = (file_exists("img_cover/$album->titre.jpg") != false) ? ("img_cover/$a
     <hr>
     <?php include("includes/footer.php"); ?>
 </div>
+
+<!-- jQuery -->
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/jq.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="../js/moment.min.js"></script>
+
 </body>
 
 </html>

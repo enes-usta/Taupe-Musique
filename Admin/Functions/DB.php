@@ -1,5 +1,4 @@
 <?php
-
 include_once 'Database/Database.php';
 
 /**

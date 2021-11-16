@@ -1,4 +1,6 @@
 <?php
+session_start();
+include '../authorized.php';
 include 'Database/DB.php';
 
 $file_result = '';
