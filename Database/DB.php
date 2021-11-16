@@ -121,7 +121,6 @@ function emailExist($email): bool
 
 function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone)
 {
-//    $str = "INSERT INTO USERS VALUES ('" . $login . "','" . $email . "','" . password_hash($pass, PASSWORD_DEFAULT) . "','" . $nom . "','" . $prenom . "','" . $date . "','" . $sexe . "','" . $adresse . "','" . $codepostal . "','" . $ville . "','" . $telephone . "');";
     $str = "INSERT INTO USERS VALUES (:login,:email,:pass,:nom,:prenom,:date,:sexe,:adresse,:codepostal,:ville,:telephone);";
     $db = Database();
     $req = $db->prepare($str);
@@ -157,4 +156,58 @@ function isValid($login, $password): bool
         return password_verify($password, $res->PASS);
     }
     return false;
+}
+
+
+/**
+ * @param $id int du produit que l'on veut
+ * @return mixed Object Produit (en params : titre, chansons, prix, descriptif)
+ */
+function getAlbumById($id): mixed
+{
+    $db = Database();
+    $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
+    $req->execute(array(":id" => $id));
+
+    return $req->fetch(PDO::FETCH_OBJ);
+}
+
+function existAlbum($id): bool
+{
+    $db = Database();
+    $req = $db->prepare("SELECT titre, chansons, prix, descriptif FROM produits WHERE ID_PROD = :id");
+    $req->execute(array(":id" => $id));
+
+    return $req->rowCount() > 0;
+}
+
+/**
+ * @param $id
+ * @return bool
+ */
+function removeAlbumById($id): bool
+{
+    if (existAlbum($id)){
+        $db = Database();
+        $req = $db->prepare("DELETE FROM produits WHERE ID_PROD = :id");
+        $req->execute(array(":id" => $id));
+        return true;
+    }
+    else
+        return false;
+}
+
+
+/**
+ * @param $titre
+ * @param $chansons
+ * @param $auteur
+ * @param $prix
+ * @param $descriptif
+ */
+function createAlbum($titre, $chansons, $auteur, $prix, $descriptif)
+{
+    $db = Database();
+    $req = $db->prepare("insert into produits (TITRE, CHANSONS, LIBELLE, PRIX, DESCRIPTIF, PHOTO) values (?, ?, ?, ?, ?, ?);");
+    $req->execute(array($titre . ' ( ' . $auteur . ' )', $chansons, '', $prix, $descriptif));
 }

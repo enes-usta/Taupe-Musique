@@ -1,8 +1,15 @@
 <?php
-include('../Donnees.inc.php');
+include 'Database/DB.php';
 
 $arr = array();
-if(isset($_POST["item"])){
+if(isset($_POST["item"]))
+    return (removeAlbumById($_POST['item']) ? 'Suppression effectuée avec succès': 'Erreur lors de la suppresion');
+
+else
+    return 'Erreur lors de la suppression';
+
+
+    /*
 			foreach($Albums as $indice => $opt){
 
 					if($indice != $_POST["item"]){
@@ -24,12 +31,11 @@ if(isset($_POST["item"])){
 						}
 						$str .= "), \n\t\t\t\t\t";
 					}
-					else{
+					else
 						$str .= "'".$desc."', \n\t\t\t\t\t";
-					}
+
 				}
 				$str .= "), \n\t\t";
-				
 			}
 			$str .= "); \n\n";
 
@@ -37,7 +43,6 @@ if(isset($_POST["item"])){
 
 			$fp = fopen('../Donnees.inc.php', 'w');
 			fwrite($fp, "<?php ".$str." \n\n".$file." \n?>");
-			fclose($fp);
-}
+			fclose($fp);*/
 
-?>
+

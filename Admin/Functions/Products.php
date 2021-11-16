@@ -23,7 +23,7 @@ function afficherProduits()
         foreach ($albums as $a) {
             ?>
         <tr>
-            <td id='item'><a href='detail.php?prod=<?= $a->ID_PROD ?>'><?= $a->ID_PROD ?></a></td>
+            <td id='item'><a href='detail.php?id=<?= $a->ID_PROD ?>'><?= $a->ID_PROD ?></a></td>
             <td><?= $a->TITRE ?></td>
             <td><?= $a->PRIX ?></td>
             <td><button id='effacer' onclick='removeItem(<?= $a->ID_PROD ?>)'>effacer</button></td>
