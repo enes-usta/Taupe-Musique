@@ -2,7 +2,7 @@
 session_start();
 include 'authorized.php';
 include 'fonctions/Layout.php';
-include 'fonctions/Orders.php';
+include 'Functions/Orders.php';
 ?>
 
 <!DOCTYPE html>

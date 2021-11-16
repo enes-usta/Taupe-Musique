@@ -197,7 +197,6 @@ function removeAlbumById($id): bool
         return false;
 }
 
-
 /**
  * @param $titre
  * @param $chansons
@@ -210,4 +209,12 @@ function createAlbum($titre, $chansons, $auteur, $prix, $descriptif)
     $db = Database();
     $req = $db->prepare("insert into produits (TITRE, CHANSONS, LIBELLE, PRIX, DESCRIPTIF, PHOTO) values (?, ?, ?, ?, ?, ?);");
     $req->execute(array($titre . ' ( ' . $auteur . ' )', $chansons, '', $prix, $descriptif));
+}
+
+function getAlbums(): bool|array
+{
+    $db = Database();
+    $req = $db->prepare("SELECT ID_PROD, TITRE, PRIX FROM produits;");
+    $req->execute(array());
+    return $req->fetchAll(PDO::FETCH_OBJ);
 }

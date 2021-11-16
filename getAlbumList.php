@@ -88,7 +88,7 @@ echo '</tr></table>';
 function displayBox($albumId, $heartClass)
 {
 
-    $album = getAlbumById($albumId);
+    $album = getAlbumByIdDonnees($albumId);
 
 
     $nom = $album["titre"];

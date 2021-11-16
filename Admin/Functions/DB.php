@@ -18,9 +18,9 @@ function getAdmins(): bool|array
     global $admins_list;
     $inQuery = implode(',', array_fill(0, count($admins_list), '?'));
     $db = Database();
-    $req = $db->prepare("SELECT login, email, nom, prenom, date, sexe, adresse, codep, ville, telephone FROM users WHERE login IN (" .$inQuery .")");
+    $req = $db->prepare("SELECT login, email, nom, prenom, date, sexe, adresse, codep, ville, telephone FROM users WHERE login IN (" . $inQuery . ")");
     foreach ($admins_list as $k => $id)
-        $req->bindValue(($k+1), $id);
+        $req->bindValue(($k + 1), $id);
     $req->execute();
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
@@ -41,10 +41,10 @@ function getMainRubriques(): bool|array
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
 
-function getAlbums(): bool|array
+function getOrders(): mixed
 {
     $db = Database();
-    $req = $db->prepare("SELECT ID_PROD, TITRE, PRIX FROM produits;");
+    $req = $db->prepare("SELECT * FROM commande");
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }

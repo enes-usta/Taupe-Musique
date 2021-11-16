@@ -3,7 +3,7 @@ session_start();
 include 'authorized.php';
 
 include 'fonctions/Layout.php';
-include 'Functions/AddProduct.php';
+include 'Functions/AddProductLayout.php';
 ?>
 
 <!DOCTYPE html>
