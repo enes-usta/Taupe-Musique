@@ -136,7 +136,7 @@ CREATE TABLE `produits` (
   `DESCRIPTIF` varchar(500) DEFAULT NULL,
   `PHOTO` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`ID_PROD`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `produits` (
 
 LOCK TABLES `produits` WRITE;
 /*!40000 ALTER TABLE `produits` DISABLE KEYS */;
-INSERT INTO `produits` VALUES (1,'Joss Stone (Water for Your Soul)','1 Love Me |2 This Aint Love |3 Stuck on You |4 Star | 5 Let Me Breathe | 6 Cut the Line | 7 Wake Up | 8 Way Oh | 9 Underworld | 10 Molly Town | 11 Sensimilla | 12 Harrys Symphony | 13 Clean Water | 14 The Answer',' ',20,'Joss Stone n avait pas sorti de chansons originales depuis son LP1, publié en 2011. Il lui a fallu 4 ans de voyages, de projets et d enseignements pour arriver à collecter les 14 nouveaux morceaux de Water For Your Soul. De ses sessions d improvisation à Los Angeles avec Damian Marley à l Angleterre, en passant par Hawaï et les routes d Europe où elle a voyagées dans un vieux camping-car en compagnie de son ancien petit ami, la chanteuse a nourri son âme de nouvelles expériences.',NULL),(2,'Carlos Santana (Shaman)','1 Adouma |2 Nothing at All |3 The Game Of Love |4 You Are My Kind | 5 Amore (Sexo) | 6 Foo Foo | 7 Victory Is Won | 8 Since Supernatural | 9 America | 10 Sideways | 11 Why Dont You & I | 12 Feels Like Fire | 13 Aye Aye Aye | 14 Hoy Es Adios |15 One of These Days | 16 Novus',' ',20,'Critique pas disponible pour cet album.',NULL);
+INSERT INTO `produits` VALUES (1,'Joss Stone (Water for Your Soul)','1 Love Me |2 This Aint Love |3 Stuck on You |4 Star | 5 Let Me Breathe | 6 Cut the Line | 7 Wake Up | 8 Way Oh | 9 Underworld | 10 Molly Town | 11 Sensimilla | 12 Harrys Symphony | 13 Clean Water | 14 The Answer',' ',20,'Joss Stone n avait pas sorti de chansons originales depuis son LP1, publié en 2011. Il lui a fallu 4 ans de voyages, de projets et d enseignements pour arriver à collecter les 14 nouveaux morceaux de Water For Your Soul. De ses sessions d improvisation à Los Angeles avec Damian Marley à l Angleterre, en passant par Hawaï et les routes d Europe où elle a voyagées dans un vieux camping-car en compagnie de son ancien petit ami, la chanteuse a nourri son âme de nouvelles expériences.','Joss Stone (Water for Your Soul).jpg'),(2,'Carlos Santana (Shaman)','1 Adouma |2 Nothing at All |3 The Game Of Love |4 You Are My Kind | 5 Amore (Sexo) | 6 Foo Foo | 7 Victory Is Won | 8 Since Supernatural | 9 America | 10 Sideways | 11 Why Dont You & I | 12 Feels Like Fire | 13 Aye Aye Aye | 14 Hoy Es Adios |15 One of These Days | 16 Novus',' ',20,'Critique pas disponible pour cet album.','Carlos Santana (Shaman).jpg');
 /*!40000 ALTER TABLE `produits` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,4 +216,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-16 17:52:37
+-- Dump completed on 2021-11-16 19:49:15
