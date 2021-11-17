@@ -45,7 +45,7 @@ function getMainRubriques(): bool|array
 function getAlbums(): bool|array
 {
     $db = Database();
-    $req = $db->prepare("SELECT ID_PROD, TITRE, PRIX FROM produits;");
+    $req = $db->prepare("SELECT ID_PROD, LIBELLE, PRIX FROM produits;");
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }

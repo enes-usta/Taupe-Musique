@@ -64,7 +64,7 @@ function xmlValide($dom)
     }
 }
 
-//on ins�re une nouvelle rubrique dans la base de donn�es (si la rubrique est d�j� pr�sente alors on insert que les rubriques sup�rieures de fa�on r�cursive)
+//on ins�re une nouvelle rubrique dans la base de donn�es (si la rubrique est d�j� pr�sente alors on insert uniquement les rubriques sup�rieures de fa�on r�cursive)
 function insererRub($rub)
 {
     $result = mysql_query('select id_rub from rubrique where Libelle_rub ="' . $rub['Nom'] . '"');

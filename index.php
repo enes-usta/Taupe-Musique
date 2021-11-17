@@ -1,5 +1,6 @@
 <?php
 session_start();
+#echo phpinfo();
 include("API.php");
 ?>
 <!DOCTYPE html>

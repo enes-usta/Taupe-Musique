@@ -90,7 +90,7 @@
         <hr>
 
         <!-- Footer -->
-    <?php include("./footer.php");?>
+    <?php include("./includes/footer.php");?>
 
     </div>
     <!-- jQuery -->

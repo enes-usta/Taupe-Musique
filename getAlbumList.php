@@ -64,7 +64,7 @@ if ($_POST["favOnly"] == "true") {
 
 
 if (empty($albums)) {
-    echo '<h2>Désolé, il n\'existe pas d\'albums contenant ces paramètres</h2>';
+    echo '<h2>Désolé, il n\'existe pas d\'albums correspondants à ce genre</h2>';
 }
 
 echo '<table><tr>';

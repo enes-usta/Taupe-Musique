@@ -6,7 +6,7 @@ function afficherProduits()
     ?>
 
     <a href='ajouterProd.php'>Ajouter un produit</a><br/>
-    <a href=''>Ajouter une rubrique</a><br/>
+    <a href='ajouterRubrique.php'>Ajouter une rubrique</a><br/>
     <hr>
     <h2>Produits</h2><br/>
 
