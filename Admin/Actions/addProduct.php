@@ -1,11 +1,16 @@
 <?php
-include 'Donnees.inc.php';
+session_start();
+include '../authorized.php';
+include 'Database/DB.php';
+
 $file_result = '';
 $file_extension = '';
 if ($_FILES['file']['error'] > 0) {
     header('location: ../Produits.php?Erreur=img');
     exit();
 } else {
+
+    // Check Image
     $file = $_FILES['file']['name'];
     if ((preg_match("/[.](jpg)$/i", $file)))
         $file_extension = '.jpg';
@@ -22,18 +27,18 @@ if ($_FILES['file']['error'] > 0) {
         exit();
     }
 
-    $file_result = 'img_cover/' . ($_POST["auteur"] . " (" . $_POST["titre"] . ")") . $file_extension;
-    move_uploaded_file($_FILES['file']['tmp_name'], '../' . $file_result);
+    // Nom Fichier
+    $file_name = ($_POST["auteur"] . " (" . $_POST["titre"] . ")") . $file_extension;
+    $file_result = 'img_cover/' . $file_name;
+    move_uploaded_file($_FILES['file']['tmp_name'], '../../' . $file_result);
 
     if (isset($_POST["titre"]) && isset($_POST["auteur"]) && isset($_POST["prix"]) && isset($_POST["descriptif"])) {
         $ok = true;
         if (!preg_match('/^([A-Za-z]{0,80}$)/', $_POST["auteur"]))
             $ok = false;
 
-        $ok = true;
         if (!preg_match('/^([A-Za-z]{0,80}$)/', $_POST["titre"]))
             $ok = false;
-
 
         if (!preg_match('/^([0-9]+$)/', $_POST["prix"]))
             $ok = false;
@@ -45,52 +50,55 @@ if ($_FILES['file']['error'] > 0) {
                     $tracks[] = ($i + 1) . ' ' . $_POST["track" . $i];
 
 
+        // Insert en fichier
         if ($ok) {
+            $auteur = $_POST['auteur'];
+            $titre = $_POST['titre'];
+            $chansons = implode("|", $tracks);
+            $descriptif = $_POST["descriptif"];
+            $prix = $_POST["prix"];
+
+/*
             extract($_POST);
             $arr = array('titre' => $auteur . " (" . $titre . ")",
                 'chansons' => implode("|", $tracks),
                 'descriptif' => $descriptif,
                 'prix' => $prix,
-                'index' => array(0 => $rubrique,
-                ),
+//                'index' => array(0 => $rubrique),
             );
 
-            $Albums[] = $arr;
-
-            $str = "\$Albums = array( \n\t\t";
-            foreach ($Albums as $indice => $opt) {
-                $str .= $indice . ' => array(';
-                foreach ($opt as $nom => $desc) {
-                    $str .= "  '" . $nom . "' => ";
-                    if (is_array($desc)) {
-                        $str .= 'array(';
-                        foreach ($desc as $d => $s) {
-                            $str .= '' . $d . " => '" . $s . "', \n\t\t\t\t\t\t\t\t\t\t";
-                        }
-                        $str .= "), \n\t\t\t\t\t";
-                    } else {
-                        $str .= "'" . $desc . "', \n\t\t\t\t\t";
-                    }
-                }
-                $str .= "), \n\t\t";
-
-            }
-            $str .= "); \n\n";
-
-            $file = file_get_contents('hierarchie.txt', true);
-
-            $fp = fopen("Donnees.inc.php", 'w');
-            fwrite($fp, "<?php " . $str . " \n\n" . $file . " \n?>");
-            fclose($fp);
-            header('location: ../Products.php');
-        } else {
-            echo "Erreur1";
+            $Albums[] = $arr;*/
+            createAlbum($titre, $chansons, $auteur, $prix, $descriptif, $file_name);
+            /*
+                        $str = "\$Albums = array( \n\t\t";
+                        foreach ($Albums as $indice => $opt) {
+                            $str .= $indice . ' => array(';
+                            foreach ($opt as $nom => $desc) {
+                                $str .= "  '" . $nom . "' => ";
+                                if (is_array($desc)) {
+                                    $str .= 'array(';
+                                    foreach ($desc as $d => $s) {
+                                        $str .= '' . $d . " => '" . $s . "', \n\t\t\t\t\t\t\t\t\t\t";
+                                    }
+                                    $str .= "), \n\t\t\t\t\t";
+                                } else {
+                                    $str .= "'" . $desc . "', \n\t\t\t\t\t";
+                                }
+                            }
+                            $str .= "), \n\t\t";
+            */
         }
+//            $str .= "); \n\n";
 
+//            $file = file_get_contents('hierarchie.txt', true);
 
-    } else {
+//            $fp = fopen("Donnees.inc.php", 'w');
+//            fwrite($fp, "<?php " . $str . " \n\n" . $file . " \n");
+//            fclose($fp);
+//            header('location: ../Products.php');
+        else
+            echo "Erreur1";
+    } else
         echo "Erreur2";
-    }
 
 }
-?>

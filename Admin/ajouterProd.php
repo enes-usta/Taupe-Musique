@@ -3,7 +3,7 @@ session_start();
 include 'authorized.php';
 
 include 'fonctions/Layout.php';
-include 'Functions/AddProduct.php';
+include 'Functions/AddProductLayout.php';
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +43,7 @@ include 'Functions/AddProduct.php';
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">
-                <?php ajouterProduit(); ?>
+                <?php ajouterProduitLayout(); ?>
                 <hr>
             </div>
         </div>

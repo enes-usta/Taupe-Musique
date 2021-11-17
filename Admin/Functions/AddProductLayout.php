@@ -1,8 +1,7 @@
 <?php
-include("Donnees.inc.php");
-include 'DB.php';
+include_once 'DB.php';
 
-function ajouterProduit()
+function ajouterProduitLayout()
 {
     ?>
     <h2>Ajouter produit</h2><br/>

@@ -16,7 +16,6 @@ include 'Functions/Products.php';
 
     <title>Taupe Musique</title>
 
-    <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <link href="../css/shop-homepage.css" rel="stylesheet">
@@ -30,7 +29,6 @@ include 'Functions/Products.php';
                 data: {item: e},
                 success: function (data) {
                     alert(data);
-                    location.reload();
                 },
             });
         }
@@ -64,7 +62,6 @@ include 'Functions/Products.php';
 <!-- jQuery -->
 <script src="../js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="../js/jq.js"></script>
-<!-- Bootstrap Core JavaScript -->
 <script src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/daterangepicker.js"></script>
 <script type="text/javascript" src="../js/bootstrap-datepicker.min.js"></script>

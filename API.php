@@ -49,10 +49,9 @@ function getAlbumsWith($chansons): array
     return $albums;
 }
 
-function getAlbumById($id): int|array
+function getAlbumByIdDonnees($id): int|array
 {
     global $Albums;
     return $Albums[$id] ?? -1;
 }
 
-?>
