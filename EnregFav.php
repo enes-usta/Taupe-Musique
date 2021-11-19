@@ -1,20 +1,20 @@
 <?php
-
+session_start();
 	include("Database/Parametres.php");
 	include("Fonctions.inc.php");
 	include("Donnees.inc.php");
     include("Database/DB.php");
 
-		
-		if(isset($_COOKIE["user"])){
-				$user = $_COOKIE["user"];
-				$produit = $_POST["id_produit"];
 
-				//
+		
+		if(isset($_SESSION["user"])) {
+            $user = $_SESSION["user"];
+            $produit = $_POST["id_produit"];
+
+            //
             updateFavoris($user, $produit);
 
-		}
-		else{
+        }else{
 			if(!isset($_COOKIE["favoris"])){
 				$arr[] = $_POST["id_produit"];
 				if(isset($_POST["id_produit"])){

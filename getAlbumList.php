@@ -2,27 +2,36 @@
 include("Fonctions.inc.php");
 include("./API.php");
 include("Database/Database.php");
+include("Database/DB.php");
+
+session_start();
 
 $favAlbums = array();
 
-if (isset($_COOKIE["user"]))
-    $favAlbums[] = getFavoris($_COOKIE["user"]); // BDD
+if (isset($_SESSION["user"])) {
+    $user = $_SESSION["user"];
+    $favAlbums = getFavoris($user);
+}else {
+    if (isset($_COOKIE["user"])) {
+        $favAlbums[] = getFavoris($_COOKIE["user"]); // BDD
+    } else if (isset($_COOKIE['favoris'])) {
+        $favAlbums = json_decode($_COOKIE['favoris'], true);
+    } else {
+        $favAlbums = array();
+    }
+}
 
 
-else if (isset($_COOKIE['favoris']))
-    $favAlbums = json_decode($_COOKIE['favoris'], true);
 
-else $favAlbums = array();
 
 if (!isset($_POST["ingr"])) {
     echo '<table><tr>';
     $step = 0;
     if ($_POST["favOnly"] == "true") {
-        if (isset($_COOKIE["user"])) {
-            if (!empty($favAlbums[0])) {
-                foreach ($favAlbums[0] as $id => $tab) {
-
-                    echo displayBox((isset($_COOKIE["user"]) ? $tab["ID_PROD"] : $tab), "heart fullHeart");
+        if (isset($_SESSION["user"])) {
+            if (!empty($favAlbums)) {
+                foreach ($favAlbums as $id => $tab) {
+                    echo displayBox($tab["ID_PROD"], "heart fullHeart");
                     $step++;
                     if ($step == 3) {
                         $step = 0;
@@ -30,7 +39,18 @@ if (!isset($_POST["ingr"])) {
                     }
                 }
             }
-        } else {
+        } else if (isset($_COOKIE["user"])) {
+            if (!empty($favAlbums)) {
+                foreach ($favAlbums as $id => $tab) {
+                    echo displayBox((empty($_COOKIE["user"]) ? $tab["ID_PROD"] : $tab), "heart fullHeart");
+                    $step++;
+                    if ($step == 3) {
+                        $step = 0;
+                        echo '</tr><tr>';
+                    }
+                }
+            }
+        }else{
             foreach ($favAlbums as $id => $tab) {
 
                 echo displayBox($tab, "heart fullHeart");
