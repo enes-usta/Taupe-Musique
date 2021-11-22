@@ -218,3 +218,29 @@ function getAlbums(): bool|array
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
+
+function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
+{
+    $db = Database();
+
+    $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE %:titre%");
+    $req->execute(array(":titre" => $titre));
+
+    return $req->fetchAll(PDO::FETCH_OBJ);
+}
+
+function getSousRubriques($rub_id): bool|array
+{
+    $db = Database();
+    $req = $db->prepare("SELECT * FROM rubrique WHERE ID_RUB IN (SELECT ID_ENFANT FROM hierarchie WHERE ID_PARENT = ? )");
+    $req->execute(array($rub_id));
+    return $req->fetchAll(PDO::FETCH_OBJ);
+}
+
+function existeSousRubriques($rub_id): bool
+{
+    $db = Database();
+    $req = $db->prepare("SELECT COUNT(*) as count FROM hierarchie WHERE ID_PARENT = ?");
+    $req->execute(array($rub_id));
+    return $req->fetch(PDO::FETCH_OBJ)->count > 0;
+}

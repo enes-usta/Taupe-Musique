@@ -104,33 +104,27 @@ include("API.php");
 
             <div class="list-group">
                 <?php
-                $elementId = 0; // pour éviter les ID en doublon
 
-                function displayList($current, $indentLvl)
+
+                displayRubriques(16,0);
+                function displayRubriques($id_rubrique, $indentLvl)
                 {
-                    global $elementId;
-                    $elementId++;
-                    $nexts = getNexts($current);
+                    $rubriques = getSousRubriques($id_rubrique);
+                    foreach ($rubriques as $a) {
 
-                    if ($nexts) {
-                        echo '<a href="#" class="list-group-item" style="margin-left:' . (25 * $indentLvl) . 'px" data-toggle="collapse" data-target="#element' . $elementId . '">
-                        <i class="fa fa-angle-down"></i>' . $current . '</a href="#">' . PHP_EOL;
+                        echo '<a href="#" class="list-group-item" style="margin-left:' . (25 * $indentLvl) . 'px" data-toggle="collapse" data-target="#element' . $a->ID_RUB . '">
+                            <i class="fa fa-angle-down"></i>' . $a->LIBELLE_RUB . '</a href="#">' . PHP_EOL;
 
-                        echo '<div id="element' . $elementId . '" class="list-group collapse parent">';
-
-                        // On affiche les genres suivants si il y en a
-                        foreach ($nexts as $next)
-                            echo displayList($next, $indentLvl + 1);
+                        echo '<div id="element' . $a->ID_RUB . '" class="list-group collapse parent">';
+                        if (existeSousRubriques($a->ID_RUB)) {
+                            displayRubriques($a->ID_RUB, $indentLvl+1);
+                        }
 
                         echo '</div>' . PHP_EOL;
-                    } else {
-                        echo '<label class="list-group-item" style="cursor:pointer; margin-left:' . (25 * $indentLvl) . 'px" for="cb' . $elementId . '">
-                        <input  type="checkbox" name="selection" id="cb' . $elementId . '" value="' . $current . '"> ' . $current . '</label>' . PHP_EOL;
+
                     }
                 }
 
-                foreach (getRoots() as $root)
-                    displayList($root, 0);
 
                 ?>
             </div>

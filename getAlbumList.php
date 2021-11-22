@@ -63,8 +63,9 @@ if (!isset($_POST["ingr"])) {
 
         }
     } else {
-        foreach ($Albums as $id => $album) {
-            echo displayBox($id, "heart" . (in_array($id, $favAlbums) ? (" fullHeart") : ("")));
+        $albums = getAlbums();
+        foreach ($albums as $a) {
+            echo displayBox($a->ID_PROD, "heart" . (in_array($a->ID_PROD, $favAlbums) ? (" fullHeart") : ("")));
             $step++;
             if ($step == 3) {
                 $step = 0;
@@ -76,7 +77,7 @@ if (!isset($_POST["ingr"])) {
     die();
 }
 
-$albums = getalbumsWith($_POST["ingr"]);
+$albums = getAlbumsByTitleAndFilter($_POST["ingr"], $_POST["mot"]);
 
 if ($_POST["favOnly"] == "true") {
     $albums = array_intersect($albums, $favAlbums);
@@ -88,9 +89,9 @@ if (empty($albums)) {
 }
 
 echo '<table><tr>';
-$step = 0;
-foreach ($albums as $albumId) {
-    echo displayBox($albumId, "heart" . (in_array($albumId, $favAlbums) ? (" fullHeart") : ("")));
+$step = 0;print_r($albums);
+foreach ($albums as $a) {
+    echo displayBox($a->id_prod, "heart" . (in_array($a, $favAlbums) ? (" fullHeart") : ("")));
     $step++;
     if ($step == 3) {
         $step = 0;
@@ -108,26 +109,15 @@ echo '</tr></table>';
 function displayBox($albumId, $heartClass)
 {
 
-    $album = getAlbumByIdDonnees($albumId);
+    $album = getAlbumById($albumId);
 
+    $pathDossierImg = "img_cover/";
 
-    $nom = $album["titre"];
+    $nom = $album->titre;
+    $imgURL = $pathDossierImg . $album->photo;
     $shortName = substr($nom, 0, 25);
     $shortName .= ((strlen($nom) != strlen($shortName)) ? ("...") : (""));
-    $desc = $album["descriptif"];
-    if (file_exists("img_cover/$nom.jpg")) {
-        $imgURL = "img_cover/$nom.jpg";
-    } else if (file_exists("img_cover/$nom.jpeg")) {
-        $imgURL = "img_cover/$nom.jpeg";
-    } else if (file_exists("img_cover/$nom.gif")) {
-        $imgURL = "img_cover/$nom.gif";
-    } else if (file_exists("img_cover/$nom.png")) {
-        $imgURL = "img_cover/$nom.png";
-    } else if (file_exists("img_cover/$nom.bmp")) {
-        $imgURL = "img_cover/$nom.bmp";
-    } else {
-        $imgURL = "images/abstract-q-g-640-480-2.jpg";
-    }
+    $desc = $album->descriptif;
     if (isset($_POST['mot']) && !empty($_POST['mot']) && (stripos($nom, $_POST['mot']) !== false)) {
         return '<td style="heigh:30%;width:30%"> <div class="col-sm-4 col-lg-4 col-md-4 recipeBox" style="width:100%">
 				<div class="thumbnail">
