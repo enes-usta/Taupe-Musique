@@ -1,5 +1,5 @@
 <?php
-
+include_once 'Database/Parametres.php';
 $admins_list = array('admin');
 
 /**
@@ -9,5 +9,13 @@ $admins_list = array('admin');
  */
 function Database(): PDO
 {
-    return new PDO('mysql:host=127.0.0.1;port=3306;dbname=cds;', 'root', 'root' );
+    return new PDO('mysql:host=127.0.0.1;port=3306;dbname=cds;', 'enes', 'enes57');
 }
+
+/*
+function Database(): PDO
+{
+    {
+        return new PDO('mysql:host=127.0.0.1;port=3306;dbname=cds;', 'enes', 'enes57');
+    }
+}*/

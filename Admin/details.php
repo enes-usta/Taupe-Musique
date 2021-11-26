@@ -16,10 +16,10 @@ $user = getUser($_GET["login"]);
 
     <title>Taupe Musique</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/datepicker.min.css"/>
-    <link rel="stylesheet" href="../css/datepicker3.min.css"/>
+    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../public/css/shop-homepage.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
+    <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
 </head>
 
 

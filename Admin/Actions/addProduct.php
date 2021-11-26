@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../authorized.php';
-include 'Database/DB.php';
+include_once 'Database/DB.php';
 
 $file_result = '';
 $file_extension = '';
@@ -52,50 +52,14 @@ if ($_FILES['file']['error'] > 0) {
 
         // Insert en fichier
         if ($ok) {
-            $auteur = $_POST['auteur'];
             $titre = $_POST['titre'];
             $chansons = implode("|", $tracks);
+            $auteur = $_POST['auteur'];
             $descriptif = $_POST["descriptif"];
             $prix = $_POST["prix"];
 
-/*
-            extract($_POST);
-            $arr = array('titre' => $auteur . " (" . $titre . ")",
-                'chansons' => implode("|", $tracks),
-                'descriptif' => $descriptif,
-                'prix' => $prix,
-//                'index' => array(0 => $rubrique),
-            );
-
-            $Albums[] = $arr;*/
             createAlbum($titre, $chansons, $auteur, $prix, $descriptif, $file_name);
-            /*
-                        $str = "\$Albums = array( \n\t\t";
-                        foreach ($Albums as $indice => $opt) {
-                            $str .= $indice . ' => array(';
-                            foreach ($opt as $nom => $desc) {
-                                $str .= "  '" . $nom . "' => ";
-                                if (is_array($desc)) {
-                                    $str .= 'array(';
-                                    foreach ($desc as $d => $s) {
-                                        $str .= '' . $d . " => '" . $s . "', \n\t\t\t\t\t\t\t\t\t\t";
-                                    }
-                                    $str .= "), \n\t\t\t\t\t";
-                                } else {
-                                    $str .= "'" . $desc . "', \n\t\t\t\t\t";
-                                }
-                            }
-                            $str .= "), \n\t\t";
-            */
         }
-//            $str .= "); \n\n";
-
-//            $file = file_get_contents('hierarchie.txt', true);
-
-//            $fp = fopen("Donnees.inc.php", 'w');
-//            fwrite($fp, "<?php " . $str . " \n\n" . $file . " \n");
-//            fclose($fp);
-//            header('location: ../Products.php');
         else
             echo "Erreur1";
     } else

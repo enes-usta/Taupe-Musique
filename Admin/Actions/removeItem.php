@@ -1,9 +1,7 @@
 <?php
 session_start();
 include '../authorized.php';
-include_once 'Database/DB.php';
 
-$arr = array();
 if(isset($_POST["item"]))
     return (removeAlbumById($_POST['item']) ? 'Suppression effectuée avec succès': 'Erreur lors de la suppresion');
 else

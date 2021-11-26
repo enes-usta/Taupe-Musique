@@ -16,12 +16,12 @@ include_once("Database/DB.php");
     <title>Taupe Musique</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/datepicker.min.css"/>
-    <link rel="stylesheet" href="css/datepicker3.min.css"/>
+    <link href="public/css/shop-homepage.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/datepicker.min.css"/>
+    <link rel="stylesheet" href="public/css/datepicker3.min.css"/>
 
 </head>
 
@@ -200,8 +200,8 @@ include_once("Database/DB.php");
         ?>
 
         <!-- jQuery -->
-        <script src="js/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="js/jq.js"></script>
+        <script src="public/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="public/js/jq.js"></script>
         <script type="text/javascript">
             document.getElementById('modiform').addEventListener('submit', (e) => {
                     e.preventDefault();
@@ -222,10 +222,10 @@ include_once("Database/DB.php");
                 }
             );</script>
         <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/daterangepicker.js"></script>
-        <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript" src="js/moment.min.js"></script>
+        <script src="public/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="public/js/daterangepicker.js"></script>
+        <script type="text/javascript" src="public/js/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="public/js/moment.min.js"></script>
 
 
 </body>

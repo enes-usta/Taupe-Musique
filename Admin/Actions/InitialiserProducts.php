@@ -1,12 +1,12 @@
 <?php
 header("HTTP/1.1 401 Unauthorized");
 exit;
+/*
 include "Donnees.inc.php";
 include "Database/Database.php";
-
 global $Hierarchie;
 $db = Database();
-/*
+
 
 global $Albums;
 $db = Database();
@@ -19,15 +19,15 @@ foreach ($Albums as $index => $a)
         ":prix" => $a['prix'],
         ":descriptif" => $a["descriptif"]
     ));
-*/
 
-/*
+
+
 global $Hierarchie;
 $db = Database();
 $req = $db->prepare("insert into rubrique (LIBELLE_RUB) values (?);");
 foreach ($Hierarchie as $i => $r)
         $req->execute(array($i));
-*/
+
 
 $reqRebInsert = $db->prepare("insert into rubrique (LIBELLE_RUB) values (?) ON DUPLICATE KEY UPDATE LIBELLE_RUB = LIBELLE_RUB;");
 foreach ($Hierarchie as $i => $r)
@@ -70,3 +70,4 @@ foreach ($Hierarchie as $i => $r) {
             $req->execute(array($supercat->ID_RUB, $index));
     }
 }
+*/

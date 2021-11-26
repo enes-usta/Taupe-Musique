@@ -1,7 +1,7 @@
 <?php
 session_start();
-#echo phpinfo();
-include("API.php");
+include_once 'fonctions/indexFunctions.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,13 +17,13 @@ include("API.php");
     <title>Taupe Musique</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/heart.css" rel="stylesheet">
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/heart.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/datepicker.min.css"/>
-    <link rel="stylesheet" href="css/datepicker3.min.css"/>
+    <link href="public/css/shop-homepage.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/datepicker.min.css"/>
+    <link rel="stylesheet" href="public/css/datepicker3.min.css"/>
 
     <script type="text/javascript">
 
@@ -88,44 +88,18 @@ include("API.php");
 <!-- Navigation -->
 <?php include("includes/navbar.php"); ?>
 
-<!-- Page Content -->
 <div class="container">
-
     <div class="row">
-
         <div class="col-md-3">
             <p class="lead">Sélectionnez un genre</p>
-
             <div class="checkbox">
                 <label>
                     <input type="checkbox" id="favOnly"> N'afficher que vos albums favoris
                 </label>
             </div>
-
             <div class="list-group">
                 <?php
-
-
                 displayRubriques(16,0);
-                function displayRubriques($id_rubrique, $indentLvl)
-                {
-                    $rubriques = getSousRubriques($id_rubrique);
-                    foreach ($rubriques as $a) {
-
-                        echo '<a href="#" class="list-group-item" style="margin-left:' . (25 * $indentLvl) . 'px" data-toggle="collapse" data-target="#element' . $a->ID_RUB . '">
-                            <i class="fa fa-angle-down"></i>' . $a->LIBELLE_RUB . '</a href="#">' . PHP_EOL;
-
-                        echo '<div id="element' . $a->ID_RUB . '" class="list-group collapse parent">';
-                        if (existeSousRubriques($a->ID_RUB)) {
-                            displayRubriques($a->ID_RUB, $indentLvl+1);
-                        }
-
-                        echo '</div>' . PHP_EOL;
-
-                    }
-                }
-
-
                 ?>
             </div>
         </div>
@@ -135,7 +109,6 @@ include("API.php");
             Artist / Album <input id="search" onchange="requestAlbumList();" type="text"/>
             <hr>
             <div class="row" id="albumList">
-
                 <div class="col-sm-6 col-lg-6 col-md-6">
                     <h2>Pas de produits dans la base de données</h2>
                 </div>
@@ -148,17 +121,7 @@ include("API.php");
 <div class="container">
     <hr>
     <?php include("includes/footer.php"); ?>
-
 </div>
-
-<script src="js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="js/jq.js"></script>
-<script src="js/heart.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/daterangepicker.js"></script>
-<script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="js/moment.min.js"></script>
-
 </body>
 
 </html>

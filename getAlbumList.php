@@ -1,6 +1,4 @@
 <?php
-include("Fonctions.inc.php");
-include("./API.php");
 include("Database/Database.php");
 include("Database/DB.php");
 

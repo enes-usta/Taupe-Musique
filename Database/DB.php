@@ -8,7 +8,7 @@ include_once("Database/Database.php");
 function getUser($login): mixed
 {
     $db = Database();
-    $req = $db->prepare("SELECT login, email, pass, nom, prenom, date, sexe, adresse, codep, ville, telephone  FROM users WHERE LOGIN = :login;");
+    $req = $db->prepare("SELECT login, email, pass, nom, prenom, date, sexe, adresse, codep, ville, telephone  FROM users WHERE LOGIN = :login;", array(PDO::ATTR_PERSISTENT => true));
     $req->execute(array(":login" => $login));
     if ($req->rowCount() > 0)
         return $req->fetch(PDO::FETCH_OBJ);
@@ -242,5 +242,7 @@ function existeSousRubriques($rub_id): bool
     $db = Database();
     $req = $db->prepare("SELECT COUNT(*) as count FROM hierarchie WHERE ID_PARENT = ?");
     $req->execute(array($rub_id));
-    return $req->fetch(PDO::FETCH_OBJ)->count > 0;
+    $c = $req->fetch(PDO::FETCH_OBJ)->count;
+    echo 'res = ' .$c;
+    return  $c != 0;
 }
