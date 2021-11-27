@@ -1,40 +1,32 @@
 <?php
-include("Database/Database.php");
+//include("./API.php");
 include("Database/DB.php");
 
 session_start();
 
 $favAlbums = array();
 
-if (isset($_SESSION["user"])) {
+if (isLogged()) {
     $user = $_SESSION["user"];
     $favAlbums = getFavoris($user);
-}else {
-    if (isset($_COOKIE["user"])) {
-        $favAlbums[] = getFavoris($_COOKIE["user"]); // BDD
-    } else if (isset($_COOKIE['favoris'])) {
+} else
+    if (isset($_COOKIE['favoris']))
         $favAlbums = json_decode($_COOKIE['favoris'], true);
-    } else {
+    else
         $favAlbums = array();
-    }
-}
-
-
 
 
 if (!isset($_POST["ingr"])) {
     echo '<table><tr>';
     $step = 0;
     if ($_POST["favOnly"] == "true") {
-        if (isset($_SESSION["user"])) {
-            if (!empty($favAlbums)) {
-                foreach ($favAlbums as $id => $tab) {
-                    echo displayBox($tab["ID_PROD"], "heart fullHeart");
-                    $step++;
-                    if ($step == 3) {
-                        $step = 0;
-                        echo '</tr><tr>';
-                    }
+        if (isLogged()) {
+            foreach ($favAlbums as $id => $tab) {
+                echo displayBox($tab["ID_PROD"], "heart fullHeart");
+                $step++;
+                if ($step == 3) {
+                    $step = 0;
+                    echo '</tr><tr>';
                 }
             }
         } else if (isset($_COOKIE["user"])) {
@@ -48,7 +40,7 @@ if (!isset($_POST["ingr"])) {
                     }
                 }
             }
-        }else{
+        } else {
             foreach ($favAlbums as $id => $tab) {
 
                 echo displayBox($tab, "heart fullHeart");
@@ -87,7 +79,8 @@ if (empty($albums)) {
 }
 
 echo '<table><tr>';
-$step = 0;print_r($albums);
+$step = 0;
+print_r($albums);
 foreach ($albums as $a) {
     echo displayBox($a->id_prod, "heart" . (in_array($a, $favAlbums) ? (" fullHeart") : ("")));
     $step++;

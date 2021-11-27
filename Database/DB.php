@@ -61,6 +61,8 @@ function validerCommande(): bool
     return false;
 }
 
+
+
 /**
  * @param $user
  * @param $produit

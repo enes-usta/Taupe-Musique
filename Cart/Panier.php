@@ -71,7 +71,7 @@
 									<div>
 					<?php
 						if(isset($_COOKIE["user"]) && isset($_COOKIE["panier"])){
-									echo '<a class="btn btn-default" href="../confirmerCommande.php">ACHETER</a>';
+									echo '<a class="btn btn-default" href="confirmerCommande.php">ACHETER</a>';
 						}else if(isset($_COOKIE["panier"])){
 										echo '<p>Connectez vous pour pouvoir acheter</p>';
 									}

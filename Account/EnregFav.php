@@ -11,7 +11,6 @@ session_start();
             $user = $_SESSION["user"];
             $produit = $_POST["id_produit"];
 
-            //
             updateFavoris($user, $produit);
 
         }else{
@@ -42,6 +41,3 @@ session_start();
 				setcookie("favoris",json_encode($arr), time() + (86400 * 15),'/');
 			}
 		}
-
-	
-?>
