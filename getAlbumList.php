@@ -29,8 +29,8 @@ if (!isset($_POST["ingr"])) {
                     echo '</tr><tr>';
                 }
             }
-        } else if (isset($_COOKIE["user"])) {
-            if (!empty($favAlbums)) {
+        } else if (isset($_COOKIE["user"]))
+            if (!empty($favAlbums))
                 foreach ($favAlbums as $id => $tab) {
                     echo displayBox((empty($_COOKIE["user"]) ? $tab["ID_PROD"] : $tab), "heart fullHeart");
                     $step++;
@@ -39,8 +39,7 @@ if (!isset($_POST["ingr"])) {
                         echo '</tr><tr>';
                     }
                 }
-            }
-        } else {
+        else {
             foreach ($favAlbums as $id => $tab) {
 
                 echo displayBox($tab, "heart fullHeart");

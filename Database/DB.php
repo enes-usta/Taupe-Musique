@@ -7,7 +7,7 @@ include_once("Database/Database.php");
  */
 function getUser($login): mixed
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT login, email, pass, nom, prenom, date, sexe, adresse, codep, ville, telephone  FROM users WHERE LOGIN = :login;", array(PDO::ATTR_PERSISTENT => true));
     $req->execute(array(":login" => $login));
     if ($req->rowCount() > 0)
@@ -43,7 +43,7 @@ function validerCommande(): bool
 {
     $panier = json_decode($_COOKIE["panier"]);
 
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("REPLACE into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values (:item,:login,:date,:civilite,:nom,:prenom,:adresse,:cp,:ville,:telephone)");
     foreach ($panier as $item)
         $req->execute(array(
@@ -71,7 +71,7 @@ function validerCommande(): bool
  */
 function updateFavoris($user, $produit)
 {
-    $db = Database();
+    $db = Database::getInstance();
 
     $req = $db->prepare("select * from FAVS where id_prod = :produit AND LOGIN = :user;");
     $req->execute(array(":produit" => $produit, ":user" => $user));
@@ -90,7 +90,7 @@ function updateFavoris($user, $produit)
  */
 function getFavoris($user): array
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT ID_PROD FROM FAVS WHERE LOGIN = :user");
     $req->execute(array(":user" => $user));
 
@@ -103,7 +103,7 @@ function getFavoris($user): array
  */
 function loginExist($login): bool
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT LOGIN FROM USERS WHERE LOGIN = :login");
     $req->execute(array(":login" => $login));
     return ($req->rowCount() != 0);
@@ -115,7 +115,7 @@ function loginExist($login): bool
  */
 function emailExist($email): bool
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT EMAIL FROM USERS WHERE EMAIL = :email");
     $req->execute(array(":email" => $email));
     return ($req->rowCount() != 0);
@@ -124,7 +124,7 @@ function emailExist($email): bool
 function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone)
 {
     $str = "INSERT INTO USERS VALUES (:login,:email,:pass,:nom,:prenom,:date,:sexe,:adresse,:codepostal,:ville,:telephone);";
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare($str);
     $req->execute(array(
         ":login" => $login,
@@ -149,7 +149,7 @@ function registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adres
  */
 function isValid($login, $password): bool
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT LOGIN, PASS FROM USERS WHERE LOGIN = :login");
     $req->execute(array(":login" => $login));
 
@@ -167,7 +167,7 @@ function isValid($login, $password): bool
  */
 function getAlbumById($id): mixed
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
 
@@ -176,7 +176,7 @@ function getAlbumById($id): mixed
 
 function existAlbum($id): bool
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
 
@@ -190,7 +190,7 @@ function existAlbum($id): bool
 function removeAlbumById($id): bool
 {
     if (existAlbum($id)){
-        $db = Database();
+        $db = Database::getInstance();
         $req = $db->prepare("DELETE FROM produits WHERE ID_PROD = :id");
         $req->execute(array(":id" => $id));
         return true;
@@ -208,14 +208,14 @@ function removeAlbumById($id): bool
  */
 function createAlbum($titre, $chansons, $auteur, $prix, $descriptif)
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("insert into produits (TITRE, CHANSONS, LIBELLE, PRIX, DESCRIPTIF, PHOTO) values (?, ?, ?, ?, ?, ?);");
     $req->execute(array($titre . ' ( ' . $auteur . ' )', $chansons, '', $prix, $descriptif));
 }
 
 function getAlbums(): bool|array
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT ID_PROD, TITRE, PRIX FROM produits;");
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
@@ -223,7 +223,7 @@ function getAlbums(): bool|array
 
 function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
 {
-    $db = Database();
+    $db = Database::getInstance();
 
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE %:titre%");
     $req->execute(array(":titre" => $titre));
@@ -233,7 +233,7 @@ function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
 
 function getSousRubriques($rub_id): bool|array
 {
-    $db = Database();
+    $db = Database::getInstance();
     $req = $db->prepare("SELECT * FROM rubrique WHERE ID_RUB IN (SELECT ID_ENFANT FROM hierarchie WHERE ID_PARENT = ? )");
     $req->execute(array($rub_id));
     return $req->fetchAll(PDO::FETCH_OBJ);
@@ -241,10 +241,9 @@ function getSousRubriques($rub_id): bool|array
 
 function existeSousRubriques($rub_id): bool
 {
-    $db = Database();
-    $req = $db->prepare("SELECT COUNT(*) as count FROM hierarchie WHERE ID_PARENT = ?");
-    $req->execute(array($rub_id));
-    $c = $req->fetch(PDO::FETCH_OBJ)->count;
-    echo 'res = ' .$c;
-    return  $c != 0;
+    $db = Database::getInstance();
+    $req = $db->prepare("SELECT COUNT(*) as count FROM hierarchie WHERE ID_PARENT = ? AND NOT (ID_ENFANT = ?)");
+    $req->execute(array($rub_id, $rub_id));
+    return $req->fetch(PDO::FETCH_OBJ)->count != 0;
+
 }

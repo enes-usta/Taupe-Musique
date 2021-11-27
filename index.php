@@ -12,7 +12,7 @@ include_once 'fonctions/indexFunctions.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <?php include("imports.html"); ?>
+    <?php include("includes/imports.html"); ?>
 
     <title>Taupe Musique</title>
 
@@ -25,61 +25,9 @@ include_once 'fonctions/indexFunctions.php';
     <link rel="stylesheet" href="public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="public/css/datepicker3.min.css"/>
 
-    <script type="text/javascript">
+    <script src="./public/js/index.js"></script>
 
-        $().ready(function () {
-            $("input[name=selection]").each(function (i, selected) {
-                selected.addEventListener('click', requestAlbumList, false);
-            });
-            document.getElementById("favOnly").addEventListener('click', requestAlbumList, false);
 
-            $("#addPan").click((e) => {
-                this.preventDefault();
-            });
-
-            $('#toolt').tooltip();
-
-            setTimeout(requestAlbumList, 50);
-        });
-
-        var ingrList;
-        function requestAlbumList() {
-            ingrList = [];
-            $("input[name=selection]:checked").each(function (i, selected) {
-                ingrList.push(selected.value);
-            });
-            $.ajax({
-                method: "POST",
-                url: "getAlbumList.php",
-                data: {ingr: ingrList, favOnly: document.getElementById("favOnly").checked, mot: $("#search").val()}
-            })
-                .done(function (msg) {
-                    $("#albumList").html(msg);
-                    addEvents();
-                });
-        }
-        function addFav(e) {
-            $.ajax({
-                method: "POST",
-                url: "EnregFav.php",
-                data: {id_produit: e},
-                success: function (data) {
-                },
-            });
-
-        }
-        function addPanier(e) {
-            $.ajax({
-                type: 'POST',
-                url: 'fonctions/fonctionsPanier.php',
-                data: {item: e},
-                success: function (data) {
-                    alert(data);
-                },
-            });
-        }
-
-    </script>
 
 </head>
 
@@ -99,7 +47,7 @@ include_once 'fonctions/indexFunctions.php';
             </div>
             <div class="list-group">
                 <?php
-                displayRubriques(16,0);
+                echo displayRubriques(16,0);
                 ?>
             </div>
         </div>

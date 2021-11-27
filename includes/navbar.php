@@ -24,7 +24,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav" style="margin-left:75%">
-                    <li><a href="./Panier.php"><img src="./images/icone_panier.png" style="height:30px;"/></a></li>
+                    <li><a href="./Panier.php"><img src="./public/images/icone_panier.png" style="height:30px;"/></a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
