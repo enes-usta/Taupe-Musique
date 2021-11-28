@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'fonctions/indexFunctions.php';
+include_once 'Functions/indexFunctions.php';
 
 ?>
 <!DOCTYPE html>
@@ -26,14 +26,10 @@ include_once 'fonctions/indexFunctions.php';
     <link rel="stylesheet" href="public/css/datepicker3.min.css"/>
 
     <script src="./public/js/index.js"></script>
-
-
-
 </head>
 
 <body>
 
-<!-- Navigation -->
 <?php include("includes/navbar.php"); ?>
 
 <div class="container">
@@ -54,7 +50,7 @@ include_once 'fonctions/indexFunctions.php';
 
         <div class="col-md-9">
             <hr>
-            Artist / Album <input id="search" onchange="requestAlbumList();" type="text"/>
+            <label for="search">Artist / Album </label><input id="search" onchange="requestAlbumList();" type="text"/>
             <hr>
             <div class="row" id="albumList">
                 <div class="col-sm-6 col-lg-6 col-md-6">

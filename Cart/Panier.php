@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include 'fonctions/Layout.php';
+	include 'fonctions/AdminLayout.php';
 	include 'fonctions/fonctionsAcheter.php';
 ?>
 

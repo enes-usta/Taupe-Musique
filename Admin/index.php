@@ -2,10 +2,9 @@
 session_start();
 include 'authorized.php';
 
-include 'fonctions/Layout.php';
-include 'fonctions/fonctionsAdministration.php';
+include_once './Functions/AdminLayout.php';
+include_once 'Functions/Layout.php';
 
-include_once("Database/DB.php");
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +29,13 @@ include_once("Database/DB.php");
 
 <body>
 
-<?php include("includes/navbar.php"); ?>
+<?php include 'includes/navbar.php' ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <p class="lead">Administration</p>
-            <?php afficherCadreCompte(); ?>
+            <?php CompteLayout(); ?>
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">

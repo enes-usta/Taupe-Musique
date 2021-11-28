@@ -1,8 +1,6 @@
 <?php
-//include("./API.php");
-include("Database/DB.php");
-
 session_start();
+include("Database/DB.php");
 
 $favAlbums = array();
 

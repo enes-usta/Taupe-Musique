@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'authorized.php';
-include 'fonctions/Layout.php';
+include 'fonctions/AdminLayout.php';
 include 'Functions/Orders.php';
 ?>
 
@@ -34,7 +34,7 @@ include 'Functions/Orders.php';
 
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
-            <?php afficherCadreCompte(); ?>
+            <?php CompteLayout(); ?>
         </div>
 
         <div class="col-md-9">

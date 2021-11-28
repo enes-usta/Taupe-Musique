@@ -2,7 +2,7 @@
 session_start();
 include 'authorized.php';
 
-include 'fonctions/Layout.php';
+include 'fonctions/AdminLayout.php';
 include 'Functions/Users.php';
 ?>
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ include 'Functions/Users.php';
     <div class="row">
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
-            <?php afficherCadreCompte(); ?>
+            <?php CompteLayout(); ?>
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">

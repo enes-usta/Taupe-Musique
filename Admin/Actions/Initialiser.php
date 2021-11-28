@@ -1,4 +1,5 @@
 <?php
+header("HTTP/1.1 401 Unauthorized");
 session_start();
 include '../authorized.php';
 ?>
@@ -11,6 +12,7 @@ include '../authorized.php';
 
 <body>
 <?php
+/*
 
   include("Parametres.php");
   include("Fonctions.inc.php");

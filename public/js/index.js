@@ -1,37 +1,44 @@
-$().ready(function () {
-    $("input[name=selection]").each(function (i, selected) {
-        selected.addEventListener('click', requestAlbumList, false);
-    });
-    document.getElementById("favOnly").addEventListener('click', requestAlbumList, false);
-
-    $("#addPan").click((e) => {
-        this.preventDefault();
-    });
-
-    $('#toolt').tooltip();
-
-    setTimeout(requestAlbumList, 50);
-});
-
-var ingrList;
-
-function requestAlbumList() {
-    ingrList = [];
-    $("input[name=selection]:checked").each(function (i, selected) {
-        ingrList.push(selected.value);
-    });
-    $.ajax({
-        method: "POST",
-        url: "getAlbumList.php",
-        data: {ingr: ingrList, favOnly: document.getElementById("favOnly").checked, mot: $("#search").val()}
-    })
-        .done(function (msg) {
-            $("#albumList").html(msg);
-            addEvents();
+function ready(callback){
+    if (document.readyState!=='loading') callback();
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+    else document.attachEvent('onreadystatechange', function(){
+            if (document.readyState=='complete') callback();
         });
 }
 
-function addFav(e) {
+var checkedRubriques = [];
+
+requestAlbumList = (elt) => {
+    if (elt == null)
+        return;
+    let val = elt.getAttribute('idrub');
+    if (!checkedRubriques.includes(val))
+        checkedRubriques.push(val);
+    else
+        checkedRubriques.splice(checkedRubriques.indexOf(val), 1);
+
+    let vars = {
+        categories: checkedRubriques,
+        favOnly: document.getElementById("favOnly").checked,
+        filter: document.getElementById('search').innerText
+    }
+
+    fetch('Auth/getAlbumList.php', {
+        method: "POST",
+        body: JSON.stringify(vars),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then((r) => {
+        return r.json();
+    }).then((msg) => {
+        document.getElementById('albumList').innerHTML = msg;
+    })
+
+}
+
+let addFav = (e) => {
     $.ajax({
         method: "POST",
         url: "EnregFav.php",
@@ -42,7 +49,7 @@ function addFav(e) {
 
 }
 
-function addPanier(e) {
+let addPanier = (e) => {
     $.ajax({
         type: 'POST',
         url: 'fonctions/fonctionsPanier.php',
@@ -53,3 +60,12 @@ function addPanier(e) {
     });
 }
 
+
+ready(() => {
+    let elements = document.getElementsByClassName('rubrique');
+    for (let i = 0; i < elements.length; i++)
+        elements[i].addEventListener('click', () => requestAlbumList(elements[i]));
+    document.getElementById("favOnly").addEventListener('click', requestAlbumList, false);
+    $('#toolt').tooltip();
+    setTimeout(requestAlbumList, 50);
+});

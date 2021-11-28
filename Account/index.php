@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'fonctions/Layout.php';
+include '../Functions/Layout.php';
 include_once("Database/DB.php");
 ?>
 
@@ -34,7 +34,7 @@ include_once("Database/DB.php");
 
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
-            <?php afficherCadreCompte(); ?>
+            <?php CompteLayout(); ?>
         </div>
 
         <div class="col-md-9">

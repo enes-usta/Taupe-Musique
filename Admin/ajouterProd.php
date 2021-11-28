@@ -2,7 +2,8 @@
 session_start();
 include 'authorized.php';
 
-include 'fonctions/Layout.php';
+include 'Functions/AdminLayout.php';
+include 'Functions/Layout.php';
 include 'Functions/AddProductLayout.php';
 ?>
 
@@ -45,7 +46,7 @@ include 'Functions/AddProductLayout.php';
     <div class="row">
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
-            <?php afficherCadreCompte(); ?>
+            <?php CompteLayout(); ?>
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">

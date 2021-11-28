@@ -17,12 +17,11 @@ $(document).ready(function () {
 
 });
 
-document.getElementById('logform')
-    .addEventListener('submit', (e) => {
+let logForm = document.getElementById('logform');
+if (logForm != null)
+    logForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const data = new FormData(document.getElementById('logform'));
-            const value = Object.fromEntries(data.entries());
+            const value = Object.fromEntries(new FormData(logForm).entries());
             fetch('Auth/Login.php', {
                 method: "POST",
                 body: JSON.stringify(value),
@@ -52,12 +51,12 @@ document.getElementById('logform')
     );
 
 // Fetch POST pour Register
-document.getElementById('enregform')
-    .addEventListener('submit',
+let registerForm = document.getElementById('logform');
+if (registerForm != null)
+    registerForm.addEventListener('submit',
         (e) => {
             e.preventDefault();
-            const data = new FormData(document.getElementById('enregform'));
-            const value = Object.fromEntries(data.entries());
+            const value = Object.fromEntries(new FormData(registerForm).entries());
             fetch('Auth/Enregistrer.php', {
                 method: "POST",
                 body: JSON.stringify(value),

@@ -2,8 +2,10 @@
 session_start();
 include 'authorized.php';
 
-include 'fonctions/Layout.php';
-include 'Functions/Products.php';
+include './Functions/AdminLayout.php';
+include './Functions/Products.php';
+include 'Functions/Layout.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +43,7 @@ include 'Functions/Products.php';
     <div class="row">
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
-            <?php afficherCadreCompte(); ?>
+            <?php CompteLayout(); ?>
         </div>
 
         <div class="col-md-9">
