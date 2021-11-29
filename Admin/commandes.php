@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'authorized.php';
-include 'fonctions/AdminLayout.php';
+include 'Functions/AdminLayout.php';
 include 'Functions/Orders.php';
 ?>
 
@@ -27,37 +27,25 @@ include 'Functions/Orders.php';
 <body>
 <?php include("includes/navbar.php"); ?>
 
-<!-- Page Content -->
 <div class="container">
-
     <div class="row">
-
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
             <?php CompteLayout(); ?>
         </div>
-
         <div class="col-md-9">
-
             <div class="row carousel-holder">
                 <?php afficherCommandes(); ?>
                 <hr>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-<!-- /.container -->
-
 <div class="container">
     <hr>
     <?php include("includes/footer.php"); ?>
 </div>
 
-<!-- jQuery -->
 <script src="../public/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="../public/js/jq.js"></script>
 <!-- Bootstrap Core JavaScript -->

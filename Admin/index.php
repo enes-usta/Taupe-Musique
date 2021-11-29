@@ -25,6 +25,15 @@ include_once 'Functions/Layout.php';
     <link href="../public/css/shop-homepage.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
+
+    <!-- jQuery -->
+    <script src="../public/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../public/js/jq.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../public/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../public/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../public/js/moment.min.js"></script>
 </head>
 
 <body>
@@ -50,17 +59,6 @@ include_once 'Functions/Layout.php';
     <?php include('includes/footer.php') ?>
 
 </div>
-
-
-<!-- jQuery -->
-<script src="../public/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="../public/js/jq.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="../public/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../public/js/daterangepicker.js"></script>
-<script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="../public/js/moment.min.js"></script>
-
 
 </body>
 

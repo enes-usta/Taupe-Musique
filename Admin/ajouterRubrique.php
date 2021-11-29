@@ -3,7 +3,7 @@ session_start();
 include 'authorized.php';
 
 include 'fonctions/AdminLayout.php';
-include 'Functions/AddRubrique.php';
+include 'Functions/AddRubriqueLayout.php';
 ?>
 
 <!DOCTYPE html>

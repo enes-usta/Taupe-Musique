@@ -9,13 +9,8 @@ if (!isset($_GET["id"]) || !existAlbum($_GET["id"])) {
 }
 $album = getAlbumById($_GET["id"]);
 
-
-//$nom = $album["titre"];
 $shortName = substr($album->titre, 0, 25);
 $shortName .= ((strlen($album->titre) != strlen($shortName)) ? ("...") : (""));
-//$prep = $album["descriptif"];
-//$prix = $album["prix"];
-//$ingr = explode("|", $album["chansons"]);
 $ingr = explode("|", $album->chansons);
 $imgURL = (file_exists("img_cover/$album->titre.jpg") != false) ? ("img_cover/$album->titre.jpg") : ("images/tech.jpg");
 
@@ -38,6 +33,14 @@ $imgURL = (file_exists("img_cover/$album->titre.jpg") != false) ? ("img_cover/$a
     <link href="../public/css/shop-homepage.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
+    <!-- jQuery -->
+    <script src="../public/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../public/js/jq.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../public/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../public/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../public/js/moment.min.js"></script>
 </head>
 <body>
 <?php include("includes/navbar.php"); ?>
@@ -67,16 +70,5 @@ $imgURL = (file_exists("img_cover/$album->titre.jpg") != false) ? ("img_cover/$a
     <hr>
     <?php include("includes/footer.php"); ?>
 </div>
-
-<!-- jQuery -->
-<script src="../public/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="../public/js/jq.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="../public/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../public/js/daterangepicker.js"></script>
-<script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="../public/js/moment.min.js"></script>
-
 </body>
-
 </html>

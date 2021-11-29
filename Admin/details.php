@@ -86,19 +86,12 @@ $user = getUser($_GET["login"]);
                         <td><p><strong>Sexe</strong></p></td>
                         <td><?= $user->sexe ?></td>
                     </tr>
-
                 </table>
-
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 <div class="container">
-
 </div>
-
 </body>
+</html>

@@ -2,13 +2,11 @@
 
 session_start();
 include_once("Database/DB.php");
-include_once("Database/Database.php");
 
 $content = file_get_contents('php://input');
 $data = json_decode($content);
 
 $ok = true;
-$db = Database();
 
 if ((isset($data->loginbdd)))
     if (empty($data->loginbdd)) {

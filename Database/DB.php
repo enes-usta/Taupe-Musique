@@ -29,7 +29,7 @@ function isLogged(): bool
 function isAdmin(): bool
 {
     global $admins_list;
-    if(!isLogged())
+    if (!isLogged())
         return false;
     return in_array(getUser($_SESSION['user'])->login, $admins_list);
 }
@@ -60,7 +60,6 @@ function validerCommande(): bool
         ));
     return false;
 }
-
 
 
 /**
@@ -95,6 +94,35 @@ function getFavoris($user): array
     $req->execute(array(":user" => $user));
 
     return $req->fetchAll();
+}
+
+/**
+ * @param $user
+ * @param $rubFilter
+ * @param $filter
+ * @param $favsOnly
+ * @return array
+ */
+function getAlbumListCustom($user, $rubFilter, string $filter, bool $favsOnly): array
+{
+    $db = Database::getInstance();
+    $sql = "SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
+    $req = $db->prepare($sql);
+
+    $arr = array(":titre" => '%'.$filter.'%');
+    if ($favsOnly)
+        $arr[':login'] = $user;
+
+    $req->execute($arr);
+
+    return $req->fetchAll();
+}
+
+function getTopRubriques($rubList){
+//    $db = Database::getInstance();
+//    $req = $db->prepare("SELECT LOGIN FROM USERS WHERE LOGIN = :login");
+//    $req->execute(array(":login" => $login));
+//    return ($req->rowCount() != 0);
 }
 
 /**
@@ -189,13 +217,12 @@ function existAlbum($id): bool
  */
 function removeAlbumById($id): bool
 {
-    if (existAlbum($id)){
+    if (existAlbum($id)) {
         $db = Database::getInstance();
         $req = $db->prepare("DELETE FROM produits WHERE ID_PROD = :id");
         $req->execute(array(":id" => $id));
         return true;
-    }
-    else
+    } else
         return false;
 }
 
@@ -220,7 +247,7 @@ function getAlbums(): bool|array
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
-
+/*
 function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
 {
     $db = Database::getInstance();
@@ -229,7 +256,7 @@ function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
     $req->execute(array(":titre" => $titre));
 
     return $req->fetchAll(PDO::FETCH_OBJ);
-}
+}*/
 
 function getSousRubriques($rub_id): bool|array
 {

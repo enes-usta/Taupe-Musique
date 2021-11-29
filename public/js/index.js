@@ -1,21 +1,25 @@
-function ready(callback){
-    if (document.readyState!=='loading') callback();
+function ready(callback) {
+    if (document.readyState !== 'loading') callback();
     else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
-    else document.attachEvent('onreadystatechange', function(){
-            if (document.readyState=='complete') callback();
+    else document.attachEvent('onreadystatechange', function () {
+            if (document.readyState == 'complete') callback();
         });
 }
 
 var checkedRubriques = [];
 
+/**
+ * Mets à jour les albums affichés en fonction des différents filtres
+ * @param elt
+ */
 requestAlbumList = (elt) => {
-    if (elt == null)
-        return;
-    let val = elt.getAttribute('idrub');
-    if (!checkedRubriques.includes(val))
-        checkedRubriques.push(val);
-    else
-        checkedRubriques.splice(checkedRubriques.indexOf(val), 1);
+    if (elt != null) {
+        let val = elt.getAttribute('idrub');
+        if (!checkedRubriques.includes(val))
+            checkedRubriques.push(val);
+        else
+            checkedRubriques.splice(checkedRubriques.indexOf(val), 1);
+    }
 
     let vars = {
         categories: checkedRubriques,
@@ -23,7 +27,7 @@ requestAlbumList = (elt) => {
         filter: document.getElementById('search').innerText
     }
 
-    fetch('Auth/getAlbumList.php', {
+    fetch('Actions/getAlbumList.php', {
         method: "POST",
         body: JSON.stringify(vars),
         headers: {
@@ -33,11 +37,15 @@ requestAlbumList = (elt) => {
     }).then((r) => {
         return r.json();
     }).then((msg) => {
+        console.log(msg);
         document.getElementById('albumList').innerHTML = msg;
-    })
-
+    });
 }
 
+/**
+ * Ajoute au favoris le param e
+ * @param e
+ */
 let addFav = (e) => {
     $.ajax({
         method: "POST",
@@ -49,6 +57,11 @@ let addFav = (e) => {
 
 }
 
+
+/**
+ * Ajoute au panier le param e
+ * @param e
+ */
 let addPanier = (e) => {
     $.ajax({
         type: 'POST',

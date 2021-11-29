@@ -7,7 +7,7 @@ include_once("Database/Database.php");
 $content = file_get_contents('php://input');
 $data = json_decode($content);
 
-$db = Database();
+$db = Database::getInstance();
 $ok = true;
 
 // ==== USER ==== //
@@ -65,7 +65,7 @@ if (isset($data->optradio))
     $sexe = $data->optradio;
 
 $user = getUser($_SESSION['user']);
-$db = Database();
+$db = Database::getInstance();
 
 $req = $db->prepare('UPDATE users SET LOGIN = :login, EMAIL = :email, PASS = :pass, DATE = :date, SEXE = :sexe, ADRESSE = :adresse, CODEP = :codepostal, VILLE = :ville, TELEPHONE = :telephone, NOM = :nom, PRENOM = :prenom WHERE LOGIN = :current_login;');
 $req->execute(array(
