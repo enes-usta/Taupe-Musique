@@ -53,9 +53,6 @@ include_once 'Functions/indexFunctions.php';
             <label for="search">Artist / Album </label><input id="search" onchange="requestAlbumList();" type="text"/>
             <hr>
             <div class="row" id="albumList">
-                <div class="col-sm-6 col-lg-6 col-md-6">
-                    <h2>Pas de produits dans la base de données</h2>
-                </div>
             </div>
         </div>
     </div>

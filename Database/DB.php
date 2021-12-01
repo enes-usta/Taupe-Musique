@@ -101,12 +101,12 @@ function getFavoris($user): array
  * @param $rubFilter
  * @param string $filter
  * @param bool $favsOnly
- * @return array
+ * @return array Values : titre, chansons, prix, descriptif, photo
  */
 function getAlbumListCustom($user, $rubFilter, string $filter, bool $favsOnly): array
 {
     $db = Database::getInstance();
-    $sql = "SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
+    $sql = "SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
     $req = $db->prepare($sql);
 
     $arr = array(":titre" => '%'.$filter.'%');

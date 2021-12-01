@@ -37,10 +37,45 @@ requestAlbumList = (elt) => {
     }).then((r) => {
         return r.json();
     }).then((msg) => {
-        console.log(msg);
-        document.getElementById('albumList').innerHTML = msg;
+        let albumList = document.getElementById('albumList');
+        albumList.innerHTML = '';
+        if (msg.length > 0)
+            for (let a of msg)
+                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, false);
+        else
+            albumList.innerHTML = noProduct();
+
+        //step = (step === 3) ? 0 : step + 1;
     });
 }
+
+noProduct = () => {
+    return `<div class="col-sm-6 col-lg-6 col-md-6">
+                <h2>Pas de produits dans la base de données</h2>
+            </div>`;
+}
+
+getProduct = (album_id, name, short_name, description, img_url, heart_class) => {
+    return `
+    <td style="height:30%;width:30%">
+        <div class="col-sm-4 col-lg-4 col-md-4 recipeBox" style="width:100%">
+            <div class="thumbnail">
+                <img src="public/img_cover/${img_url}" alt="" style="height:20%">
+                <div class="caption" data-toggle="tooltip" title="${name}">
+                    <h4><a href="./detail.php?id=${album_id}">${short_name}</a></h4>
+                    <p>${description}</p>
+                </div>
+                <div class="ratings"><p class="pull-right">
+                    <a href="#" id="addPan" onclick="addPanier(${album_id})">Ajouter au panier</a></p>
+                </div>
+                <div id="toolt" class="${heart_class}" data-album="${album_id}" data-toggle="tooltip" title="Favoris" onclick="addFav(${album_id})">
+                
+                </div>
+            </div>
+        </div>
+    </td>`;
+}
+
 
 /**
  * Ajoute au favoris le param e
