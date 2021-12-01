@@ -13,4 +13,4 @@ else if (isset($_COOKIE['favoris']))
 
 
 header('Content-Type: application/json;');
-echo json_encode(array());
+echo json_encode($res);

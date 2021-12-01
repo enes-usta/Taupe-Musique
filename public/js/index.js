@@ -41,7 +41,7 @@ requestAlbumList = (elt) => {
         albumList.innerHTML = '';
         if (msg.length > 0)
             for (let a of msg)
-                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, false);
+                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.fav);
         else
             albumList.innerHTML = noProduct();
 
