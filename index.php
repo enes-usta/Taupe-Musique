@@ -15,15 +15,17 @@ include_once 'Functions/indexFunctions.php';
     <title>Taupe Musique</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="public/css/heart.css" rel="stylesheet">
+    <link href="./public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./public/css/heart.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="public/css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="public/css/datepicker.min.css"/>
-    <link rel="stylesheet" href="public/css/datepicker3.min.css"/>
+    <link href="./public/css/shop-homepage.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="./public/css/datepicker.min.css"/>
+    <link rel="stylesheet" href="./public/css/datepicker3.min.css"/>-->
 
+    <script src="./public/js/jq.js"></script>
     <script src="./public/js/index.js"></script>
+
 </head>
 
 <body>

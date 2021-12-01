@@ -1,6 +1,6 @@
 $(document).ready(function () {
     document.getElementById("reponse").style.display = '';
-
+/*
     $('#datePicker')
         .datepicker({
             format: 'dd/mm/yyyy',
@@ -14,9 +14,7 @@ $(document).ready(function () {
             startDate: '01/01/1900',
             endDate: '12/30/2020'
         });
-
-});
-
+*/
 let logForm = document.getElementById('logform');
 if (logForm != null)
     logForm.addEventListener('submit', (e) => {
@@ -51,7 +49,7 @@ if (logForm != null)
     );
 
 // Fetch POST pour Register
-let registerForm = document.getElementById('logform');
+let registerForm = document.getElementById('enregform');
 if (registerForm != null)
     registerForm.addEventListener('submit',
         (e) => {
@@ -85,3 +83,5 @@ if (registerForm != null)
                     }
                 });
         });
+
+});

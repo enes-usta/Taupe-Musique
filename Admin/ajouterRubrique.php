@@ -2,7 +2,7 @@
 session_start();
 include 'authorized.php';
 
-include 'fonctions/AdminLayout.php';
+include 'Functions/Layout.php';
 include 'Functions/AddRubriqueLayout.php';
 ?>
 
@@ -43,7 +43,7 @@ include 'Functions/AddRubriqueLayout.php';
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">
-                <?php ajouterRubrique(); ?>
+                <?php ajouterRubriqueLayout(); ?>
                 <hr>
             </div>
         </div>

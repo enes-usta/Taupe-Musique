@@ -65,7 +65,7 @@
                         <input type='text' class='form-control' placeholder='Prénom' maxlength='100' name='prenombdd'/>
                     </div>
                     <div class='form-group input-append date'>
-                        <input type='text' class='form-control' name='datebdd' placeholder='Date de Naissance'
+                        <input type='date' class='form-control' name='datebdd' placeholder='Date de Naissance'
                                id='datePicker'/>
                         <span class='input-group-addon add-on'><span class='glyphicon glyphicon-calendar'></span></span>
                     </div>

@@ -1,8 +1,7 @@
 <?php
-include("Donnees.inc.php");
-include 'DB.php';
+include_once 'DB.php';
 
-function ajouterRubrique()
+function ajouterRubriqueLayout()
 {
     ?>
     <h2>Ajouter rubrique</h2><br/>

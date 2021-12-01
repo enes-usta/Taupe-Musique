@@ -99,8 +99,8 @@ function getFavoris($user): array
 /**
  * @param $user
  * @param $rubFilter
- * @param $filter
- * @param $favsOnly
+ * @param string $filter
+ * @param bool $favsOnly
  * @return array
  */
 function getAlbumListCustom($user, $rubFilter, string $filter, bool $favsOnly): array

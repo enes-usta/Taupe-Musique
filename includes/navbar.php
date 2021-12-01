@@ -17,10 +17,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <?= (isAdmin()) ? '<a href="' .parse_url('/Admin/', PHP_URL_PATH) .'">Profil</a>' : '<a href="' .parse_url('/index.php', PHP_URL_PATH) .'">Profil</a>'; ?>
+                        <?= (isAdmin()) ? '<a href="' .parse_url('/Admin/', PHP_URL_PATH) .'">Profil</a>' : '<a href="' .parse_url('/Account/', PHP_URL_PATH) .'">Profil</a>'; ?>
                     </li>
                     <li id="conn">
-                        <?= (isLogged()) ? "<a href='./Auth/Logout.php'>Log Out</a>" : "<a href='#Login' data-toggle='modal'>Log In</a>"; ?>
+                        <?= (isLogged()) ? '<a href="' .parse_url("/Auth/Logout.php", PHP_URL_PATH) .'">Log Out</a>' : "<a href='#Login' data-toggle='modal'>Log In</a>"; ?>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav" style="margin-left:75%">

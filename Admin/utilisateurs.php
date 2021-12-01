@@ -2,7 +2,7 @@
 session_start();
 include 'authorized.php';
 
-include 'Functions/AdminLayout.php';
+include 'Functions/Layout.php';
 include 'Functions/Users.php';
 ?>
 <!DOCTYPE html>

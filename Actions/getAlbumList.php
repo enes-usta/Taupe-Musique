@@ -5,14 +5,12 @@ include("Database/DB.php");
 $content = file_get_contents('php://input');
 $data = json_decode($content);
 
-$favAlbums = array();
+$res = array();
+if (isLogged())
+    $res = getAlbumListCustom($_SESSION['user'], $data->categories ?? array(), $data->filter ?? '', $data->favOnly ?? false);
+else if (isset($_COOKIE['favoris']))
+    $res = json_decode($_COOKIE['favoris'], true);
 
-if (isLogged()) {
-    $favAlbums = getAlbumListCustom($_SESSION['user'], $data->categories ?? array(), $data->filter ?? '', $data->favOnly ?? false);
-} else if (isset($_COOKIE['favoris']))
-    $favAlbums = json_decode($_COOKIE['favoris'], true);
-else
-    $favAlbums = array();
 
 header('Content-Type: application/json;');
-echo json_encode($favAlbums);
+echo json_encode($res);
