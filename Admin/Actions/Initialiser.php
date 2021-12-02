@@ -95,6 +95,14 @@ query($mysqli,'CREATE TABLE IF NOT EXISTS `appartient` (
   `id_rub` int(11) NOT NULL,
   PRIMARY KEY (`id_prod`,`id_rub`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;');
+
+query($mysqli,"CREATE TABLE IF NOT EXISTS PANIER (
+                      ID int(100) PRIMARY KEY AUTO_INCREMENT,
+					  LOGIN varchar(100) NOT NULL,
+					  IDPROD int(10) NOT NULL,
+                      NBPROD int(10) NOT NULL
+					) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+				");
 						
   // Insertion
   query($mysqli,"INSERT INTO USERS VALUES ('admin','admin@admin.com','".password_hash('pass', PASSWORD_DEFAULT)."','ADMIN','admin','01/01/1999','Homme',NULL,'57000',NULL,918633099);");

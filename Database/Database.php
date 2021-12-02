@@ -5,7 +5,6 @@ $admins_list = array('admin');
 
 class Database
 {
-
     private static $_instance;
     private $_pdo;
 
