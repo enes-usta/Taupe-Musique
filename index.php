@@ -73,7 +73,7 @@ include("API.php");
                 url: 'fonctions/fonctionsPanier.php',
                 data: {item: e},
                 success: function (data) {
-                    alert(data);
+                    alert("Article ajouté au panier");
                 },
             });
         }
