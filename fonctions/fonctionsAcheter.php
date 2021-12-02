@@ -17,7 +17,7 @@
 						$pos = 0;
 						foreach($arr as $item){
 									echo "<tr>";
-									echo "<td id='item'>".$item."</td><td> ".$Albums[$item]["titre"]."</td><td> ".$item."</td>";
+									echo "<td id='item'>".$item."</td><td> ".$Albums[$item]["titre"]."</td><td> ".$Albums[$item]["prix"]."</td>";
 									echo '<td><button onclick="removePanier('.$item.','.$pos.')">effacer</button></td>';
 									echo "</tr>";
 									echo "<tr><td colspan='3'><hr></td></tr>";	
