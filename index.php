@@ -44,9 +44,7 @@ include_once 'Functions/indexFunctions.php';
                 </label>
             </div>
             <div class="list-group">
-                <?php
-                echo displayRubriques(16,0);
-                ?>
+                <?= displayRubriques(16,0); ?>
             </div>
         </div>
 

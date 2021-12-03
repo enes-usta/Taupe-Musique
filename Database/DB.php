@@ -1,4 +1,7 @@
 <?php
+
+use JetBrains\PhpStorm\Pure;
+
 include_once("Database/Database.php");
 /**
  * @param $login
@@ -13,6 +16,17 @@ function getUser($login): mixed
     if ($req->rowCount() > 0)
         return $req->fetch(PDO::FETCH_OBJ);
     else return null;
+}
+
+
+/**
+ * Retourne le login de l'utilisateur connecté
+ * Si celui-ci n'est pas connecté, retourne null
+ * @return mixed
+ */
+#[Pure] function getLogin(): mixed
+{
+    return isLogged() ? $_SESSION['user'] : null;
 }
 
 /**
@@ -66,10 +80,12 @@ function validerCommande(): bool
  * @param $user
  * @param $produit
  * Met à jour les favoris de l'utilisateur
- * Suppresion du produit s'il y est déja sinon l'ajoute
+ * Suppression du produit s'il y est déja sinon l'ajoute
  */
 function updateFavoris($user, $produit)
 {
+    if (!existAlbum($produit)) return;
+
     $db = Database::getInstance();
 
     $req = $db->prepare("select * from FAVS where id_prod = :produit AND LOGIN = :user;");
@@ -84,16 +100,62 @@ function updateFavoris($user, $produit)
 }
 
 /**
+ * Met à jour les favoris de l'utilisateur
+ * Suppression du produit s'il y est déja sinon l'ajoute
+ * A appeler si dans les cookies
+ * @param $produit
+ * @return void
+ */
+function updateFavorisCookies($produit)
+{
+    if (!existAlbum($produit)) return;
+
+    $favoris = getFavorisCookies();
+    if (($key = array_search($produit, $favoris)) !== false)
+        unset($favoris[$key]);
+    else {
+        $favoris[] = $produit;
+        setFavorisCookies($favoris);
+    }
+
+}
+
+/**
  * @param $user
  * @return array Favoris de l'utilisateur
  */
-function getFavoris($user): array
+function getFavoris($user = null): array
 {
+    if ($user == null)
+        return [];
     $db = Database::getInstance();
     $req = $db->prepare("SELECT ID_PROD FROM FAVS WHERE LOGIN = :user");
     $req->execute(array(":user" => $user));
-
     return $req->fetchAll();
+}
+
+/**
+ *
+ * Retourne le panier de l'utilisateur stocké dans les cookies
+ *
+ * @return array
+ */
+function getFavorisCookies(): array
+{
+    if (isset($_COOKIE['favoris']))
+        if (all(json_decode($_COOKIE['favoris']), 'is_int'))
+            return json_decode($_COOKIE['favoris']);
+
+    return array();
+}
+
+/**
+ * @param array $favoris
+ * @return void
+ */
+function setFavorisCookies(array $favoris)
+{
+    $_COOKIE['favoris'] = json_encode($favoris);
 }
 
 /**
@@ -102,23 +164,56 @@ function getFavoris($user): array
  * @param string $filter
  * @param bool $favsOnly
  * @return array Values : titre, chansons, prix, descriptif, photo
- */
-function getAlbumListCustom($user, $rubFilter, string $filter, bool $favsOnly): array
+ *
+function getAlbumListLogged($user, $rubFilter, string $filter, bool $favsOnly): array
 {
     $db = Database::getInstance();
     $sql = "SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
     $req = $db->prepare($sql);
 
-    $arr = array(":titre" => '%'.$filter.'%');
+    $arr = array(":titre" => '%' . $filter . '%');
     if ($favsOnly)
         $arr[':login'] = $user;
 
     $req->execute($arr);
+    return $req->fetchAll();
+}*/
 
+/**
+ * @param string $filter
+ * @param $rubriques
+ * @param bool $favOnly
+ * @return mixed
+ */
+function getAlbumListFiltered(string $filter, $rubriques, bool $favOnly): mixed
+{
+    $db = Database::getInstance();
+    $sql = 'SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre';
+
+    $arr = array(":titre" => '%' . $filter . '%');
+
+    if ($favOnly)
+        if (isLogged()) {
+            $sql .= ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login)';
+            $arr[':login'] = getLogin();
+        } else {
+            $favorisList = getFavorisCookies();
+            $i = 0;
+            $in = '';
+            foreach ($favorisList as $item) {
+                $key = ":fav" . $i++;
+                $in .= ($in ? "," : "") . $key;
+                $arr[$key] = $item;
+            }
+        }
+
+    $req = $db->prepare($sql);
+    $req->execute($arr);
     return $req->fetchAll();
 }
 
-function getTopRubriques($rubList){
+function getTopRubriques($rubList)
+{
 //    $db = Database::getInstance();
 //    $req = $db->prepare("SELECT LOGIN FROM USERS WHERE LOGIN = :login");
 //    $req->execute(array(":login" => $login));
@@ -190,11 +285,13 @@ function isValid($login, $password): bool
 
 
 /**
- * @param $id int du produit que l'on veut
+ * @param $id
  * @return mixed Object Produit (en params : titre, chansons, prix, descriptif)
  */
 function getAlbumById($id): mixed
 {
+    if (!is_int($id)) return false;
+
     $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
@@ -204,6 +301,8 @@ function getAlbumById($id): mixed
 
 function existAlbum($id): bool
 {
+    if (!is_int($id)) return false;
+
     $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
@@ -247,6 +346,7 @@ function getAlbums(): bool|array
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
+
 /*
 function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
 {

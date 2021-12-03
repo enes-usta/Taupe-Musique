@@ -5,12 +5,7 @@ include("Database/DB.php");
 $content = file_get_contents('php://input');
 $data = json_decode($content);
 
-$res = array();
-if (isLogged())
-    $res = getAlbumListCustom($_SESSION['user'], $data->categories ?? array(), $data->filter ?? '', $data->favOnly ?? false);
-else if (isset($_COOKIE['favoris']))
-    $res = json_decode($_COOKIE['favoris'], true);
-
+$res = getAlbumListFiltered($data->filter ?? '', $data->categories ?? array(), $data->favOnly ?? false);
 
 header('Content-Type: application/json;');
 echo json_encode($res);

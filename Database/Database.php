@@ -16,16 +16,16 @@ class Database
     {
         $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=cds;';
         $user = 'root';
-        $password = 'enes57';
+        $password = '';
 
         if (self::$_instance == NULL)
             self::$_instance = new self($dsn, $user, $password);
         return self::$_instance;
     }
     /**
-     * Creates new DB wrapping a PDO instance
-     *
-     * Constructor is private because this class can't be instantiated.
+     * Initialisation de notre singleton et de son instance PDO
+     * Privée puisque qu'il ne doit pas y avoir plusieur instances
+     * @see getInstance()
      *
      */
     private function __construct($dsn, $user, $password){
@@ -37,13 +37,13 @@ class Database
     }
 
     /**
-     * Singletons may not be cloned
+     * On ne clone pas un singleton
      */
     private function __clone() {}
 
 
     /**
-     * Delegate every method call to PDO instance
+     * Délegue toutes les méthodes à notre instance PDO
      *
      * @param  String $method
      * @param  Array  $args
@@ -55,10 +55,12 @@ class Database
 
 }
 
-/*
-function Database(): PDO
-{
-    {
-        return new PDO('mysql:host=127.0.0.1;port=3306;dbname=cds;', 'enes', 'enes57');
-    }
-}*/
+/**
+ * Vérifie si le prédicat est valide pour tous les membres du tableau
+ * @param $array
+ * @param $predicate
+ * @return bool
+ */
+function all($array, $predicate) {
+    return array_filter($array, $predicate) === $array;
+}

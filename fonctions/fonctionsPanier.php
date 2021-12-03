@@ -1,33 +1,9 @@
-<<<<<<< HEAD
-<?php
-	if(isset($_POST["item"])){
-		if(isset($_COOKIE["panier"])){
-			$arr = array();
-			$arr = json_decode($_COOKIE["panier"],true);
-			$arr[] = $_POST["item"];
-			setcookie('panier',json_encode($arr),time() + (60*30),"/");
-			echo "Produit ajouté au panier";
-		}
-		else{
-			$arra = array();
-			$arr[] = $_POST["item"];
-			setcookie('panier',json_encode($arr),time() + (60*30),"/");
-			echo "Produit ajouté au panier";
-		}
-	}
-	else{
-		echo "Erreur";
-	}
-?>
-=======
-
-
 <?php
     include_once("Database/Database.php");
     session_start();
 
 	if(isset($_POST["item"])){
-        $db = Database();
+        $db = Database::getInstance();
         $req = $db->prepare("SELECT IDPROD FROM PANIER p WHERE p.LOGIN = :login AND p.IDPROD = :idprod");
         $req->execute(array(
             ":login" => $_SESSION["user"],
@@ -52,7 +28,4 @@
 	else {
         echo "Erreur";
     }
-?>
 
-
->>>>>>> Enes

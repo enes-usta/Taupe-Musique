@@ -24,8 +24,9 @@ requestAlbumList = (elt) => {
     let vars = {
         categories: checkedRubriques,
         favOnly: document.getElementById("favOnly").checked,
-        filter: document.getElementById('search').innerText
+        filter: document.getElementById('search').value
     }
+    console.log(vars.filter);
 
     fetch('Actions/getAlbumList.php', {
         method: "POST",
@@ -82,12 +83,17 @@ getProduct = (album_id, name, short_name, description, img_url, heart_class) => 
  * @param e
  */
 let addFav = (e) => {
-    $.ajax({
+    fetch('Actions/UpdateFavoris.php', {
         method: "POST",
-        url: "EnregFav.php",
-        data: {id_produit: e},
-        success: function (data) {
-        },
+        body: JSON.stringify({id_produit: e}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then(r => {
+        let msg = r.json()
+        alert(msg.result)
+        //document.getElementById('').innerText = msg.result
     });
 
 }
@@ -114,6 +120,12 @@ ready(() => {
     for (let i = 0; i < elements.length; i++)
         elements[i].addEventListener('click', () => requestAlbumList(elements[i]));
     document.getElementById("favOnly").addEventListener('click', requestAlbumList, false);
+
+    document.getElementById('search').addEventListener('keyup', (e) => {
+        if (e.code === 'Enter')
+            requestAlbumList();
+    });
     $('#toolt').tooltip();
+
     setTimeout(requestAlbumList, 50);
 });
