@@ -17,11 +17,9 @@ include_once 'Functions/indexFunctions.php';
     <title>Taupe Musique</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="./public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./public/css/heart.css" rel="stylesheet">
+    <link href="./public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-    <!-- Custom CSS -->
-    <link href="./public/css/shop-homepage.css" rel="stylesheet">
+    <link href="./public/css/shop-homepage.css" rel="stylesheet" type="text/css">
     <!--<link rel="stylesheet" href="./public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="./public/css/datepicker3.min.css"/>-->
 

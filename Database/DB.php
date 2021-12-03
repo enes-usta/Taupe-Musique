@@ -165,19 +165,19 @@ function setFavorisCookies(array $favoris)
  * @param bool $favsOnly
  * @return array Values : titre, chansons, prix, descriptif, photo
  *
-function getAlbumListLogged($user, $rubFilter, string $filter, bool $favsOnly): array
-{
-    $db = Database::getInstance();
-    $sql = "SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
-    $req = $db->prepare($sql);
-
-    $arr = array(":titre" => '%' . $filter . '%');
-    if ($favsOnly)
-        $arr[':login'] = $user;
-
-    $req->execute($arr);
-    return $req->fetchAll();
-}*/
+ * function getAlbumListLogged($user, $rubFilter, string $filter, bool $favsOnly): array
+ * {
+ * $db = Database::getInstance();
+ * $sql = "SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
+ * $req = $db->prepare($sql);
+ *
+ * $arr = array(":titre" => '%' . $filter . '%');
+ * if ($favsOnly)
+ * $arr[':login'] = $user;
+ *
+ * $req->execute($arr);
+ * return $req->fetchAll();
+ * }*/
 
 /**
  * @param string $filter
@@ -187,25 +187,42 @@ function getAlbumListLogged($user, $rubFilter, string $filter, bool $favsOnly): 
  */
 function getAlbumListFiltered(string $filter, $rubriques, bool $favOnly): mixed
 {
-    $db = Database::getInstance();
-    $sql = 'SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre';
 
     $arr = array(":titre" => '%' . $filter . '%');
-
-    if ($favOnly)
-        if (isLogged()) {
-            $sql .= ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login)';
-            $arr[':login'] = getLogin();
-        } else {
-            $favorisList = getFavorisCookies();
-            $i = 0;
-            $in = '';
-            foreach ($favorisList as $item) {
-                $key = ":fav" . $i++;
-                $in .= ($in ? "," : "") . $key;
-                $arr[$key] = $item;
-            }
+    $db = Database::getInstance();
+    $sql = 'SELECT p.id_prod as id, p.titre, p.chansons, p.prix, p.descriptif, p.photo';
+    if (isLogged()){
+        $sql .= ', EXISTS (SELECT * FROM `favs` WHERE favs.ID_PROD = p.ID_PROD AND favs.LOGIN = :user)';
+        $arr[':user'] = getLogin();
+    }
+    else {
+        $favorisList = getFavorisCookies();
+        $i = 0;
+        $in = '';
+        foreach ($favorisList as $item) {
+            $key = ":fav" . $i++;
+            $in .= ($in ? "," : "") . $key;
+            $arr[$key] = $item;
         }
+        $sql .= ', EXISTS(SELECT * FROM produits WHERE ID_PROD IN ('.($in == '' ? 'NULL' : $in) .'))';
+    }
+    $sql .= ' as isFav FROM produits as p WHERE TITRE LIKE :titre';
+
+    /*
+        if ($favOnly)
+            if (isLogged()) {
+                $sql .= ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login)';
+                $arr[':login'] = getLogin();
+            } else {
+                $favorisList = getFavorisCookies();
+                $i = 0;
+                $in = '';
+                foreach ($favorisList as $item) {
+                    $key = ":fav" . $i++;
+                    $in .= ($in ? "," : "") . $key;
+                    $arr[$key] = $item;
+                }
+            }*/
 
     $req = $db->prepare($sql);
     $req->execute($arr);
