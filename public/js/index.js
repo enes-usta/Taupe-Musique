@@ -16,9 +16,15 @@ requestAlbumList = (elt) => {
     if (elt != null) {
         let val = elt.getAttribute('idrub');
         if (!checkedRubriques.includes(val))
+        {
             checkedRubriques.push(val);
+            elt.style.backgroundColor = 'lightblue';
+        }
         else
+        {
             checkedRubriques.splice(checkedRubriques.indexOf(val), 1);
+            elt.style.backgroundColor = '';
+        }
     }
 
     let vars = {
@@ -40,7 +46,7 @@ requestAlbumList = (elt) => {
         albumList.innerHTML = '';
         if (msg.length > 0)
             for (let a of msg)
-                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.fav);
+                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.isFav);
         else
             albumList.innerHTML = noProduct();
     });
@@ -53,7 +59,7 @@ noProduct = () => {
 }
 
 getProduct = (album_id, name, short_name, description, img_url, isFavori) => {
-    return `
+    return (`
     <td style="height:30%;width:30%">
         <div class="col-sm-4 col-lg-4 col-md-4 recipeBox" style="width:100%">
             <div class="thumbnail">
@@ -64,17 +70,17 @@ getProduct = (album_id, name, short_name, description, img_url, isFavori) => {
                 </div>
                 <div class="ratings">
                 <p style="text-align: right;">
-                    <span onclick="addFavori(${album_id})" class="" title="Favoris" style="font-size: 24px; color: lightgrey;">
-                        <i class="fa fa-heart" ></i>
+                    <span onclick="addFavori(${album_id})" id="addFav_${album_id}" title="Favoris" style="font-size: 24px; color: ` + (Number(isFavori) ? 'red;' : 'lightgrey;') + `">
+                        <i class="fa fa-heart"></i>
                     </span>
                     <span>
-                        <a href="#" id="addPan" onclick="addPanier(${album_id})">Ajouter au panier</a></p>
+                        <a href="#" class="addPan" onclick="addPanier(${album_id})">Ajouter au panier</a></p>
                     </span>
                     </p>
                 </div>
             </div>
         </div>
-    </td>`;
+    </td>`);
 }
 
 
@@ -91,13 +97,35 @@ let addFavori = (e) => {
             'Accept': 'application/json'
         }
     }).then(r => {
-        let msg = r.json()
-        alert(msg.result)
-        //document.getElementById('').innerText = msg.result
+        return r.json();
+    }).then((msg) => {
+        let obj = document.getElementById('addFav_' + e);
+        obj.style.color = (obj.style.color === 'red' ? 'lightgrey' : 'red');
+        if (msg.state)
+            success("Mise à jour des favoris effectuée avec succès !");
+        else
+            error("Veuillez réessayer ultérieurement ...");
     });
 
 }
 
+error = (text) => {
+    let res = document.getElementById('NotifyResult');
+    res.innerText = text;
+    res.className = 'w-100 bg-danger';
+    setTimeout(() => {
+        res.innerText = ''
+    }, 5000)
+}
+
+success = (text) => {
+    let res = document.getElementById('NotifyResult');
+    res.innerText = text;
+    res.className = 'w-100 bg-success';
+    setTimeout(() => {
+        res.innerText = ''
+    }, 5000)
+}
 
 /**
  * Ajoute au panier le param e

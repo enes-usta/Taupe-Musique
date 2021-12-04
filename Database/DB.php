@@ -82,9 +82,9 @@ function validerCommande(): bool
  * Met à jour les favoris de l'utilisateur
  * Suppression du produit s'il y est déja sinon l'ajoute
  */
-function updateFavoris($user, $produit)
+function updateFavoris($user, $produit): bool
 {
-    if (!existAlbum($produit)) return;
+    if (!existAlbum($produit)) return false;
 
     $db = Database::getInstance();
 
@@ -96,6 +96,7 @@ function updateFavoris($user, $produit)
         $update = $db->prepare("INSERT INTO favs VALUES(:user, :produit);");
 
     $update->execute(array(":user" => $user, ":produit" => $produit));
+    return true;
 
 }
 
@@ -104,11 +105,11 @@ function updateFavoris($user, $produit)
  * Suppression du produit s'il y est déja sinon l'ajoute
  * A appeler si dans les cookies
  * @param $produit
- * @return void
+ * @return false
  */
-function updateFavorisCookies($produit)
+function updateFavorisCookies($produit): bool
 {
-    if (!existAlbum($produit)) return;
+    if (!existAlbum($produit)) return false;
 
     $favoris = getFavorisCookies();
     if (($key = array_search($produit, $favoris)) !== false)
@@ -117,6 +118,7 @@ function updateFavorisCookies($produit)
         $favoris[] = $produit;
         setFavorisCookies($favoris);
     }
+    return true;
 
 }
 
@@ -155,29 +157,8 @@ function getFavorisCookies(): array
  */
 function setFavorisCookies(array $favoris)
 {
-    $_COOKIE['favoris'] = json_encode($favoris);
+    setcookie('favoris', json_encode($favoris));
 }
-
-/**
- * @param $user
- * @param $rubFilter
- * @param string $filter
- * @param bool $favsOnly
- * @return array Values : titre, chansons, prix, descriptif, photo
- *
- * function getAlbumListLogged($user, $rubFilter, string $filter, bool $favsOnly): array
- * {
- * $db = Database::getInstance();
- * $sql = "SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
- * $req = $db->prepare($sql);
- *
- * $arr = array(":titre" => '%' . $filter . '%');
- * if ($favsOnly)
- * $arr[':login'] = $user;
- *
- * $req->execute($arr);
- * return $req->fetchAll();
- * }*/
 
 /**
  * @param string $filter
@@ -208,21 +189,18 @@ function getAlbumListFiltered(string $filter, $rubriques, bool $favOnly): mixed
     }
     $sql .= ' as isFav FROM produits as p WHERE TITRE LIKE :titre';
 
-    /*
-        if ($favOnly)
-            if (isLogged()) {
-                $sql .= ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login)';
-                $arr[':login'] = getLogin();
-            } else {
-                $favorisList = getFavorisCookies();
-                $i = 0;
-                $in = '';
-                foreach ($favorisList as $item) {
-                    $key = ":fav" . $i++;
-                    $in .= ($in ? "," : "") . $key;
-                    $arr[$key] = $item;
-                }
-            }*/
+    if (count($rubriques) > 0 && all($rubriques, 'is_numeric')){
+        {
+            $j = 0;
+            $inj = '';
+            foreach ($rubriques as $item) {
+                $key = ":fav" . $j++;
+                $inj .= ($inj ? "," : "") . $key;
+                $arr[$key] = $item;
+            }
+            $sql .= ' AND p.id_prod IN (SELECT id_prod from appartient where id_rub IN (' .$inj .'))';
+        }
+    }
 
     $req = $db->prepare($sql);
     $req->execute($arr);

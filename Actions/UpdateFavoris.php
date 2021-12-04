@@ -6,10 +6,10 @@ $content = file_get_contents('php://input');
 $data = json_decode($content);
 
 if(isLogged())
-    updateFavoris(getLogin(), $data->id_produit);
+    $res = updateFavoris(getLogin(), $data->id_produit);
 else
-    updateFavorisCookies($data->id_produit);
+    $res = updateFavorisCookies($data->id_produit);
 
 
 header('Content-Type: application/json;');
-echo json_encode(array('result' => True));
+echo json_encode(array('state' => $res));
