@@ -9,7 +9,7 @@ function ready(callback) {
 
 panierLayout = (panier) => {
 
-    let res = `'<table>
+    let res = `<table>
             <tr>
                 <td width=100px></td>
                 <td width='50px'>ID</td>
@@ -21,10 +21,10 @@ panierLayout = (panier) => {
                 <td colspan='3'><hr></td>
             </tr>`;
 
-    for(let item of panier)
+    for (let item of panier)
         res += `<tr>
                     <td>
-                        <button onclick="removePanier($(item.id))">Effacer</button>
+                        <button onclick="removePanier(${item.id})">Effacer</button>
                     </td>
                     <td>${item.id}</td>
                     <td>${item.titre}</td>
@@ -38,11 +38,18 @@ panierLayout = (panier) => {
 
 
 ready(() => {
-    fetch('/Cart/getCart.php', () => {
-
+    fetch('/Cart/getCart.php', {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json'
+        }
     }).then((r) => {
         return r.json()
     }).then((result) => {
-        document.getElementById(('panier')).innerHTML = panierLayout(result.panier);
+        let panier = document.getElementById('panier')
+        if (result.panier.length <= 0 )
+            panier.innerHTML = `<p>Votre panier est vide</p>`;
+        else
+            panier.innerHTML = panierLayout(result.panier);
     });
 })

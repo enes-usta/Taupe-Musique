@@ -17,6 +17,7 @@ session_start();
     <link href="/public/css/shop-homepage.css" rel="stylesheet">
     <script src="/public/js/jquery.min.js" type="text/javascript"></script>
     <script src="/public/js/jq.js" type="text/javascript"></script>
+    <script src="/public/js/Panier.js" type="text/javascript"></script>
     <script src="/public/js/bootstrap.min.js"></script>
 
     <script>
@@ -44,17 +45,10 @@ session_start();
         <div class="col-md-9">
             <div class="row carousel-holder">
                 <h2>Panier</h2>
-                <div class="panier">
+                <div id="panier">
                 </div>
             </div>
-            <div>
-                <?php
-                if (isLogged())
-                    echo '<a class="btn btn-default" href="confirmerCommande.php">ACHETER</a>';
-                else if (isset($_COOKIE["panier"]))
-                    echo '<p>Connectez vous pour pouvoir acheter</p>';
-                ?>
-            </div>
+            <?= (isLogged() ? '<a class="btn btn-default" href="confirmerCommande.php">ACHETER</a>' : '<p>Veuillez vous identifier pour effectuer une commande </p>'); ?>
         </div>
     </div>
 </div>

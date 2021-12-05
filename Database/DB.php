@@ -113,7 +113,7 @@ function getPanierCookies()
 function getPanier($login)
 {
     $db = Database::getInstance();
-    $req = $db->prepare('SELECT id_produit as id, amount FROM panier WHERE login_user = :login');
+    $req = $db->prepare('SELECT ID_PROD as id, titre, prix, amount FROM produits LEFT JOIN panier ON produits.ID_PROD = panier.id_produit WHERE panier.login_user = :login');
     $req->execute(array(':login' => $login));
 
     return $req->fetchAll();
