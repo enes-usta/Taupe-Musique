@@ -1,20 +1,5 @@
 $(document).ready(function () {
     document.getElementById("reponse").style.display = '';
-/*
-    $('#datePicker')
-        .datepicker({
-            format: 'dd/mm/yyyy',
-            startDate: '01/01/1900',
-            endDate: '12/30/2020'
-        });
-
-    $('#datePicker2')
-        .datepicker({
-            format: 'dd/mm/yyyy',
-            startDate: '01/01/1900',
-            endDate: '12/30/2020'
-        });
-*/
 let logForm = document.getElementById('logform');
 if (logForm != null)
     logForm.addEventListener('submit', (e) => {

@@ -21,12 +21,9 @@ include 'Functions/AddProductLayout.php';
     <link href="../public/css/shop-homepage.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
-    <script src="../public/js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="../public/js/jq.js"></script>
+    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/js/jq.js"></script>
     <script src="../public/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../public/js/daterangepicker.js"></script>
-    <script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
-    <script type="text/javascript" src="../public/js/moment.min.js"></script>
 
     <script>
         function numChansons() {

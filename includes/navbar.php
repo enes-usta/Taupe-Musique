@@ -1,7 +1,6 @@
 <?php include_once('Database/DB.php');?>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse"
                         data-target="#bs-example-navbar-collapse-1">
@@ -24,7 +23,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav" style="margin-left:75%">
-                    <li><a href="./Panier.php"><img src="./public/images/icone_panier.png" style="height:30px;"/></a></li>
+                    <li><a href="<?= parse_url("/Cart/", PHP_URL_PATH) ?>"><img src="/public/images/icone_panier.png" style="height:30px;"/></a></li>
                 </ul>
             </div>
         </div>

@@ -23,8 +23,6 @@ function afficherCommandes()
                     <hr>
                 </td>
             </tr>
-
-
             <?php
         }
         echo "</table>";

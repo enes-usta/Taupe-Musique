@@ -106,7 +106,6 @@ let addFavori = (e) => {
         else
             error("Veuillez réessayer ultérieurement ...");
     });
-
 }
 
 error = (text) => {
@@ -132,13 +131,20 @@ success = (text) => {
  * @param e
  */
 let addPanier = (e) => {
-    $.ajax({
-        type: 'POST',
-        url: 'fonctions/fonctionsPanier.php',
-        data: {item: e},
-        success: function (data) {
-            alert(data);
-        },
+    fetch('Actions/UpdatePanier.php', {
+        method: "POST",
+        body: JSON.stringify({album: e, amount: 1}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then(r => {
+        return r.json();
+    }).then((msg) => {
+        if (msg.state)
+            success("Produit ajouté au panier avec succès !");
+        else
+            error("Erreur lors de l'ajout du produit au panier ...");
     });
 }
 
