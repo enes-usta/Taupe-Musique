@@ -44,6 +44,7 @@ requestAlbumList = (elt) => {
     }).then((msg) => {
         let albumList = document.getElementById('albumList');
         albumList.innerHTML = '';
+        console.log(msg);
         if (msg.length > 0)
             for (let a of msg)
                 albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.isFav);

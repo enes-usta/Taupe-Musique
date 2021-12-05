@@ -12,4 +12,4 @@ else
 
 
 header('Content-Type: application/json;');
-echo json_encode(array('state' => $res));
+echo json_encode(array('state' => $res, 'favoris' => getFavorisCookies()));

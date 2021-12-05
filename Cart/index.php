@@ -15,6 +15,7 @@ session_start();
 
     <link href="/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/css/shop-homepage.css" rel="stylesheet">
+    <script src="/public/js/jquery.min.js" type="text/javascript"></script>
     <script src="/public/js/jq.js" type="text/javascript"></script>
     <script src="/public/js/bootstrap.min.js"></script>
 
@@ -57,10 +58,10 @@ session_start();
         </div>
     </div>
 </div>
+
 <div class="container">
     <hr>
     <?php include("includes/footer.php"); ?>
-
 </div>
 </body>
 
