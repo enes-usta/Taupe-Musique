@@ -1,9 +1,6 @@
-
 <?php
 session_start();
 include_once 'Functions/indexFunctions.php';
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">

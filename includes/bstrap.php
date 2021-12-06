@@ -20,14 +20,14 @@
                         <input type="password" class="form-control" placeholder="Password" maxlength="100"
                                name="password"/>
                     </div>
+                </form>
 
             </div>
             <div class="modal-footer">
                 <a class="btn btn-default" href="#Enregistrer" data-toggle="modal">Créer un compte</a>
-                <a class="btn btn-primary" href="../Auth/mdp.php">Mot de passe Oublié?</a>
+                <a class="btn btn-primary" href="Auth/ResetPassword.php">Mot de passe Oublié?</a>
                 <input class="btn btn-primary" type="submit" value="Log In">
             </div>
-            </form>
         </div>
     </div>
 </div>

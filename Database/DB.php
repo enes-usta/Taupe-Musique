@@ -71,7 +71,8 @@ function validerCommande($user): bool
     return true;
 }
 
-function migrateCookiesToBDD($user){
+function migrateCookiesToBDD($user)
+{
 
     $panier = panierCookies();
     $db = Database::getInstance();
@@ -94,7 +95,6 @@ function migrateCookiesToBDD($user){
     setcookie('favoris', null, -1, '/');
 
 }
-
 
 
 /**
@@ -144,7 +144,7 @@ function getPanierCookies()
     $panier = panierCookies();
 
     $db = Database::getInstance();
-    $sql = "SELECT ID_PROD as id, titre, prix FROM produits WHERE produits.ID_PROD IN (" . (count($panier) > 0 ? implode(',', array_keys($panier)) : "NULL")  .")";
+    $sql = "SELECT ID_PROD as id, titre, prix FROM produits WHERE produits.ID_PROD IN (" . (count($panier) > 0 ? implode(',', array_keys($panier)) : "NULL") . ")";
 
     $req = $db->prepare($sql);
     $req->execute();
@@ -399,6 +399,34 @@ function isValid($login, $password): bool
         return password_verify($password, $res->PASS);
     }
     return false;
+}
+
+/**
+ * Vérifie si un compte avec l'email donné existe
+ * @param $email
+ * @return bool
+ */
+function existByEmail($email): bool
+{
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        return false;
+    $db = Database::getInstance();
+    $req = $db->prepare('SELECT login FROM users WHERE email = :email');
+    $req->execute([':email' => $email]);
+
+    return ($req->rowCount > 0);
+}
+
+/**
+ * Envoi d'un mail de réinitialisation du mot de passe ) l'utilisateur
+ * @param $mail
+ * @return void
+ */
+function sendResetLink($mail)
+{
+
+
+
 }
 
 
