@@ -1,15 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
+-- MariaDB dump 10.19  Distrib 10.4.22-MariaDB, for Win64 (AMD64)
 --
 -- Host: 127.0.0.1    Database: cds
 -- ------------------------------------------------------
--- Server version	8.0.27
-
-USE cds;
+-- Server version	10.4.22-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,10 +21,10 @@ USE cds;
 
 DROP TABLE IF EXISTS `appartient`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `appartient` (
-  `id_prod` int NOT NULL,
-  `id_rub` int NOT NULL,
+  `id_prod` int(11) NOT NULL,
+  `id_rub` int(11) NOT NULL,
   PRIMARY KEY (`id_prod`,`id_rub`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,22 +45,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `commande`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `commande` (
-  `ID_COM` bigint NOT NULL AUTO_INCREMENT,
-  `ID_PROD` int NOT NULL,
-  `ETAT` int DEFAULT NULL,
-  `ID_CLIENT` varchar(40) NOT NULL,
-  `DATE` varchar(40) NOT NULL,
-  `CIVILITE` varchar(10) NOT NULL,
-  `NOM` varchar(40) NOT NULL,
-  `PRENOM` varchar(40) NOT NULL,
-  `ADRESSE` varchar(160) NOT NULL,
-  `CP` int NOT NULL,
-  `VILLE` varchar(80) NOT NULL,
-  `TELEPHONE` varchar(20) NOT NULL,
-  PRIMARY KEY (`ID_COM`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `id_order` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_produit` int(11) NOT NULL,
+  `id_client` varchar(100) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT 1,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  UNIQUE KEY `order_client_produit` (`id_order`,`id_produit`,`id_client`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +62,7 @@ CREATE TABLE `commande` (
 
 LOCK TABLES `commande` WRITE;
 /*!40000 ALTER TABLE `commande` DISABLE KEYS */;
+INSERT INTO `commande` VALUES (1,1,'admin',5,'2021-12-06 09:09:52'),(2,1,'admin',6,'2021-12-06 09:09:52'),(3,2,'admin',3,'2021-12-06 09:09:52');
 /*!40000 ALTER TABLE `commande` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,10 +72,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `favs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `favs` (
   `LOGIN` varchar(200) NOT NULL,
-  `ID_PROD` int NOT NULL,
+  `ID_PROD` int(11) NOT NULL,
   PRIMARY KEY (`LOGIN`,`ID_PROD`),
   CONSTRAINT `favs_ibfk_1` FOREIGN KEY (`LOGIN`) REFERENCES `users` (`LOGIN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -95,6 +87,7 @@ CREATE TABLE `favs` (
 
 LOCK TABLES `favs` WRITE;
 /*!40000 ALTER TABLE `favs` DISABLE KEYS */;
+INSERT INTO `favs` VALUES ('admin',1);
 /*!40000 ALTER TABLE `favs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,10 +97,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `hierarchie`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hierarchie` (
-  `ID_PARENT` int NOT NULL,
-  `ID_ENFANT` int NOT NULL,
+  `ID_PARENT` int(11) NOT NULL,
+  `ID_ENFANT` int(11) NOT NULL,
   PRIMARY KEY (`ID_PARENT`,`ID_ENFANT`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -123,14 +116,39 @@ INSERT INTO `hierarchie` VALUES (1,13),(1,14),(1,15),(2,17),(2,18),(2,19),(2,20)
 UNLOCK TABLES;
 
 --
+-- Table structure for table `panier`
+--
+
+DROP TABLE IF EXISTS `panier`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `panier` (
+  `login_user` varchar(100) NOT NULL,
+  `id_produit` int(11) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`login_user`,`id_produit`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `panier`
+--
+
+LOCK TABLES `panier` WRITE;
+/*!40000 ALTER TABLE `panier` DISABLE KEYS */;
+INSERT INTO `panier` VALUES ('admin',0,0),('admin',1,7),('admin',2,2);
+/*!40000 ALTER TABLE `panier` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `produits`
 --
 
 DROP TABLE IF EXISTS `produits`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `produits` (
-  `ID_PROD` int NOT NULL AUTO_INCREMENT,
+  `ID_PROD` int(11) NOT NULL AUTO_INCREMENT,
   `TITRE` varchar(100) NOT NULL,
   `CHANSONS` varchar(500) NOT NULL,
   `LIBELLE` varchar(10) NOT NULL,
@@ -157,9 +175,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rubrique`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rubrique` (
-  `ID_RUB` int NOT NULL AUTO_INCREMENT,
+  `ID_RUB` int(11) NOT NULL AUTO_INCREMENT,
   `LIBELLE_RUB` varchar(80) NOT NULL,
   PRIMARY KEY (`ID_RUB`),
   UNIQUE KEY `rubrique_LIBELLE_RUB_uindex` (`LIBELLE_RUB`)
@@ -182,20 +200,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `LOGIN` varchar(100) NOT NULL,
-  `EMAIL` varchar(200) DEFAULT NULL,
+  `EMAIL` varchar(200) NOT NULL,
   `PASS` varchar(100) DEFAULT NULL,
   `NOM` varchar(50) DEFAULT NULL,
   `PRENOM` varchar(50) DEFAULT NULL,
   `DATE` varchar(10) DEFAULT NULL,
   `SEXE` varchar(10) DEFAULT NULL,
   `ADRESSE` varchar(500) DEFAULT NULL,
-  `CODEP` int DEFAULT NULL,
+  `CODEP` int(11) DEFAULT NULL,
   `VILLE` varchar(50) DEFAULT NULL,
   `TELEPHONE` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`LOGIN`)
+  PRIMARY KEY (`LOGIN`),
+  UNIQUE KEY `users_EMAIL_uindex` (`EMAIL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -205,7 +224,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('aaaa','aaaa@aaaa.aaaa','$2y$10$11Lk6pKQSIZHlfvLLZMj1OWopW3Z/8IyfmTfOiIrw/nE5MZwuJpu6','ergferg','aaaa','24/12/1998','Homme','dazdazd',57000,'aaaa','0661384809'),('admin','admin@admin.com','$2y$10$F4qU8Y71vnROBNIhWkcC6.CZGXQHxSOINntRQ9DC2YBnJipI1SYyS','ADMIN','admin','01/01/1999','Homme',NULL,57000,NULL,'918633099'),('azeaze','azeaze@azeaze.azeaze','$2y$10$kK0kNRL6UPx0NWdzvRSx/uKGe3PuMkYQOVChDUHgS1UemXmOcTTqO','azeaze','azeaze','24/12/1998','Homme','azeaze',57000,'azeaze','0666666666'),('bbb','bbb@bbb.bbb','$2y$10$siUap22fTXX8pClulyfZWOKlrKkS4mpYFwt7qdZpRziVckxl4rJne','bbb','bbb','24/12/1998','Homme','bbb',57000,'bbb','0666666666'),('enes','enes@enes.enes','$2y$10$Z48Khz7wwAA8Fp2mE8ReheMiswupZiS6Id4r.v2s8SQ0e0.0/iMeK','enes','enes','24/12/1998','Homme','enes',57000,'enes','0661384809');
+INSERT INTO `users` VALUES ('aaaa','aaaa@aaaa.aaaa','$2y$10$11Lk6pKQSIZHlfvLLZMj1OWopW3Z/8IyfmTfOiIrw/nE5MZwuJpu6','ergferg','aaaa','24/12/1998','Homme','dazdazd',57000,'aaaa','0661384809'),('admin','admin@admin.com','$2y$10$F4qU8Y71vnROBNIhWkcC6.CZGXQHxSOINntRQ9DC2YBnJipI1SYyS','ADMIN','admin','01/01/1999','Homme',NULL,57000,NULL,'918633099'),('azeaze','azeaze@azeaze.azeaze','$2y$10$kK0kNRL6UPx0NWdzvRSx/uKGe3PuMkYQOVChDUHgS1UemXmOcTTqO','azeaze','azeaze','24/12/1998','Homme','azeaze',57000,'azeaze','0666666666'),('bbb','bbb@bbb.bbb','$2y$10$siUap22fTXX8pClulyfZWOKlrKkS4mpYFwt7qdZpRziVckxl4rJne','bbb','bbb','24/12/1998','Homme','bbb',57000,'bbb','0666666666'),('enes','enes@enes.enes','$2y$10$Z48Khz7wwAA8Fp2mE8ReheMiswupZiS6Id4r.v2s8SQ0e0.0/iMeK','enes','enes','24/12/1998','Homme','enes',57000,'enes','0661384809'),('temp','temp@temp.temp','$2y$10$Pfi5iGDsFZVESxRA2MAg9O3OW7cwl5XohylDyIPcjC5oXKh6XFyDO','temp','temp','1998-12-12','Homme','temp',57777,'temp','0666666666');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -218,4 +237,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-16 19:49:15
+-- Dump completed on 2021-12-06 13:21:08
