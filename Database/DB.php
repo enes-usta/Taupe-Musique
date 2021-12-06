@@ -408,7 +408,7 @@ function isValid($login, $password): bool
  */
 function getAlbumById($id): mixed
 {
-    if (!is_int($id)) return false;
+    if (!is_numeric($id)) return false;
 
     $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
