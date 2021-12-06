@@ -17,8 +17,8 @@ include 'Functions/AddProductLayout.php';
 
     <title>TaupeMusique</title>
 
-    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../public/css/shop-homepage.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/shop-homepage.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>

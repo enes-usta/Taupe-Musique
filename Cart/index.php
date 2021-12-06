@@ -5,11 +5,9 @@ session_start();
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Panier taupe musique">
-    <meta name="author" content="">
 
     <title>Taupe Musique</title>
 
@@ -18,21 +16,6 @@ session_start();
     <script src="/public/js/jquery.min.js" type="text/javascript"></script>
     <script src="/public/js/jq.js" type="text/javascript"></script>
     <script src="/public/js/Panier.js" type="text/javascript"></script>
-    <script src="/public/js/bootstrap.min.js"></script>
-
-    <script>
-        function removePanier(e, p) {
-            $.ajax({
-                type: 'POST',
-                url: 'fonctions/fonctionsRemove.php',
-                data: {item: e, pos: p},
-                success: function (data) {
-                    alert(data);
-                    location.reload();
-                },
-            });
-        }
-    </script>
 </head>
 
 <body>

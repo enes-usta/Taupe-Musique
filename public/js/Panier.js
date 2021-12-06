@@ -6,36 +6,48 @@ function ready(callback) {
         });
 }
 
-
-panierLayout = (panier) => {
-
-    let res = `<table>
+panierLayout = (result) => {
+    let tableStart = `<table>
             <tr>
                 <td width=100px></td>
                 <td width='50px'>ID</td>
-                <td width='80px'>Titre</td>
+                <td width='250px'>Titre</td>
                 <td width='80px'>Prix</td>
                 <td width='80px'>Quantité</td>
             </tr>
             <tr>
                 <td colspan='3'><hr></td>
             </tr>`;
+    let tableEnd = `</table>`;
 
-    for (let item of panier)
-        res += `<tr>
+    let isLogged = result.cookies === undefined;
+    return `${tableStart} ${result.panier.map(item => {
+        return `<tr>
                     <td>
                         <button onclick="removePanier(${item.id})">Effacer</button>
                     </td>
                     <td>${item.id}</td>
                     <td>${item.titre}</td>
                     <td>${item.prix}</td>
-                    <td>${item.amount}</td>
+                    <td>` + (isLogged ? item.amount : result.cookies[item.id]) + `</td>
                 </tr>`;
-
-    res += `</table>`;
-    return res;
+    }).join(' ')} ${tableEnd}`;
 }
 
+removePanier = async (p) => {
+    fetch((window.location !== '/' ? '../' : '') + 'Cart/UpdatePanier.php', {
+        method: "POST",
+        body: JSON.stringify({
+            album: p,
+            amount: 0
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    location.reload();
+
+}
 
 ready(() => {
     fetch('/Cart/getCart.php', {
@@ -46,10 +58,10 @@ ready(() => {
     }).then((r) => {
         return r.json()
     }).then((result) => {
-        let panier = document.getElementById('panier')
-        if (result.panier.length <= 0 )
+        let panier = document.getElementById('panier');
+        if (result.panier.length <= 0)
             panier.innerHTML = `<p>Votre panier est vide</p>`;
         else
-            panier.innerHTML = panierLayout(result.panier);
+            panier.innerHTML = panierLayout(result, (result.cookies !== undefined));
     });
 })

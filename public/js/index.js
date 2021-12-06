@@ -132,7 +132,7 @@ success = (text) => {
  * @param e
  */
 let addPanier = (e) => {
-    fetch('Actions/UpdatePanier.php', {
+    fetch('Cart/UpdatePanier.php', {
         method: "POST",
         body: JSON.stringify({album: e, amount: 1}),
         headers: {

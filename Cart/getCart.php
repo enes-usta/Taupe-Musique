@@ -1,14 +1,12 @@
 <?php
 session_start();
-include 'Database/DB.php';
-
-$content = file_get_contents('php://input');
-$data = json_decode($content);
+include('Database/DB.php');
 
 if(isLogged())
-    $res = getPanier(getLogin());
+    $res = ['panier' => getPanier(getLogin())];
 else
-    $res = getPanierCookies();
+    $res = ['panier' => getPanierCookies(), 'cookies' => panierCookies()];
+
 
 header('Content-Type: application/json;');
-echo json_encode(array('panier' => $res));
+echo json_encode($res);

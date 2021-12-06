@@ -102,12 +102,25 @@ function updatePanier($produit, $amount): bool
     return true;
 }
 
-function getPanierCookies()
+function panierCookies()
 {
     if (isset($_COOKIE['panier']))
         if (all(array_keys(json_decode($_COOKIE['panier'], true)), 'is_numeric') && all(array_values(json_decode($_COOKIE['panier'], true)), 'is_numeric'))
             return json_decode($_COOKIE['panier'], true);
     return array();
+}
+
+function getPanierCookies()
+{
+    $panier = panierCookies();
+
+    $db = Database::getInstance();
+    $sql = "SELECT ID_PROD as id, titre, prix FROM produits WHERE produits.ID_PROD IN (" . (count($panier) > 0 ? implode(',', array_keys($panier)) : "NULL")  .")";
+
+    $req = $db->prepare($sql);
+    $req->execute();
+
+    return $req->fetchAll();
 }
 
 function getPanier($login)
@@ -124,8 +137,7 @@ function updatePanierCookies($produit, $amount): bool
 {
     if (!(existAlbum($produit) && is_numeric($amount))) return false;
 
-    $panier = getPanierCookies();
-
+    $panier = panierCookies();
     if ($amount <= 0)
         unset($panier[$produit]);
     else if (isset($panier[$produit]))
@@ -133,7 +145,7 @@ function updatePanierCookies($produit, $amount): bool
     else
         $panier[$produit] = $amount;
 
-    setArrayCookies('panier', $panier);
+    setPanierCookies($panier);
     return true;
 
 }
@@ -216,7 +228,16 @@ function getFavorisCookies(): array
  */
 function setFavorisCookies(array $favoris)
 {
-    setcookie('favoris', json_encode($favoris),  time() + (10 * 365 * 24 * 3600));
+    setcookie('favoris', json_encode($favoris), time() + (10 * 365 * 24 * 3600), '/');
+}
+
+/**
+ * @param array $panier
+ * @return void
+ */
+function setPanierCookies(array $panier)
+{
+    setcookie('panier', json_encode($panier), time() + (10 * 365 * 24 * 3600));
 }
 
 /**
@@ -233,15 +254,6 @@ function getFavoris($user = null): array
     return $req->fetchAll();
 }
 
-/**
- * @param $tag
- * @param array $favoris
- * @return void
- */
-function setArrayCookies($tag, array $favoris)
-{
-    setcookie($tag, json_encode($favoris));
-}
 
 /**
  * @param string $filter
@@ -270,7 +282,7 @@ function getAlbumListFiltered(string $filter, $rubriques): mixed
         if ($in == '')
             $sql .= ', FALSE ';
         else
-            $sql .= ', p.id_prod IN (' .$in .')';
+            $sql .= ', p.id_prod IN (' . $in . ')';
     }
     $sql .= ' as isFav FROM produits as p WHERE TITRE LIKE :titre';
 

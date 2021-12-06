@@ -10,5 +10,6 @@ if(isLogged())
 else
     $state = updatePanierCookies($data->album ?? -1, $data->amount ?? 1);
 
+
 header('Content-Type: application/json;');
 echo json_encode(array('state' => $state));

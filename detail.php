@@ -37,9 +37,6 @@ $imgURL = (file_exists("img_cover/$album->titre.jpg") != false) ? ("img_cover/$a
     <script type="text/javascript" src="public/js/jq.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="public/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="public/js/daterangepicker.js"></script>
-    <script type="text/javascript" src="public/js/bootstrap-datepicker.min.js"></script>
-    <script type="text/javascript" src="public/js/moment.min.js"></script>
 </head>
 <body>
 <?php include("includes/navbar.php"); ?>

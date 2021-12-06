@@ -199,7 +199,8 @@ include_once("Database/DB.php");
         ?>
 
         <script type="text/javascript">
-            document.getElementById('modiform').addEventListener('submit', (e) => {
+            let editForm = document.getElementById('modiform');
+            if (editForm !== null) editForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     const data = new FormData(document.getElementById('modiform'));
                     const value = Object.fromEntries(data.entries());
