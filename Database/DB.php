@@ -45,35 +45,64 @@ function isAdmin(): bool
     global $admins_list;
     if (!isLogged())
         return false;
-    return in_array(getUser($_SESSION['user'])->login, $admins_list);
+    return in_array(getUser(getLogin())->login, $admins_list);
 }
 
 /**
  * Valide la commande pour chaque article du panier
  * @return bool La commande a été effectuée avec succès
- * @see confirmerCommande.php Ligne 6
+ * @see sendOrder.php Ligne 6
  */
-function validerCommande(): bool
+function validerCommande($user): bool
 {
-    $panier = json_decode($_COOKIE["panier"]);
-
+    $panier = getPanier($user);
     $db = Database::getInstance();
-    $req = $db->prepare("REPLACE into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values (:item,:login,:date,:civilite,:nom,:prenom,:adresse,:cp,:ville,:telephone)");
+    $req = $db->prepare("REPLACE into commande (id_produit, id_client, amount) values (:item, :login, :amount)");
     foreach ($panier as $item)
         $req->execute(array(
-            ":item" => $item,
-            ":login" => $_SESSION["login"],
-            ":date" => date('d/m/Y'),
-            ":civilite" => $_SESSION["CIVILITE"],
-            ":nom" => $_SESSION["NOM"],
-            ":prenom" => $_SESSION["NOM"],
-            ":adresse" => $_SESSION["ADRESSE"],
-            ":cp" => $_SESSION["CP"],
-            ":ville" => $_SESSION["VILLE"],
-            ":telephone" => $_SESSION["TELEPHONE"]
+            ':item' => $item->id,
+            ':login' => $user,
+            ':amount' => $item->amount
         ));
+
+    $clear = $db->prepare("DELETE FROM panier WHERE login_user = :login");
+    $clear->execute([':login' => $user]);
+
     return true;
 }
+
+function migrateCookiesToBDD($user){
+
+    $panier = panierCookies();
+    $db = Database::getInstance();
+    $panierReq = $db->prepare('INSERT INTO panier (login_user, id_produit, amount) VALUES(:login, :produit, :amount) ON DUPLICATE KEY UPDATE amount = amount + :addamount');
+    foreach ($panier as $produit => $amount)
+        $panierReq->execute(array(
+            ':login' => $user,
+            ':produit' => $produit,
+            ':amount' => $amount,
+            ':addamount' => $amount));
+
+    $favoris = getFavorisCookies();
+
+    foreach ($favoris as $i => $fav)
+        updateFavoris($user, $fav);
+
+    unset($_COOKIE['panier']);
+    unset($_COOKIE['favoris']);
+    setcookie('panier', null, -1, '/');
+    setcookie('favoris', null, -1, '/');
+
+}
+
+
+
+/**
+ *  +--------------+
+ *  |    PANIER    |
+ *  +--------------+
+ */
+
 
 /**
  * Met à jour le panier du client courant
@@ -123,13 +152,17 @@ function getPanierCookies()
     return $req->fetchAll();
 }
 
-function getPanier($login)
+/**
+ * @param $login
+ * @return mixed Panier avec chaque item au format {id, titre, prix, amount}
+ */
+function getPanier($login): mixed
 {
     $db = Database::getInstance();
     $req = $db->prepare('SELECT ID_PROD as id, titre, prix, amount FROM produits LEFT JOIN panier ON produits.ID_PROD = panier.id_produit WHERE panier.login_user = :login');
     $req->execute(array(':login' => $login));
 
-    return $req->fetchAll();
+    return $req->fetchAll(PDO::FETCH_OBJ);
 }
 
 
@@ -237,7 +270,7 @@ function setFavorisCookies(array $favoris)
  */
 function setPanierCookies(array $panier)
 {
-    setcookie('panier', json_encode($panier), time() + (10 * 365 * 24 * 3600));
+    setcookie('panier', json_encode($panier), time() + (10 * 365 * 24 * 3600), '/');
 }
 
 /**

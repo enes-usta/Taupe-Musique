@@ -202,6 +202,7 @@ header('Content-Type: application/json;');
 if ($ok == true) {
     registerUser($login, $email, $pass, $nom, $prenom, $date, $sexe, $adresse, $codepostal, $ville, $telephone);
     $_SESSION["user"] = $login;
+    migrateCookiesToBDD($login);
     echo json_encode(array("ok" => true, 'error' => false, 'errors' => array()));
 } else
     echo json_encode(array("ok" => false, 'error' => true, 'errors' => $return));

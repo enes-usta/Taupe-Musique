@@ -209,7 +209,7 @@ function afficherAdministration()
     //si on a cliqu� sur "Visualiser les commandes." alors on affiche ce qui suit
     if (isset($action) && $action == 'commande') {
         echo '<form action="index.php?action=commande" method="post"><div class="floatRight">';
-        $result = mysql_query('select * from commande order by id_com DESC');
+        $result = mysql_query('select * from commande order by id_order DESC');
 
         echo '<label>N� commande: </label><select name="id_com">';
 
@@ -225,7 +225,7 @@ function afficherAdministration()
 
         //si on a cliqu� sur voir
         if (isset($_POST['voir'])) {
-            $result = mysql_query('select * from commande where id_com="' . $_POST['id_com'] . '"');
+            $result = mysql_query('select * from commande where id_order="' . $_POST['id_com'] . '"');
 
             $commande = mysql_fetch_assoc($result);
 

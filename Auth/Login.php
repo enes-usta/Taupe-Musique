@@ -8,8 +8,10 @@ $data = json_decode($content);
 $isValid = false;
 if (!isLogged() && isset($data->login) && isset($data->password)) {
     $isValid = isValid($data->login, $data->password);
-    if ($isValid)
+    if ($isValid){
         $_SESSION["user"] = $data->login;
+        migrateCookiesToBDD($data->login);
+    }
 }
 
 header('Content-Type: application/json;');
