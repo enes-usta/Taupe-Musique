@@ -417,17 +417,6 @@ function existByEmail($email): bool
     return ($req->rowCount > 0);
 }
 
-/**
- * Envoi d'un mail de réinitialisation du mot de passe ) l'utilisateur
- * @param $mail
- * @return void
- */
-function sendResetLink($mail)
-{
-
-
-
-}
 
 
 /**
