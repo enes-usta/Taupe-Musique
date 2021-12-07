@@ -16,17 +16,22 @@ requestAlbumList = (elt) => {
     if (elt != null) {
         let val = elt.getAttribute('idrub');
         if (!checkedRubriques.includes(val))
+        {
             checkedRubriques.push(val);
+            elt.style.backgroundColor = 'lightblue';
+        }
         else
+        {
             checkedRubriques.splice(checkedRubriques.indexOf(val), 1);
+            elt.style.backgroundColor = '';
+        }
     }
 
     let vars = {
         categories: checkedRubriques,
         favOnly: document.getElementById("favOnly").checked,
-        filter: document.getElementById('search').innerText
+        filter: document.getElementById('search').value
     }
-
     fetch('Actions/getAlbumList.php', {
         method: "POST",
         body: JSON.stringify(vars),
@@ -39,13 +44,12 @@ requestAlbumList = (elt) => {
     }).then((msg) => {
         let albumList = document.getElementById('albumList');
         albumList.innerHTML = '';
+
         if (msg.length > 0)
             for (let a of msg)
-                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.fav);
+                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.isFav);
         else
             albumList.innerHTML = noProduct();
-
-        //step = (step === 3) ? 0 : step + 1;
     });
 }
 
@@ -55,8 +59,8 @@ noProduct = () => {
             </div>`;
 }
 
-getProduct = (album_id, name, short_name, description, img_url, heart_class) => {
-    return `
+getProduct = (album_id, name, short_name, description, img_url, isFavori) => {
+    return (`
     <td style="height:30%;width:30%">
         <div class="col-sm-4 col-lg-4 col-md-4 recipeBox" style="width:100%">
             <div class="thumbnail">
@@ -65,15 +69,19 @@ getProduct = (album_id, name, short_name, description, img_url, heart_class) => 
                     <h4><a href="./detail.php?id=${album_id}">${short_name}</a></h4>
                     <p>${description}</p>
                 </div>
-                <div class="ratings"><p class="pull-right">
-                    <a href="#" id="addPan" onclick="addPanier(${album_id})">Ajouter au panier</a></p>
-                </div>
-                <div id="toolt" class="${heart_class}" data-album="${album_id}" data-toggle="tooltip" title="Favoris" onclick="addFav(${album_id})">
-                
+                <div class="ratings">
+                <p style="text-align: right;">
+                    <span onclick="addFavori(${album_id})" id="addFav_${album_id}" title="Favoris" style="font-size: 24px; color: ` + (Number(isFavori) ? 'red;' : 'lightgrey;') + `">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    <span>
+                        <a href="#" class="addPan" onclick="addPanier(${album_id})">Ajouter au panier</a></p>
+                    </span>
+                    </p>
                 </div>
             </div>
         </div>
-    </td>`;
+    </td>`);
 }
 
 
@@ -81,39 +89,39 @@ getProduct = (album_id, name, short_name, description, img_url, heart_class) => 
  * Ajoute au favoris le param e
  * @param e
  */
-let addFav = (e) => {
-    $.ajax({
+let addFavori = (e) => {
+    fetch('Actions/UpdateFavoris.php', {
         method: "POST",
-        url: "EnregFav.php",
-        data: {id_produit: e},
-        success: function (data) {
-        },
-    });
-
-}
-
-
-/**
- * Ajoute au panier le param e
- * @param e
- */
-let addPanier = (e) => {
-    $.ajax({
-        type: 'POST',
-        url: 'fonctions/fonctionsPanier.php',
-        data: {item: e},
-        success: function (data) {
-            alert(data);
-        },
+        body: JSON.stringify({id_produit: e}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then(r => {
+        return r.json();
+    }).then((msg) => {
+        let obj = document.getElementById('addFav_' + e);
+        obj.style.color = (obj.style.color === 'red' ? 'lightgrey' : 'red');
+        if (msg.state)
+            success("Mise à jour des favoris effectuée avec succès !");
+        else
+            error("Veuillez réessayer ultérieurement ...");
     });
 }
+
 
 
 ready(() => {
     let elements = document.getElementsByClassName('rubrique');
     for (let i = 0; i < elements.length; i++)
         elements[i].addEventListener('click', () => requestAlbumList(elements[i]));
+
     document.getElementById("favOnly").addEventListener('click', requestAlbumList, false);
-    $('#toolt').tooltip();
+
+    document.getElementById('search').addEventListener('keypress', (e) => {
+        if (e.code === 'Enter')
+            requestAlbumList();
+    });
+
     setTimeout(requestAlbumList, 50);
 });

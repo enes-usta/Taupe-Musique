@@ -1,4 +1,7 @@
 <?php
+
+use JetBrains\PhpStorm\Pure;
+
 include_once("Database/Database.php");
 /**
  * @param $login
@@ -13,6 +16,17 @@ function getUser($login): mixed
     if ($req->rowCount() > 0)
         return $req->fetch(PDO::FETCH_OBJ);
     else return null;
+}
+
+
+/**
+ * Retourne le login de l'utilisateur connecté
+ * Si celui-ci n'est pas connecté, retourne null
+ * @return mixed
+ */
+#[Pure] function getLogin(): mixed
+{
+    return isLogged() ? $_SESSION['user'] : null;
 }
 
 /**
@@ -31,45 +45,163 @@ function isAdmin(): bool
     global $admins_list;
     if (!isLogged())
         return false;
-    return in_array(getUser($_SESSION['user'])->login, $admins_list);
+    return in_array(getUser(getLogin())->login, $admins_list);
 }
 
 /**
  * Valide la commande pour chaque article du panier
  * @return bool La commande a été effectuée avec succès
- * @see confirmerCommande.php Ligne 6
+ * @see sendOrder.php Ligne 6
  */
-function validerCommande(): bool
+function validerCommande($user): bool
 {
-    $panier = json_decode($_COOKIE["panier"]);
-
+    $panier = getPanier($user);
     $db = Database::getInstance();
-    $req = $db->prepare("REPLACE into commande (ID_PROD,ID_CLIENT,DATE,CIVILITE,NOM,PRENOM,ADRESSE,CP,VILLE,TELEPHONE) values (:item,:login,:date,:civilite,:nom,:prenom,:adresse,:cp,:ville,:telephone)");
+    $req = $db->prepare("REPLACE into commande (id_produit, id_client, amount) values (:item, :login, :amount)");
     foreach ($panier as $item)
         $req->execute(array(
-            ":item" => $item,
-            ":login" => $_SESSION["login"],
-            ":date" => date('d/m/Y'),
-            ":civilite" => $_SESSION["CIVILITE"],
-            ":nom" => $_SESSION["NOM"],
-            ":prenom" => $_SESSION["NOM"],
-            ":adresse" => $_SESSION["ADRESSE"],
-            ":cp" => $_SESSION["CP"],
-            ":ville" => $_SESSION["VILLE"],
-            ":telephone" => $_SESSION["TELEPHONE"]
+            ':item' => $item->id,
+            ':login' => $user,
+            ':amount' => $item->amount
         ));
-    return false;
+
+    $clear = $db->prepare("DELETE FROM panier WHERE login_user = :login");
+    $clear->execute([':login' => $user]);
+
+    return true;
 }
+
+function migrateCookiesToBDD($user)
+{
+
+    $panier = panierCookies();
+    $db = Database::getInstance();
+    $panierReq = $db->prepare('INSERT INTO panier (login_user, id_produit, amount) VALUES(:login, :produit, :amount) ON DUPLICATE KEY UPDATE amount = amount + :addamount');
+    foreach ($panier as $produit => $amount)
+        $panierReq->execute(array(
+            ':login' => $user,
+            ':produit' => $produit,
+            ':amount' => $amount,
+            ':addamount' => $amount));
+
+    $favoris = getFavorisCookies();
+
+    foreach ($favoris as $i => $fav)
+        updateFavoris($user, $fav);
+
+    unset($_COOKIE['panier']);
+    unset($_COOKIE['favoris']);
+    setcookie('panier', null, -1, '/');
+    setcookie('favoris', null, -1, '/');
+
+}
+
+
+/**
+ *  +--------------+
+ *  |    PANIER    |
+ *  +--------------+
+ */
+
+
+/**
+ * Met à jour le panier du client courant
+ *
+ * @param $produit
+ * @param $amount
+ * @return bool Le panier a bien été mis à jour ou non
+ */
+function updatePanier($produit, $amount): bool
+{
+    if (!(existAlbum($produit) && is_numeric($amount))) return false;
+
+    $params = array(':login' => getLogin(), ':produit' => $produit);
+    if ($amount <= 0)
+        $sql = 'DELETE FROM panier WHERE login_user = :login AND id_produit = :produit';
+    else {
+        $sql = 'INSERT INTO panier (login_user, id_produit, amount) VALUES(:login, :produit, :amount) ON DUPLICATE KEY UPDATE amount = amount + :addamount';
+        $params[':amount'] = $amount;
+        $params[':addamount'] = $amount;
+    }
+
+    $db = Database::getInstance();
+    $req = $db->prepare($sql);
+    $req->execute($params);
+
+    return true;
+}
+
+function panierCookies()
+{
+    if (isset($_COOKIE['panier']))
+        if (all(array_keys(json_decode($_COOKIE['panier'], true)), 'is_numeric') && all(array_values(json_decode($_COOKIE['panier'], true)), 'is_numeric'))
+            return json_decode($_COOKIE['panier'], true);
+    return array();
+}
+
+function getPanierCookies()
+{
+    $panier = panierCookies();
+
+    $db = Database::getInstance();
+    $sql = "SELECT ID_PROD as id, titre, prix FROM produits WHERE produits.ID_PROD IN (" . (count($panier) > 0 ? implode(',', array_keys($panier)) : "NULL") . ")";
+
+    $req = $db->prepare($sql);
+    $req->execute();
+
+    return $req->fetchAll();
+}
+
+/**
+ * @param $login
+ * @return mixed Panier avec chaque item au format {id, titre, prix, amount}
+ */
+function getPanier($login): mixed
+{
+    $db = Database::getInstance();
+    $req = $db->prepare('SELECT ID_PROD as id, titre, prix, amount FROM produits LEFT JOIN panier ON produits.ID_PROD = panier.id_produit WHERE panier.login_user = :login');
+    $req->execute(array(':login' => $login));
+
+    return $req->fetchAll(PDO::FETCH_OBJ);
+}
+
+
+function updatePanierCookies($produit, $amount): bool
+{
+    if (!(existAlbum($produit) && is_numeric($amount))) return false;
+
+    $panier = panierCookies();
+    if ($amount <= 0)
+        unset($panier[$produit]);
+    else if (isset($panier[$produit]))
+        $panier[$produit] += $amount;
+    else
+        $panier[$produit] = $amount;
+
+    setPanierCookies($panier);
+    return true;
+
+}
+
+
+/**
+ *  +-------------+
+ *  |   FAVORIS   |
+ *  +-------------+
+ */
 
 
 /**
  * @param $user
  * @param $produit
  * Met à jour les favoris de l'utilisateur
- * Suppresion du produit s'il y est déja sinon l'ajoute
+ * Suppression du produit s'il y est déja sinon l'ajoute
+ * @return bool
  */
-function updateFavoris($user, $produit)
+function updateFavoris($user, $produit): bool
 {
+    if (!existAlbum($produit)) return false;
+
     $db = Database::getInstance();
 
     $req = $db->prepare("select * from FAVS where id_prod = :produit AND LOGIN = :user;");
@@ -80,49 +212,130 @@ function updateFavoris($user, $produit)
         $update = $db->prepare("INSERT INTO favs VALUES(:user, :produit);");
 
     $update->execute(array(":user" => $user, ":produit" => $produit));
+    return true;
 
+}
+
+/**
+ * Met à jour les favoris de l'utilisateur
+ * Suppression du produit s'il y est déja sinon l'ajoute
+ * A appeler si dans les cookies
+ * @param $produit
+ * @return false
+ */
+function updateFavorisCookies($produit): bool
+{
+    if (!existAlbum($produit)) return false;
+
+    $favoris = getFavorisCookies();
+    if (($key = array_search($produit, $favoris)) !== false)
+        unset($favoris[$key]);
+    else
+        $favoris[] = $produit;
+
+    setFavorisCookies($favoris);
+    return true;
+}
+
+
+/**
+ *
+ * Retourne les favoris de l'utilisateur stocké dans les cookies
+ *
+ * @return array
+ */
+function getFavorisCookies(): array
+{
+    if (isset($_COOKIE['favoris'])) {
+        $favoris = json_decode($_COOKIE['favoris'], true);
+        if (all($favoris, 'is_numeric'))
+            return $favoris;
+    }
+
+    return array();
+}
+
+/**
+ * @param array $favoris
+ * @return void
+ */
+function setFavorisCookies(array $favoris)
+{
+    setcookie('favoris', json_encode($favoris), time() + (10 * 365 * 24 * 3600), '/');
+}
+
+/**
+ * @param array $panier
+ * @return void
+ */
+function setPanierCookies(array $panier)
+{
+    setcookie('panier', json_encode($panier), time() + (10 * 365 * 24 * 3600), '/');
 }
 
 /**
  * @param $user
  * @return array Favoris de l'utilisateur
  */
-function getFavoris($user): array
+function getFavoris($user = null): array
 {
+    if ($user == null)
+        return [];
     $db = Database::getInstance();
     $req = $db->prepare("SELECT ID_PROD FROM FAVS WHERE LOGIN = :user");
     $req->execute(array(":user" => $user));
-
     return $req->fetchAll();
 }
+
 
 /**
- * @param $user
- * @param $rubFilter
  * @param string $filter
- * @param bool $favsOnly
- * @return array Values : titre, chansons, prix, descriptif, photo
+ * @param $rubriques
+ * @return mixed
  */
-function getAlbumListCustom($user, $rubFilter, string $filter, bool $favsOnly): array
+function getAlbumListFiltered(string $filter, $rubriques): mixed
 {
+
+    $arr = array(":titre" => '%' . $filter . '%');
     $db = Database::getInstance();
-    $sql = "SELECT id_prod as id, titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE :titre" . ($favsOnly ? ' AND ID_PROD IN (SELECT * FROM favs WHERE LOGIN = :login' : '');
+    $sql = 'SELECT p.id_prod as id, p.titre, p.chansons, p.prix, p.descriptif, p.photo';
+    if (isLogged()) {
+        $sql .= ', EXISTS (SELECT * FROM `favs` WHERE favs.ID_PROD = p.ID_PROD AND favs.LOGIN = :user)';
+        $arr[':user'] = getLogin();
+    } else {
+        $favorisList = getFavorisCookies();
+        $i = 1;
+        $in = '';
+        foreach ($favorisList as $item) {
+            $key = ":fav" . $i;
+            $in .= ($in ? "," : "") . $key;
+            $arr[$key] = $item;
+            $i++;
+        }
+        if ($in == '')
+            $sql .= ', FALSE ';
+        else
+            $sql .= ', p.id_prod IN (' . $in . ')';
+    }
+    $sql .= ' as isFav FROM produits as p WHERE TITRE LIKE :titre';
+
+    if (count($rubriques) > 0 && all($rubriques, 'is_numeric')) {
+        {
+            $j = 0;
+            $inj = '';
+            foreach ($rubriques as $item) {
+                $key = ":fav" . $j++;
+                $inj .= ($inj ? "," : "") . $key;
+                $arr[$key] = $item;
+            }
+            $sql .= ' AND p.id_prod IN (SELECT id_prod from appartient where id_rub IN (' . $inj . '))';
+        }
+    }
+
+
     $req = $db->prepare($sql);
-
-    $arr = array(":titre" => '%'.$filter.'%');
-    if ($favsOnly)
-        $arr[':login'] = $user;
-
     $req->execute($arr);
-
     return $req->fetchAll();
-}
-
-function getTopRubriques($rubList){
-//    $db = Database::getInstance();
-//    $req = $db->prepare("SELECT LOGIN FROM USERS WHERE LOGIN = :login");
-//    $req->execute(array(":login" => $login));
-//    return ($req->rowCount() != 0);
 }
 
 /**
@@ -188,13 +401,32 @@ function isValid($login, $password): bool
     return false;
 }
 
+/**
+ * Vérifie si un compte avec l'email donné existe
+ * @param $email
+ * @return bool
+ */
+function existByEmail($email): bool
+{
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        return false;
+    $db = Database::getInstance();
+    $req = $db->prepare('SELECT login FROM users WHERE email = :email');
+    $req->execute([':email' => $email]);
+
+    return ($req->rowCount > 0);
+}
+
+
 
 /**
- * @param $id int du produit que l'on veut
+ * @param $id
  * @return mixed Object Produit (en params : titre, chansons, prix, descriptif)
  */
 function getAlbumById($id): mixed
 {
+    if (!is_numeric($id)) return false;
+
     $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
@@ -204,6 +436,8 @@ function getAlbumById($id): mixed
 
 function existAlbum($id): bool
 {
+    if (!is_numeric($id)) return false;
+
     $db = Database::getInstance();
     $req = $db->prepare("SELECT titre, chansons, prix, descriptif FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
@@ -247,16 +481,7 @@ function getAlbums(): bool|array
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
-/*
-function getAlbumsByTitleAndFilter($rubriques, $titre): mixed
-{
-    $db = Database::getInstance();
 
-    $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE TITRE LIKE %:titre%");
-    $req->execute(array(":titre" => $titre));
-
-    return $req->fetchAll(PDO::FETCH_OBJ);
-}*/
 
 function getSousRubriques($rub_id): bool|array
 {

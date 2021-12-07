@@ -2,30 +2,38 @@
 include_once 'DB.php';
 function afficherCommandes()
 {
-
-    echo "<h2>Commandes</h2><br/>";
-    $orders = getOrders();
         ?>
+        <h2>Commandes</h2><br/>
         <table>
-        <tr><td width='50px'>ID</td><td width='80px'>Date</td><td width='80px'>Produit</td><td width='80px'>Client</td></tr>
-        <tr><td colspan='5'><hr></td></tr>
+            <tr>
+                <td>ID</td>
+                <td>Date</td>
+                <td>Produit</td>
+                <td>Client</td>
+            </tr>
+            <tr>
+                <td colspan='5'><hr></td>
+            </tr>
         <?php
+        $orders = getOrders();
         foreach ($orders as $o) {
             ?>
             <tr>
-                <td id='item'><?= $o->id_com ?></td>
-                <td> <?= $o->date ?></td>
-                <td><a href='detail.php?id=<?= $o->id_prod ?>'> <?= $o->id_prod ?><a></td>
-                <td><a href='details.php?login=".$row["id_client"]."'><?= $o->nom . " " . $o->prenom ?></a></td>
+                <td id='item'><?= $o->id_order ?></td>
+                <td><?= $o->date ?></td>
+                <td>
+                    <a href="<?= parse_url('/', PHP_URL_PATH) .'detail.php?id=' .$o->id_produit ?>"> <?= getAlbumById($o->id_produit)->titre ?><a>
+                </td>
+                <td>
+                    <a href='details.php?login=<?= $o->id_client ?>'><?= $o->id_client ?></a>
+                </td>
             </tr>
             <tr>
                 <td colspan='5'>
                     <hr>
                 </td>
             </tr>
-
-
             <?php
         }
-        echo "</table>";
+        echo '</table>';
 }

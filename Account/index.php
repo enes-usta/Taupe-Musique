@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../Functions/Layout.php';
+include 'Functions/Layout.php';
 include_once("Database/DB.php");
 ?>
 
@@ -15,13 +15,12 @@ include_once("Database/DB.php");
 
     <title>Taupe Musique</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/shop-homepage.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="../public/css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
-    <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
+    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/js/jq.js"></script>
+    <script src="/public/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -199,11 +198,9 @@ include_once("Database/DB.php");
         }
         ?>
 
-        <!-- jQuery -->
-        <script src="../public/js/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="../public/js/jq.js"></script>
         <script type="text/javascript">
-            document.getElementById('modiform').addEventListener('submit', (e) => {
+            let editForm = document.getElementById('modiform');
+            if (editForm !== null) editForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     const data = new FormData(document.getElementById('modiform'));
                     const value = Object.fromEntries(data.entries());
@@ -220,14 +217,7 @@ include_once("Database/DB.php");
                         }, 100);
                     });
                 }
-            );</script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../public/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="../public/js/daterangepicker.js"></script>
-        <script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript" src="../public/js/moment.min.js"></script>
-
-
+            );
+        </script>
 </body>
-
 </html>

@@ -16,10 +16,12 @@ include 'Functions/AddRubriqueLayout.php';
 
     <title>TaupeMusique</title>
 
-    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../public/css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
-    <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/jq.js" type="text/javascript"></script>
+    <script src="/public/js/bootstrap.min.js"></script>
+
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/shop-homepage.css" rel="stylesheet">
 
     <script>
         function numChansons() {
@@ -53,14 +55,5 @@ include 'Functions/AddRubriqueLayout.php';
     <hr>
     <?php include("includes/footer.php"); ?>
 </div>
-
-<!-- jQuery -->
-<script src="../public/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="../public/js/jq.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="../public/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../public/js/daterangepicker.js"></script>
-<script type="text/javascript" src="../public/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="../public/js/moment.min.js"></script>
 </body>
 </html>

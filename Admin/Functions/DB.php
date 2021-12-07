@@ -45,6 +45,6 @@ function getOrders(): mixed
 {
     $db = Database::getInstance();
     $req = $db->prepare("SELECT * FROM commande");
-    $req->execute(array());
+    $req->execute();
     return $req->fetchAll(PDO::FETCH_OBJ);
 }

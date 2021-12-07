@@ -1,8 +1,6 @@
-
 <?php
 session_start();
 include_once 'Functions/indexFunctions.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,17 +13,13 @@ include_once 'Functions/indexFunctions.php';
 
     <title>Taupe Musique</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="./public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./public/css/heart.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/public/css/shop-homepage.css" rel="stylesheet" type="text/css">
 
-    <!-- Custom CSS -->
-    <link href="./public/css/shop-homepage.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="./public/css/datepicker.min.css"/>
-    <link rel="stylesheet" href="./public/css/datepicker3.min.css"/>-->
-
-    <script src="./public/js/jq.js"></script>
-    <script src="./public/js/index.js"></script>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/index.js"></script>
+    <script src="/public/js/cart.js"></script>
+    <script src="/public/js/jq.js"></script>
 
 </head>
 
@@ -35,6 +29,8 @@ include_once 'Functions/indexFunctions.php';
 
 <div class="container">
     <div class="row">
+        <div id="NotifyResult" class="w-100" style="text-align: center">
+        </div>
         <div class="col-md-3">
             <p class="lead">Sélectionnez un genre</p>
             <div class="checkbox">
@@ -43,9 +39,7 @@ include_once 'Functions/indexFunctions.php';
                 </label>
             </div>
             <div class="list-group">
-                <?php
-                echo displayRubriques(16,0);
-                ?>
+                <?= displayRubriques(16,0); ?>
             </div>
         </div>
 

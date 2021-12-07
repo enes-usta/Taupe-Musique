@@ -4,9 +4,9 @@
             <div class="modal-header">
                 <h4>Connexion</h4>
             </div>
+            <form role="form" method="post" id="logform">
             <div class="modal-body">
 
-                <form role="form" method="post" id="logform">
                     <div class="form-group">
                         <div id="reponse" style="display: flex; flex-direction: column;">
 
@@ -24,7 +24,7 @@
             </div>
             <div class="modal-footer">
                 <a class="btn btn-default" href="#Enregistrer" data-toggle="modal">Créer un compte</a>
-                <a class="btn btn-primary" href="../Auth/mdp.php">Mot de passe Oublié?</a>
+                <a class="btn btn-primary" href="Auth/ResetPassword.php">Mot de passe Oublié?</a>
                 <input class="btn btn-primary" type="submit" value="Log In">
             </div>
             </form>

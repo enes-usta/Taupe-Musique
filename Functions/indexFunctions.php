@@ -7,7 +7,7 @@ function displayRubriques($id_rubrique, $indentLvl): string
     $rubriques = getSousRubriques($id_rubrique);
     $str = '';
     foreach ($rubriques as $a) {
-        $str .= '<a href="#" click="" idRub="'.$a->ID_RUB.'" class="list-group-item rubrique" style="margin-left:' . (25 * $indentLvl) . 'px" data-toggle="collapse" data-target="#element' . $a->ID_RUB . '">';
+        $str .= '<a href="#" idRub="'.$a->ID_RUB.'" class="list-group-item rubrique" style="margin-left:' . (25 * $indentLvl) . 'px" data-toggle="collapse" data-target="#element' . $a->ID_RUB . '">';
         $str .= '<i class="fa fa-angle-down"></i>' . $a->LIBELLE_RUB;
         $str .= '</a>';
 
