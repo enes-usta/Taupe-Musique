@@ -16,7 +16,7 @@ require 'smtp.params.php';
  */
 function sendResetLink($email)
 {
-    global $host, $username, $password, $email_admin;
+    global $host, $username, $password, $email_admin, $port;
     $mail = new PHPMailer(true);
 
     try {
@@ -27,7 +27,7 @@ function sendResetLink($email)
         $mail->Username   = $username;
         $mail->Password   = $password;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port       = 465;
+        $mail->Port       = $port;
 
         $mail->setFrom($email_admin, 'Bot TaupeMusique');
         $mail->addAddress($email, 'Joe User');
