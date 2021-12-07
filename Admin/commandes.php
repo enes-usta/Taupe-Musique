@@ -17,6 +17,13 @@ include 'Functions/Orders.php';
 
     <link href="../public/css/bootstrap.min.css" rel="stylesheet">
     <link href="../public/css/shop-homepage.css" rel="stylesheet">
+    <style>
+        td {
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+        }
+    </style>
 </head>
 
 <body>

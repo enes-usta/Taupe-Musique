@@ -16,10 +16,10 @@ include_once 'Functions/indexFunctions.php';
     <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/public/css/shop-homepage.css" rel="stylesheet" type="text/css">
 
-    <script src="./public/js/cart.js"></script>
-    <script src="./public/js/index.js"></script>
-    <script src="./public/js/jquery.min.js"></script>
-    <script src="./public/js/jq.js"></script>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/index.js"></script>
+    <script src="/public/js/cart.js"></script>
+    <script src="/public/js/jq.js"></script>
 
 </head>
 

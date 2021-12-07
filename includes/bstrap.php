@@ -4,9 +4,9 @@
             <div class="modal-header">
                 <h4>Connexion</h4>
             </div>
+            <form role="form" method="post" id="logform">
             <div class="modal-body">
 
-                <form role="form" method="post" id="logform">
                     <div class="form-group">
                         <div id="reponse" style="display: flex; flex-direction: column;">
 
@@ -20,7 +20,6 @@
                         <input type="password" class="form-control" placeholder="Password" maxlength="100"
                                name="password"/>
                     </div>
-                </form>
 
             </div>
             <div class="modal-footer">
@@ -28,6 +27,7 @@
                 <a class="btn btn-primary" href="Auth/ResetPassword.php">Mot de passe Oublié?</a>
                 <input class="btn btn-primary" type="submit" value="Log In">
             </div>
+            </form>
         </div>
     </div>
 </div>

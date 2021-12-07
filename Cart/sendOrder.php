@@ -13,7 +13,7 @@ include_once("Database/DB.php");
 
 if (isLogged())
     if (validerCommande(getLogin()))
-        echo '';
+        echo 'Commande effectuée avec succès';
     else
         echo 'Erreur lors de votre commande... <br> Veuillez réessayer ultérieurement';
 
