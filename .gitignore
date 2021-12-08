@@ -1,6 +1,6 @@
 .idea
 .vs
-Parametres.php
-Database/Parametres.php
+Parameters.php
+./Database/Parameters.php
 Database/Database.php
 smtp.params.php
