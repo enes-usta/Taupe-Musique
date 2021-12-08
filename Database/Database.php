@@ -14,9 +14,7 @@ class Database
      */
     public static function getInstance(): Database
     {
-        $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=cds;';
-        $user = 'root';
-        $password = '';
+        global $dsn, $user, $password;
 
         if (self::$_instance == NULL)
             self::$_instance = new self($dsn, $user, $password);
