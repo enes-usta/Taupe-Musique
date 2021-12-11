@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 include_once("Database/DB.php");
 
@@ -32,16 +31,11 @@ else {
 }
 
 if ((isset($data->passwordbdd)))
-    if (empty($data->passwordbdd)) {
-        $return["pass"] = "Le mot de passe est trop court";
+    if (!preg_match("#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#", $data->passwordbdd)) {
+        $return["pass"] = "Veuillez saisir un mot de passe avec au moins 8 caractères dont une majuscule, une minuscule et un chiffre";
         $ok = false;
-    } else {
+    } else
         $pass = $data->passwordbdd;
-        if (strlen($pass) > 100) {
-            $return["passLong"] = "Le mot de passe est trop long";
-            $ok = false;
-        }
-    }
 else {
     $return["passVal"] = "Le mot de passe est invalide";
     $ok = false;

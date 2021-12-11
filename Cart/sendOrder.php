@@ -1,9 +1,10 @@
 <?php
 session_start();
+include ('Auth/log_authorized.php');
 include_once("Database/DB.php");
 ?>
 
-<html>
+<html lang="fr">
 <head>
     <title>Taupe musique - Votre commande</title>
 </head>

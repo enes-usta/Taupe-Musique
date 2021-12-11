@@ -1,5 +1,7 @@
 <?php
 session_start();
+include ('Auth/log_authorized.php');
+
 include_once("Database/DB.php");
 
 $content = file_get_contents('php://input');
@@ -15,7 +17,7 @@ if ((isset($data->loginbdd) && !empty($data->loginbdd)))
 
 // ==== PASSWORD ==== //
 if (isset($data->passwordbdd) && !empty($data->passwordbdd))
-    if (strlen($data->passwordbdd) <= 100)
+    if (preg_match("#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#", $data->passwordbdd))
         $pass = $data->passwordbdd;
 
 // ============ EMAIL ============ //

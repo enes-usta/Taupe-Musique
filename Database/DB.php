@@ -418,6 +418,15 @@ function existByEmail($email): bool
 }
 
 
+function generateToken($email): string
+{
+    $token = bin2hex(openssl_random_pseudo_bytes(16)). sha1($email) . dechex(time()) . rand();
+    $db = Database::getInstance();
+    $req = $db->prepare('INSERT INTO reset_tokens(email_address, token_value, expiry_date) VALUES (:email, :token, :expiry) ON DUPLICATE KEY UPDATE token_value = :new_token, expiry_date = :new_expiry');
+    $req->execute(array(':email' => $email, ':token' => $token, ':expiry' => (time() + 24*60*60), ':new_token' => $token, ':new_expiry' => (time() + 24*60*60)));
+    return $token;
+}
+
 
 /**
  * @param $id
