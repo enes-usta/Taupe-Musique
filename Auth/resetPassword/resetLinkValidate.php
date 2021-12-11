@@ -33,9 +33,9 @@ $data = json_decode(file_get_contents('php://input'));
 $message = '';
 $ok = false;
 if (isValidResetPassword($data->email ?? '', $data->token ?? '')) {
-    if ($data->password != $data->password->repeat)
+    if ($data->password != $data->password_repeat)
         $message = "Vous avez saisi deux mot de passe différents";
-    else if (!preg_match("#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#", $data->passwordbdd))
+    else if (!preg_match("#^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$#", $data->password))
         $message = "Veuillez saisir un mot de passe avec au moins 8 caractères dont une majuscule, une minuscule et un chiffre";
     else {
         updatePassword($data->email, $data->password);

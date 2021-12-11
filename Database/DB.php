@@ -73,7 +73,6 @@ function validerCommande($user): bool
 
 function migrateCookiesToBDD($user)
 {
-
     $panier = panierCookies();
     $db = Database::getInstance();
     $panierReq = $db->prepare('INSERT INTO panier (login_user, id_produit, amount) VALUES(:login, :produit, :amount) ON DUPLICATE KEY UPDATE amount = amount + :addamount');
@@ -180,7 +179,6 @@ function updatePanierCookies($produit, $amount): bool
 
     setPanierCookies($panier);
     return true;
-
 }
 
 
@@ -414,7 +412,7 @@ function existByEmail($email): bool
     $req = $db->prepare('SELECT login FROM users WHERE email = :email');
     $req->execute([':email' => $email]);
 
-    return ($req->rowCount > 0);
+    return ($req->rowCount() > 0);
 }
 
 
@@ -422,8 +420,8 @@ function generateToken($email): string
 {
     $token = bin2hex(openssl_random_pseudo_bytes(16)). sha1($email) . dechex(time()) . rand();
     $db = Database::getInstance();
-    $req = $db->prepare('INSERT INTO reset_tokens(email_address, token_value, expiry_date) VALUES (:email, :token, :expiry) ON DUPLICATE KEY UPDATE token_value = :new_token, expiry_date = :new_expiry');
-    $req->execute(array(':email' => $email, ':token' => $token, ':expiry' => (time() + 24*60*60), ':new_token' => $token, ':new_expiry' => (time() + 24*60*60)));
+    $req = $db->prepare('INSERT INTO reset_tokens(email_address, token_value, expiry_date) VALUES (:email, :token, (NOW() + INTERVAL 1 DAY)) ON DUPLICATE KEY UPDATE token_value = :new_token, expiry_date = (NOW() + INTERVAL 1 DAY)');
+    $req->execute(array(':email' => $email, ':token' => $token, ':new_token' => $token));
     return $token;
 }
 

@@ -41,6 +41,7 @@
                     <h2>Mot de passe oublié</h2><br/>
                     <label>Entrez l'adresse email avec laquelle vous vous êtes inscrit pour réinitialiser votre mot de
                         passe.</label><br/><br/>
+
                     <input type="text" size="55" id="email" placeholder="votre email"/><br/><br/>
                     <button id="valider">Valider</button>
                     <div id="res" style="margin-top: 15px; display: none">
