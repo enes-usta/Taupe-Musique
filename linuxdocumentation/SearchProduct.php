@@ -14,11 +14,24 @@ if ($user != "") {
     //echo "$user";
     $req = mysqli_query($mysqli, "SELECT * FROM users WHERE NOM = '$user'");
     if($req != false){
+        $cpt = 0;
         while($data = mysqli_fetch_array($req)){
+            $cpt ++;
             echo '<a href="fiche.php">'.$data['NOM'].' '.$data['PRENOM'].'</a>';
+            echo "<br/>";
+        }
+        if($cpt ==0){
+            echo 'aucun résultat';
+            echo"<br/>";
         }
     }
+    echo"<br/>";
+
+
    //printf("error: %s\n", mysqli_error($mysqli));
    //echo " res = $req";
 
 }
+?>
+
+<input type=button onclick=window.location.href='RechercheBarre.php'; value=retour />

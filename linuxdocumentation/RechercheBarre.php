@@ -27,7 +27,6 @@ include 'SearchProductLayout.php';
 </head>
 
 <body>
-<?php include("includes/navbar.php"); ?>
 
 <div class="container">
     <div class="row">
