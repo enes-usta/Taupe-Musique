@@ -29,7 +29,7 @@ include 'Database/Database.php';
 
     <div class="form-groupe">
         <label>Veuillez répeter votre nouveau mot de passe</label>
-        <input type="password" name="password-repeat"/>
+        <input type="password" name="password_repeat"/>
     </div>
     <div class="form-groupe">
         <input type="submit" value="Modifier">
@@ -39,19 +39,24 @@ include 'Database/Database.php';
 <script>
     window.onload = () => {
         let form = document.getElementById('resetPassword');
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
             const value = Object.fromEntries(new FormData(form).entries());
-            let f = await fetch('resetLinkValidate.php', {
-                method: "POST", body: JSON.stringify(value), headers: {
-                    'Content-Type': 'application/json', 'Accept': 'application/json'
+            fetch('resetLinkValidate.php', {
+                    method: "POST", body: JSON.stringify(value),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                    }
                 }
-            });
-            let r = await f.json();
+            ).then((e) => {
+                return e.json()
+            }).then((r) => {
+                let response = document.getElementById('response');
+                response.style.color = r.ok ? 'green' : 'red';
+                response.innerHTML = r.message;
 
-            let response = document.getElementById('response');
-            response.style.color = r.ok ? 'green' : 'red';
-            response.innerHTML = r.message;
+            })
         });
     }
 </script>
