@@ -8,12 +8,12 @@ if ($user != "") {
     global $host, $user, $password, $database;
     $mysqli=mysqli_connect($host,$user,$password,$database);// or die("Problème de création de la base :".mysqli_error());
 
-    $req = mysqli_query($mysqli, "SELECT * FROM users WHERE NOM = '$user'");
+    $req = mysqli_query($mysqli, "SELECT * FROM user WHERE username = '$user'");
     if($req != false){
         $cpt = 0;
         while($data = mysqli_fetch_array($req)){
             $cpt ++;
-            echo '<a href="fiche.php">'.$data['NOM'].' '.$data['PRENOM'].'</a><br/>';
+            echo '<a href="fiche.php">'.$data['username'].' '.$data['email'].'</a><br/>';
         }
         if($cpt ==0)
             echo 'aucun résultat<br/>';
