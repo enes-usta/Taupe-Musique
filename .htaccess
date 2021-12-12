@@ -1,1 +1,1 @@
-RedirectMatch 403 ^/CTF.*$
+RedirectMatch 404 ^/CTF.*$
