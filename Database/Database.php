@@ -1,5 +1,5 @@
 <?php
-/*include_once 'Database/Parametres.php';*/
+include_once 'Database/Parametres.php';
 $admins_list = array('admin');
 
 
