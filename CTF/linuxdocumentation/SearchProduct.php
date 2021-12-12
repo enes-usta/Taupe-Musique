@@ -6,7 +6,7 @@ $user = $_POST["user"];
 
 if ($user != "") {
     global $host, $user, $password, $database;
-    $mysqli=mysqli_connect($host,$user,$password,$database) or die("Problème de création de la base :".mysqli_error());
+    $mysqli=mysqli_connect($host,$user,$password,$database);// or die("Problème de création de la base :".mysqli_error());
 
     $req = mysqli_query($mysqli, "SELECT * FROM users WHERE NOM = '$user'");
     if($req != false){
