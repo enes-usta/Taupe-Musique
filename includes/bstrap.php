@@ -32,7 +32,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-default" href="#Enregistrer" data-toggle="modal">Créer un compte</a>
-                    <a class="btn btn-primary" href="<?= parse_url('/Auth/ResetPassword/', PHP_URL_PATH) ?>">Mot de
+                    <a class="btn btn-primary" href="<?= parse_url('/Auth/resetPassword/', PHP_URL_PATH) ?>">Mot de
                         passe Oublié?</a>
                     <input class="btn btn-primary" type="submit" value="Log In">
                 </div>
