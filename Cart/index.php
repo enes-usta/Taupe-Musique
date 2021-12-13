@@ -10,17 +10,10 @@ session_start();
     <meta name="description" content="Panier taupe musique">
 
     <title>Taupe Musique</title>
-
-
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/public/css/shop-homepage.css" rel="stylesheet">
-
-    <script type="application/javascript" src="/public/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/js/jq.js"></script>
-    <script type="application/javascript" src="/public/js/bootstrap.min.js"></script>
+    <?php include("includes/imports.html"); ?>
 
     <script type="text/javascript" src="/public/js/cart.js"></script>
-    <script src="/public/js/Panier.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/public/js/Panier.js"></script>
 </head>
 
 <body>

@@ -8,9 +8,7 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <div id="reponse" style="display: flex; flex-direction: column;">
-
-                        </div>
+                        <div id="reponse" style="display: flex; flex-direction: column;"></div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Login d'utilisateur" maxlength="200"
@@ -23,7 +21,7 @@
 
                     <div class="elem-group">
                         <label for="captcha">Please Enter the Captcha Text</label><br/>
-                        <img src="<?= parse_url('captcha.php', PHP_URL_PATH) ?>" alt="CAPTCHA" class="captcha-image">
+                        <img src="<?= parse_url('/captcha.php', PHP_URL_PATH) ?>" alt="CAPTCHA" class="captcha-image">
                         <i class="fas fa-redo refresh-captcha"></i>
                         <br>
                         <input type="text" id="captcha" name="captcha" pattern="[A-Z]{6}">
@@ -102,7 +100,7 @@
 
                     <div class="elem-group">
                         <label for="captcha2">Please Enter the Captcha Text</label><br/>
-                        <img src="<?= parse_url('captcha2.php', PHP_URL_PATH) ?>" alt="CAPTCHA" class="captcha-image2">
+                        <img src="<?= parse_url('/captcha2.php', PHP_URL_PATH) ?>" alt="CAPTCHA" class="captcha-image2">
                         <i class="fas fa-redo refresh-captcha2"></i>
                         <br>
                         <input type="text" id="captcha2" name="captcha2" pattern="[A-Z]{6}" />

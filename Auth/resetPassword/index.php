@@ -7,10 +7,7 @@
 
     <title>Taupe Musique</title>
 
-    <script src="/public/js/jquery.min.js"></script>
-    <script src="/public/js/jq.js"></script>
-    <link href="/public/css/shop-homepage.css" rel="stylesheet">
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <?php include("includes/imports.html"); ?>
 
     <script type="text/javascript">
         $(document).ready(function () {

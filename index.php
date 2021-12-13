@@ -9,17 +9,12 @@ include_once 'Functions/indexFunctions.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <?php include("includes/imports.html"); ?>
 
     <title>Taupe Musique</title>
 
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="/public/css/shop-homepage.css" rel="stylesheet" type="text/css">
-
-    <script src="/public/js/jquery.min.js"></script>
+    <?php include("includes/imports.html"); ?>
     <script src="/public/js/index.js"></script>
     <script src="/public/js/cart.js"></script>
-    <script src="/public/js/jq.js"></script>
 
 </head>
 

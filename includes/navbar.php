@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="..">Accueil</a>
+                <a class="navbar-brand" href="<?= parse_url('/', PHP_URL_PATH) ?>">Accueil</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

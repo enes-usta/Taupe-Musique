@@ -15,21 +15,13 @@ include_once("Database/DB.php");
 
     <title>Taupe Musique</title>
 
-
-    <link href="/public/css/shop-homepage.css" rel="stylesheet">
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
-
-    <script src="/public/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/js/jq.js"></script>
+    <?php include("includes/imports.html"); ?>
     <style>
         td{
             padding: 5px 70px 5px 0;
         }
     </style>
-
 </head>
-
 <body>
 <?php include("includes/navbar.php"); ?>
 
