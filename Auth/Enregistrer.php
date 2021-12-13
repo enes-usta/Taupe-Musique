@@ -17,7 +17,7 @@ $data = json_decode(file_get_contents('php://input'));
 /* ---- Login ---- */
 if (!isset($data->login))
     $return["loginVal"] = "Le login n'est pas valide";
-else if (!preg_match("/^[a-zA-Z'\-\_0-9 ]+$/", $data->login))
+else if (!preg_match("/^[a-zA-Z'\-\_0-9]+$/", $data->login))
     $return["loginVal"] = "Votre login ne peut contenir que : Lettres, Chiffres, -, _";
 
 
@@ -38,13 +38,13 @@ else if (!filter_var($data->email, FILTER_VALIDATE_EMAIL))
 /* ---- Name ---- */
 if (!isset($data->nom))
     $return["emptyName"] = "Veuillez saisir un nom";
-else if (!preg_match("/^[a-zA-Z'\- ]+$/", $data->nom))
+else if (!preg_match("/^[a-zA-Z'\-]+$/", $data->nom))
     $return["InvalidName"] = "Veuillez saisir un nom valide";
 
 /* ---- Prénom ---- */
 if (!isset($data->prenom))
     $return['emptyFirstName'] = 'Veuillez saisir un prénom';
-else if (!preg_match("/^[a-zA-Z'\- ]+$/", $data->prenom))
+else if (!preg_match("/^[a-zA-Z'\-]+$/", $data->prenom))
     $return["InvalidFirstName"] = "Le prénom est invalide";
 
 
@@ -57,7 +57,7 @@ else if (!preg_match("/^[a-zA-Z0-9'\- ]+$/", $data->adresse))
 /* ---- Ville ---- */
 if (!isset($data->ville))
     $return['emptyCity'] = 'Veuillez saisir une ville';
-else if (!preg_match("/^[a-zA-Z0-9'\- ]+$/", $data->ville))
+else if (!preg_match("/^[a-zA-Z0-9'\-]+$/", $data->ville))
     $return["InvalidCity"] = "Veuillez saisir une ville valide";
 
 
@@ -81,7 +81,7 @@ if (!isset($data->telephone))
         $return['telephoneVal'] = 'Numéro de téléphone est invalide';
 
 
-/* ---- Téléphone ---- */
+/* ---- Sexe ---- */
 if (!isset($data->sexe) || !in_array($data->sexe, ['Homme', 'Femme']))
     $return['sexe'] = 'Genre inexistant ?';
 

@@ -15,12 +15,18 @@ include_once("Database/DB.php");
 
     <title>Taupe Musique</title>
 
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/public/css/shop-homepage.css" rel="stylesheet">
 
+    <link href="/public/css/shop-homepage.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="/public/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/jq.js"></script>
-    <script src="/public/js/bootstrap.min.js"></script>
+    <style>
+        td{
+            padding: 5px 70px 5px 0;
+        }
+    </style>
 
 </head>
 
@@ -28,9 +34,7 @@ include_once("Database/DB.php");
 <?php include("includes/navbar.php"); ?>
 
 <div class="container">
-
     <div class="row">
-
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
             <?php CompteLayout(); ?>
@@ -43,57 +47,57 @@ include_once("Database/DB.php");
                 if (isLogged()) {
                     $user = getUser($_SESSION["user"]);
                     ?>
-                    <table width='30%'>
+                    <table>
                         <tr>
                             <th>
                                 <hr>
                             </th>
                         </tr>
                         <tr>
-                            <td><p><strong>Login d'utilisateur</strong></p></td>
-                            <td><?= $user->login ?></td>
+                            <td><strong>Login d'utilisateur</strong></td>
+                            <td><?= htmlspecialchars($user->login) ?></td>
                         </tr>
                         <tr>
-                            <td><p><strong>Mot de passe<strong></p></td>
+                            <td><strong>Mot de passe<strong></td>
                             <td>********</td>
                         </tr>
                         <tr>
-                            <td><p><strong>Email</strong></p></td>
-                            <td><?= $user->email ?></td>
+                            <td><strong>Email</strong></td>
+                            <td><?= htmlspecialchars($user->email) ?></td>
                         </tr>
                         <tr>
-                            <td><p><strong>Nom</strong></p></td>
-                            <td><?= $user->nom ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><p><strong>Prénom</strong></p></td>
-                            <td><?= $user->prenom ?></td>
-                        </tr>
-                        <tr>
-                            <td><p><strong>Date de Naissance</strong></p></td>
-                            <td><?= $user->date ?></td>
-                        </tr>
-                        <tr>
-                            <td><p><strong>Telephone</strong></p></td>
-                            <td><?= $user->telephone ?></td>
+                            <td><strong>Nom</strong></td>
+                            <td><?= htmlspecialchars($user->nom) ?></td>
                         </tr>
 
                         <tr>
-                            <td><p><strong>Adresse</strong></p></td>
-                            <td><?= $user->adresse ?></td>
+                            <td><strong>Prénom</strong></td>
+                            <td><?= htmlspecialchars($user->prenom) ?></td>
                         </tr>
                         <tr>
-                            <td><p><strong>Ville</strong></p></td>
-                            <td><?= $user->ville ?></td>
+                            <td><strong>Date de Naissance</strong></td>
+                            <td><?= htmlspecialchars($user->date) ?></td>
                         </tr>
                         <tr>
-                            <td><p><strong>Code Postal</strong></p></td>
-                            <td><?= $user->codep ?></td>
+                            <td><strong>Telephone</strong></td>
+                            <td><?= htmlspecialchars($user->telephone) ?></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Adresse</strong></td>
+                            <td><?= htmlspecialchars($user->adresse) ?></td>
                         </tr>
                         <tr>
-                            <td><p><strong>Sexe</strong></p></td>
-                            <td><?= $user->sexe ?></td>
+                            <td><strong>Ville</strong></td>
+                            <td><?= htmlspecialchars($user->ville) ?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Code Postal</strong></td>
+                            <td><?= htmlspecialchars($user->codep) ?></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sexe</strong></td>
+                            <td><?= htmlspecialchars($user->sexe) ?></td>
                         </tr>
                         <tr>
                             <td><a href='#Modifier' data-toggle='modal' class='list-group-item'>Éditer</a></td>
@@ -128,9 +132,15 @@ include_once("Database/DB.php");
     $user = getUser($_SESSION["user"]);
 
     $sexe = ($user->sexe == "Homme") ?
-        "<label class='radio-inline active'><input type='radio' name='optradio' value='Homme' checked='' >Homme</label>
-			<label class='radio-inline'><input type='radio' name='optradio' value='Femme'>Femme</label>" : "<label class='radio-inline'><input type='radio' name='optradio' value='Homme'>Homme</label>
-			<label class='radio-inline active'><input type='radio' name='optradio' value='Femme' checked=''>Femme</label>";
+        "<label class='radio-inline active'>
+            <input type='radio' name='optradio' value='Homme' checked='' >Homme</label>
+			<label class='radio-inline'>
+			<input type='radio' name='optradio' value='Femme'>Femme</label>"
+        :
+        "<label class='radio-inline'>
+        <input type='radio' name='optradio' value='Homme'>Homme</label>
+			<label class='radio-inline active'>
+			<input type='radio' name='optradio' value='Femme' checked=''>Femme</label>";
     ?>
     <div class='modal fade' id='Modifier' role='dialog'>
         <div class='modal-dialog'>
