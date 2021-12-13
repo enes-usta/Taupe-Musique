@@ -13,15 +13,13 @@ var checkedRubriques = [];
  * @param elt
  */
 requestAlbumList = (elt) => {
-    if (elt != null) {
+
+    if (elt != null && elt.type !== 'click') {
         let val = elt.getAttribute('idrub');
-        if (!checkedRubriques.includes(val))
-        {
+        if (!checkedRubriques.includes(val)) {
             checkedRubriques.push(val);
             elt.style.backgroundColor = 'lightblue';
-        }
-        else
-        {
+        } else {
             checkedRubriques.splice(checkedRubriques.indexOf(val), 1);
             elt.style.backgroundColor = '';
         }
@@ -45,9 +43,12 @@ requestAlbumList = (elt) => {
         let albumList = document.getElementById('albumList');
         albumList.innerHTML = '';
 
+        let onlyFan = document.getElementById('favOnly').checked;
+
         if (msg.length > 0)
             for (let a of msg)
-                albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.isFav);
+                if ((onlyFan && (Number(a.isFav) === 1)) || !onlyFan)
+                    albumList.innerHTML += getProduct(a.id, a.titre, a.titre, a.descriptif, a.photo, a.isFav);
         else
             albumList.innerHTML = noProduct();
     });
@@ -108,7 +109,6 @@ let addFavori = (e) => {
             error("Veuillez réessayer ultérieurement ...");
     });
 }
-
 
 
 ready(() => {

@@ -19,13 +19,13 @@ $(document).ready(function () {
                 response.className = (message.error) ? 'error' : 'success';
                 if (message.ok) {
                     response.style.color = 'green';
-                    response.innerHTML = 'Connexion effectuee avec succes. vous allez etre redirige ...';
+                    response.innerHTML = 'Connexion effectuee avec succes. Vous allez etre redirigé ...';
                     setTimeout(() => {
                         location.reload();
                     }, 4000);
                 } else {
                     response.style.color = 'red';
-                    response.innerHTML = 'Identifiant ou mot de passe invalide.';
+                    response.innerHTML = message.captcha ? 'Identifiant ou mot de passe invalide.' : 'Captcha Invalide';
                 }
             });
     });
@@ -60,5 +60,10 @@ $(document).ready(function () {
                 }
             });
     });
-
+    document.querySelector(".refresh-captcha").addEventListener('click', () => {
+        document.querySelector(".captcha-image").src = '/captcha.php?' + Date.now();
+    });
+    document.querySelector(".refresh-captcha2").addEventListener('click', () => {
+        document.querySelector(".captcha-image2").src = '/captcha2.php?' + Date.now();
+    });
 });

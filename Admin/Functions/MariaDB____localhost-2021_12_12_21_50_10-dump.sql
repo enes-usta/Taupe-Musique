@@ -62,7 +62,6 @@ CREATE TABLE `commande` (
 
 LOCK TABLES `commande` WRITE;
 /*!40000 ALTER TABLE `commande` DISABLE KEYS */;
-INSERT INTO `commande` VALUES (1,1,'admin',5,'2021-12-06 09:09:52'),(2,1,'admin',6,'2021-12-06 09:09:52'),(3,2,'admin',3,'2021-12-06 09:09:52');
 /*!40000 ALTER TABLE `commande` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +86,6 @@ CREATE TABLE `favs` (
 
 LOCK TABLES `favs` WRITE;
 /*!40000 ALTER TABLE `favs` DISABLE KEYS */;
-INSERT INTO `favs` VALUES ('admin',1);
 /*!40000 ALTER TABLE `favs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +134,6 @@ CREATE TABLE `panier` (
 
 LOCK TABLES `panier` WRITE;
 /*!40000 ALTER TABLE `panier` DISABLE KEYS */;
-INSERT INTO `panier` VALUES ('admin',0,0),('admin',1,7),('admin',2,2);
 /*!40000 ALTER TABLE `panier` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +187,6 @@ CREATE TABLE `reset_tokens` (
 
 LOCK TABLES `reset_tokens` WRITE;
 /*!40000 ALTER TABLE `reset_tokens` DISABLE KEYS */;
-INSERT INTO `reset_tokens` VALUES ('mine.skysylver@gmail.com','aceeedb3e144bf21bc450401e82d779f868ff4a3a7de9742b28d4cd88bfdf067965a8ff761b4e2281254183520','2021-12-12 18:38:48');
 /*!40000 ALTER TABLE `reset_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +245,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('aaaa','aaaa@aaaa.aaaa','$2y$10$11Lk6pKQSIZHlfvLLZMj1OWopW3Z/8IyfmTfOiIrw/nE5MZwuJpu6','ergferg','aaaa','24/12/1998','Homme','dazdazd',57000,'aaaa','0661384809'),('admin','admin@admin.com','$2y$10$F4qU8Y71vnROBNIhWkcC6.CZGXQHxSOINntRQ9DC2YBnJipI1SYyS','ADMIN','admin','01/01/1999','Homme',NULL,57000,NULL,'918633099'),('azeaze','azeaze@azeaze.azeaze','$2y$10$kK0kNRL6UPx0NWdzvRSx/uKGe3PuMkYQOVChDUHgS1UemXmOcTTqO','azeaze','azeaze','24/12/1998','Homme','azeaze',57000,'azeaze','0666666666'),('bbb','bbb@bbb.bbb','$2y$10$siUap22fTXX8pClulyfZWOKlrKkS4mpYFwt7qdZpRziVckxl4rJne','bbb','bbb','24/12/1998','Homme','bbb',57000,'bbb','0666666666'),('enes','enes@enes.enes','$2y$10$Z48Khz7wwAA8Fp2mE8ReheMiswupZiS6Id4r.v2s8SQ0e0.0/iMeK','enes','enes','24/12/1998','Homme','enes',57000,'enes','0661384809'),('enes57','enes@usta.pw','$2y$10$N5K7cq7AneoF4drfebyV9unXp2aFJRs2bITDp59nniOpGKiWbiIDW','USTA','Enes','1998-12-24','Homme','gzerrg',57070,'gerreg','0661384809'),('SuperEnes','mine.skysylver@gmail.com','$2y$10$nZtFNsLpAPJ5HltnKSQDteJffODdTqLdl0wtUcm.Eu4F1oJeFMrJe','USTA','Enes','1998-12-24','Homme','zfgeze',57070,'metz','0661384809'),('temp','temp@temp.temp','$2y$10$Pfi5iGDsFZVESxRA2MAg9O3OW7cwl5XohylDyIPcjC5oXKh6XFyDO','temp','temp','1998-12-12','Homme','temp',57777,'temp','0666666666');
+INSERT INTO `users` VALUES ('admin','admin@admin.com','$2y$10$XLqeZoDw.HpOxU3v67eBKOzX7QxZnLHdoM0zTOjwp0KNBqk6UNQGO','ADMIN','admin','01/01/1999','Homme',NULL,57000,NULL,'918633099');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -262,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-12 20:59:41
+-- Dump completed on 2021-12-12 21:50:10
