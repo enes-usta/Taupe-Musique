@@ -1,1 +1,5 @@
 RedirectMatch 404 ^/CTF.*$
+
+ErrorDocument 404 /public/errors/404.html
+ErrorDocument 403 /public/errors/403.html
+ErrorDocument 401 /public/errors/401.html
