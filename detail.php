@@ -18,13 +18,13 @@ $album = getAlbumById($_GET['id']);
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
     <link href="public/css/shop-homepage.css" rel="stylesheet">
 
-
     <script type="text/javascript" src="public/js/cart.js"></script>
-
 </head>
 <body>
 <?php include("includes/navbar.php"); ?>
+<div style="text-align: center" id="NotifyResult">
 
+</div>
 <div class="container">
     <div class="col-xs-5">
         <img style="width: 100%;" src="<?= '/public/img_cover/' . $album->photo ?>"/>
@@ -44,9 +44,10 @@ $album = getAlbumById($_GET['id']);
         <p><?= $album->descriptif ?></p>
         <hr>
         <h3><?= $album->prix ?> € </h3>
-        <button class="btn btn-default">Ajouter au panier</button>
+        <button onclick="addPanier(<?= $album->id ?>)" class="btn btn-default">Ajouter au panier</button>
     </div>
 </div>
+
 <div class="container">
     <hr>
     <?php include("includes/footer.php"); ?>

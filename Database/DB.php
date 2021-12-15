@@ -56,6 +56,7 @@ function isAdmin(): bool
 function validerCommande($user): bool
 {
     $panier = getPanier($user);
+    if(sizeof($panier) == 0) return false;
     $db = Database::getInstance();
     $req = $db->prepare("REPLACE into commande (id_produit, id_client, amount) values (:item, :login, :amount)");
     foreach ($panier as $item)
@@ -435,7 +436,7 @@ function getAlbumById($id): mixed
     if (!is_numeric($id)) return false;
 
     $db = Database::getInstance();
-    $req = $db->prepare("SELECT titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
+    $req = $db->prepare("SELECT ID_PROD as id, titre, chansons, prix, descriptif, photo FROM produits WHERE ID_PROD = :id");
     $req->execute(array(":id" => $id));
 
     return $req->fetch(PDO::FETCH_OBJ);
@@ -484,7 +485,7 @@ function createAlbum($titre, $chansons, $auteur, $prix, $descriptif)
 function getAlbums(): bool|array
 {
     $db = Database::getInstance();
-    $req = $db->prepare("SELECT ID_PROD, TITRE, PRIX FROM produits;");
+    $req = $db->prepare("SELECT ID_PROD as id, TITRE, PRIX FROM produits;");
     $req->execute(array());
     return $req->fetchAll(PDO::FETCH_OBJ);
 }

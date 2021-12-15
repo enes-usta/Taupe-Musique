@@ -35,4 +35,6 @@ if ($sent_user != "") {
 
 ?>
 
-<button href="RechercheBarre.php" type='button' value="retour">
+<a href="RechercheBarre.php">
+    <button type='button' value="retour">
+</a>

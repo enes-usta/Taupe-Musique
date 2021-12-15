@@ -1,5 +1,6 @@
 <?php
 header("HTTP/1.1 401 Unauthorized");
+exit;
 session_start();
 include '../authorized.php';
 ?>
@@ -112,4 +113,4 @@ query($mysqli,"CREATE TABLE IF NOT EXISTS PANIER (
 
 Initialisation réussie
 </body>
-</html>
+</html>*/

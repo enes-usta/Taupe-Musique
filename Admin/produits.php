@@ -25,6 +25,11 @@ include 'Functions/Layout.php';
     <script src="/public/js/jq.js" type="text/javascript"></script>
     <script src="/public/js/bootstrap.min.js"></script>
 
+    <style>
+        td{
+            padding: 0 20px 0 20px;
+        }
+    </style>
     <script>
         function removeItem(e) {
             $.ajax({

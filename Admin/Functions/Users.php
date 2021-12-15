@@ -7,47 +7,46 @@ function afficherUtilisateurs()
     <hr>
     <table>
         <tr>
-            <td><h2>Administrateurs</h2></td>
+            <td colspan="3"><h2>Administrateurs</h2></td>
         </tr>
-        <tr>
+        <tr style="font-weight: bold">
             <td>Login</td>
             <td>Prénom</td>
             <td>Nom</td>
         </tr>
         <?php
         $admins = getAdmins();
-        foreach ($admins as $a) {
-            ?>
-            <tr>
-                <td><?= $a->login . '</td><td>' . $a->prenom . '</td><td>' . $a->nom ?></td>
-            </tr>
-            <?php
-        }
+        foreach ($admins as $a)
+            echo "
+        <tr>
+            <td>$a->login</td>
+            <td>$a->prenom</td>
+            <td>$a->nom</td>
+        </tr>";
         ?>
+    </table>
 
-    </table><br/><br/>
+    <br/>
     <hr>
+
     <table>
         <tr>
-            <td><h2>Clients</h2></td>
+            <td colspan="4"><h2>Clients</h2></td>
         </tr>
-        <tr>
+        <tr style="font-weight: bold">
             <td>Login</td>
             <td>Prénom</td>
             <td>Nom</td>
         </tr>
-        <?php
-        $users = getAllUsers();
-        foreach ($users as $u) {
-            ?>
-            <tr>
-                <td><?= $u->login . '</td><td>' . $u->prenom . '</td><td>' . $u->nom ?></td>
-                <td>
-                    <a href='details.php?login=<?= $u->login ?>'> Détails </a>
-                </td>
-            </tr>
-            <?php
-        }
-        ?></table>
     <?php
+    $users = getAllUsers();
+    foreach ($users as $u)
+        echo "
+            <tr>
+                <td>$u->login</td><td>$u->prenom</td><td>$u->nom</td>
+                <td>
+                    <a href='details.php?login=$u->login'>Détails</a>
+                </td>
+            </tr>";
+    echo "</table>";
 }

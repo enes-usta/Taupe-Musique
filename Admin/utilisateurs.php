@@ -21,6 +21,12 @@ include 'Functions/Users.php';
     <script src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/jq.js"></script>
     <script src="../public/js/bootstrap.min.js"></script>
+    <style>
+        td{
+            padding: 2px 20px 2px 20px;
+        }
+
+    </style>
 </head>
 
 <body>

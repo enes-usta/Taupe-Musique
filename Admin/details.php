@@ -20,6 +20,11 @@ $user = getUser($_GET["login"]);
     <link href="../public/css/shop-homepage.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
     <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
+    <style>
+        td{
+            padding: 2px 20px 2px 20px;
+        }
+    </style>
 </head>
 
 
@@ -32,58 +37,58 @@ $user = getUser($_GET["login"]);
         <div class="col-md-9">
             <div class="row carousel-holder">
                 <h2>Les Informations de <?= $user->login ?></h2>
-                <table width='30%'>
+                <table>
                     <tr>
                         <th>
                             <hr>
                         </th>
                     </tr>
                     <tr>
-                        <td><p><strong>Login d'utilisateur</strong></p></td>
+                        <td>Login de l'utilisateur</td>
                         <td><?= $user->login ?></td>
                     </tr>
 
                     <tr>
-                        <td><p><strong>Mot de Pass<strong></p></td>
+                        <td>Mot de passe</td>
                         <td>********</td>
                     </tr>
                     <tr>
-                        <td><p><strong>Email</strong></p></td>
+                        <td>Email</td>
                         <td><?= $user->email ?></td>
                     </tr>
                     <tr>
-                        <td><p><strong>Nom</strong></p></td>
+                        <td>Nom</td>
                         <td><?= $user->nom ?></td>
                     </tr>
 
                     <tr>
-                        <td><p><strong>Prénom</strong></p></td>
+                        <td>Prénom</td>
                         <td><?= $user->prenom ?></td>
                     </tr>
                     <tr>
-                        <td><p><strong>Date de Naissance</strong></p></td>
+                        <td>Date de Naissance</td>
                         <td><?= $user->date ?></td>
                     </tr>
                     <tr>
-                        <td><p><strong>Telephone</strong></p></td>
+                        <td>Téléphone</td>
                         <td><?= $user->telephone ?></td>
                     </tr>
 
                     <tr>
-                        <td><p><strong>ADRESSEe</strong></p></td>
+                        <td>Adresse</td>
                         <td><?= $user->adresse ?></td>
                     </tr>
                     <tr>
-                        <td><p><strong>Ville</strong></p></td>
+                        <td>Ville</td>
                         <td><?= $user->ville ?></td>
                     </tr>
                     <tr>
-                        <td><p><strong>Code Postal</strong></p></td>
+                        <td>Code Postal</td>
                         <td><?= $user->codep ?></td>
                     </tr>
                     <tr>
                     <tr>
-                        <td><p><strong>Sexe</strong></p></td>
+                        <td>Sexe</td>
                         <td><?= $user->sexe ?></td>
                     </tr>
                 </table>

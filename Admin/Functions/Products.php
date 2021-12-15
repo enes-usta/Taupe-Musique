@@ -17,19 +17,29 @@ function afficherProduits()
     else {
         ?>
         <table>
-        <tr><td width='50px'>ID</td><td width='80px'>Titre</td><td width='80px'>Prix</td></tr>
-        <tr><td colspan='3'><hr></td></tr>
+        <tr style="font-weight: bold; text-align: center;">
+            <td>Id</td>
+            <td>Titre</td>
+            <td>Prix</td>
+        </tr>
+        <tr>
+            <td colspan='5'>
+                <hr>
+            </td>
+        </tr>
         <?php
         foreach ($albums as $a) {
             ?>
         <tr>
-            <td id='item'><a href='detail.php?id=<?= $a->ID_PROD ?>'><?= $a->ID_PROD ?></a></td>
+            <td id='item'><a href='../detail.php?id=<?= $a->id ?>'><?= $a->id ?></a></td>
             <td><?= $a->TITRE ?></td>
             <td><?= $a->PRIX ?></td>
-            <td><button id='effacer' onclick='removeItem(<?= $a->ID_PROD ?>)'>effacer</button></td>
+            <td>
+                <button id='effacer' onclick='removeItem(<?= $a->id ?>)'>Effacer</button>
+            </td>
         </tr>
         <tr>
-            <td colspan='3'><hr></td>
+            <td colspan='5'><hr></td>
         </tr>
     <?php
         }

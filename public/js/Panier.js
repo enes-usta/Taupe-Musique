@@ -35,7 +35,7 @@ panierLayout = (result) => {
 }
 
 removePanier = async (p) => {
-    fetch((window.location !== '/' ? '../' : '') + 'Cart/UpdatePanier.php', {
+    await fetch((window.location !== '/' ? '../' : '') + 'Cart/UpdatePanier.php', {
         method: "POST",
         body: JSON.stringify({
             album: p,
@@ -44,8 +44,9 @@ removePanier = async (p) => {
         headers: {
             'Content-Type': 'application/json',
         }
+    }).then(()=>{
+        location.reload();
     });
-    location.reload();
 
 }
 
