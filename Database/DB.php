@@ -51,7 +51,7 @@ function isAdmin(): bool
 /**
  * Valide la commande pour chaque article du panier
  * @return bool La commande a été effectuée avec succès
- * @see sendOrder.php Ligne 6
+ * @see ____order.php Ligne 6
  */
 function validerCommande($user): bool
 {

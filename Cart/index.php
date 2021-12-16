@@ -29,7 +29,7 @@ session_start();
                 <div id="panier">
                 </div>
             </div>
-            <?= (isLogged() ? '<a class="btn btn-default" href="sendOrder.php">ACHETER</a>' : '<p>Veuillez vous identifier pour effectuer une commande </p>'); ?>
+            <?= (isLogged() ? '<a class="btn btn-default" href="Payment.php">ACHETER</a>' : '<p>Veuillez vous identifier pour effectuer une commande </p>'); ?>
         </div>
     </div>
 </div>
