@@ -7,7 +7,38 @@
     <meta name="author" content="">
     <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../public/css/payment.css"/>
+    <script src="../public/js/jquery.min.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById('submit').addEventListener('click', () => {
+                    const value = Object.fromEntries(new FormData(document.forms[0]).entries());
+                    fetch('sendOrder.php', {
+                        method: "POST",
+                        body: JSON.stringify(value),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    }).then((r) => {
+                        return r.json()
+                    }).then((message) => {
+                        console.log(message)
+                        let response = document.getElementById('reponse');
+                        response.className = (message.state) ? 'error' : 'success';
+                        if (message.state)
+                            window.location.href = '/public/template/success_order.html'
+                        else {
+                            for (const err in message.errors)
+                                response.innerHTML += '<li>' + message.errors[err] + '</li>';
+                            response.style.color = 'red';
+                            //response.innerHTML = 'Erreur lors du paiement ...';
+                        }
+                    })
+                })
+            }
+        )
+    </script>
 </head>
 <body>
 
@@ -45,37 +76,13 @@
                             de la carte</label></div>
                 </div>
                 <div class="col-12">
-                    <div class="btn btn-primary w-100">Payer</div>
+                    <div id="submit" class="btn btn-primary w-100">Payer</div>
                 </div>
             </div>
         </form>
 
     </div>
 
-    <script>
-        document.addEventListener('submit', () => {
-            fetch('sendOrder.php', {
-                method: "POST",
-                body: JSON.stringify(value),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }).then((r) => {
-                return r.json()
-            }).then((message) => {
-                let response = document.getElementById('reponse');
-                response.className = (message.error) ? 'error' : 'success';
-                if (message.ok)
-                    window.location.href = ''
-                else {
-                    for (const err in message.errors) response.innerHTML += '<li>' + message.errors[err] + '</li>';
-                    response.style.color = 'red';
-                    //response.innerHTML = 'Erreur lors du paiement ...';
-                }
-            })
-        })
-        });
-    </script>
 </div>
 </body>
 </html>
