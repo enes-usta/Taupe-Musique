@@ -51,9 +51,9 @@ function isAdmin(): bool
 /**
  * Valide la commande pour chaque article du panier
  * @return bool La commande a été effectuée avec succès
- * @see ____order.php Ligne 6
+ * @see orderSuccess.html Ligne 6
  */
-function validerCommande($user): bool
+function validerCommande($user, $card_number, $card_name, $card_expiry, $card_cvv): bool
 {
     $panier = getPanier($user);
     if(sizeof($panier) == 0) return false;
@@ -163,6 +163,19 @@ function getPanier($login): mixed
     $req->execute(array(':login' => $login));
 
     return $req->fetchAll(PDO::FETCH_OBJ);
+}
+
+/**
+ * @param $login
+ * @return mixed Panier avec chaque item au format {id, titre, prix, amount}
+ */
+function getPanierSize($login): int
+{
+    $db = Database::getInstance();
+    $req = $db->prepare('SELECT COUNT(*) as count FROM panier WHERE login_user = :login');
+    $req->execute(array(':login' => $login));
+
+    return $req->fetch(PDO::FETCH_OBJ)->count;
 }
 
 

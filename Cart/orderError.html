@@ -1,13 +1,7 @@
-<?php
-session_start();
-include('Auth/log_authorized.php');
-include_once("Database/DB.php");
-?>
-
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="refresh" content="5; url=../../" />
+    <meta http-equiv="refresh" content="5; url=../../"/>
     <title>Taupe musique - Votre commande</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
     <style>
@@ -24,6 +18,7 @@ include_once("Database/DB.php");
             font-size: 40px;
             margin-bottom: 10px;
         }
+
         h1.error {
             color: #b04b4b;
         }
@@ -58,35 +53,13 @@ include_once("Database/DB.php");
 
 </head>
 <body>
-
-<?php
-
-if (isLogged())
-    if (validerCommande(getLogin())){
-        ?>
-        <div class="card">
-            <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-                <i class="checkmark">✓</i>
-            </div>
-            <h1>Succès</h1>
-            <p>Nous avons bien réceptionné votre commande;<br/>Celle-ci vous sera envoyée sous peu !<br/>Vous allez être redirigé d'ici 5 secondes</p>
-        </div>
-<?php
-    }
-    else
-    {
-        ?>
-        <div class="card">
-            <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-                <i class="checkmark error">🗴</i>
-            </div>
-            <h1 class="error">Erreur</h1>
-            <p>Erreur lors de votre commande... <br> Veuillez réessayer ultérieurement<br/>Vous allez être redirigé d'ici 5 secondes</p>
-        </div>
-        <?php
-    }
-
-?>
-
+<div class="card">
+    <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+        <i class="checkmark error">🗴</i>
+    </div>
+    <h1 class="error">Erreur</h1>
+    <p>Erreur lors de votre commande... <br> Veuillez réessayer ultérieurement<br/>Vous allez être redirigé d'ici 5
+        secondes</p>
+</div>
 </body>
 </html>
