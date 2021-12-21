@@ -1,10 +1,7 @@
 <?php
 session_start();
 include 'authorized.php';
-
-include_once './Functions/AdminLayout.php';
 include_once 'Functions/Layout.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +35,15 @@ include_once 'Functions/Layout.php';
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">
-                <?php afficherAdmin(); ?>
+                <?php if (isAdmin()) {
+                    ?>
+                    <a href="produits.php"><h4>Gestion de produits</h4></a><br/>
+                    <a href="utilisateurs.php"><h4>Gestion d'utilisateurs</h4></a><br/>
+                    <a href="commandes.php">
+                        <h4>Visualiser les commandes<h4>
+                    </a>
+                    <?php
+                } ?>
             </div>
         </div>
     </div>

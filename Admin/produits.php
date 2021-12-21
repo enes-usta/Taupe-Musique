@@ -2,7 +2,6 @@
 session_start();
 include 'authorized.php';
 
-include './Functions/AdminLayout.php';
 include './Functions/Products.php';
 include 'Functions/Layout.php';
 

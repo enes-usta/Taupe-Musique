@@ -5,63 +5,49 @@ function ajouterProduitLayout()
 {
     ?>
     <h2>Ajouter produit</h2><br/>
-    <form enctype='multipart/form-data' action='Actions/addProduct.php' method='post' class='putImages'>
-        <table>
-            <tr>
-                <td wnameth='180px'>Auteur</td>
-                <td><input type='text' name='auteur'/></td>
-            </tr>
-            <tr>
-                <td wnameth='180px'>Titre</td>
-                <td><input type='text' name='titre'/></td>
-            </tr>
-            <tr>
-                <td>Prix</td>
-                <td><input type='text' name='prix'/></td>
-            </tr>
-            <tr>
-                <td>Critique</td>
-                <td><textarea name='descriptif' rows='8' cols='50'></textarea></td>
-            </tr>
-            <tr>
-                <td>Image</td>
-                <td><input id='file' name='file' type='file' multiple/></td>
-            </tr>
-            <tr>
-                <td>Genre</td>
-                <td>
-                    <select name='rubrique' style='wnameth:145px'>
-                        <?php
-                        $rub = getMainRubriques();
-                        if ($rub == false)
-                            echo "ERRPR";
-                        foreach ($rub as $item)
-                            echo "<option>" . $item->LIBELLE_RUB . "</option>";
-                        ?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Nombre de Chansons</td>
-                <td><select id='nombre' name='nombre' style='wnameth:145px' onchange='numChansons()'>
-                        <option selected>0</option>
-                        <?php
-                        for ($i = 1; $i <= 30; $i++)
-                            echo "<option>" . $i . "</option>";
-                        ?>
+    <form method='post'>
+        <div class="form-group">
+            <label for="author_field">Auteur</label>
+            <input type="text" name="author" class="form-control" id="author_field"/>
+        </div>
+        <div class="form-group">
+            <label for="title_field">Titre</label>
+            <input type="text" name="title" class="form-control" id="title_field"/>
+        </div>
+        <div class="form-group">
+            <label for="price_field">Prix</label>
+            <input type="number" name="price" class="form-control" id="price_field"/>
+        </div>
+        <div class="form-group">
+            <label for="descriptif_field">Critique</label>
+            <input type="text" name="descriptif" class="form-control" id="descriptif_field"/>
+        </div>
 
-                    </select><br/></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <div id='tracks'></div>
-                </td>
-            <tr>
-            <tr>
-                <td><input name='valider' type='submit' value='Ajouter'/></td>
-            </tr>
-        </table>
+        <div class="form-group">
+            <label for="genre_field">Genre</label>
+            <select name="genre" class="form-control" id="genre_field">
+                <?php
+                foreach (getMainRubriques() as $item)
+                    echo '<option>' . $item->LIBELLE_RUB . '</option>';
+                ?>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <div class="custom-file">
+                <label class="custom-file-label" for="albumImage">Image de l'album</label>
+                <input type="file" class="custom-file-input" id="albumImage" required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="nb_chansons_field">Nombre de chansons</label>
+            <input onchange="numChansons(this.value)" type="number" name="nb_chansons" class="form-control"
+                   id="nb_chansons_field"/>
+        </div>
+        <div id="tracks"></div>
+
+        <input name='valider' type='submit' value='Ajouter'/>
     </form>
     <?php
 }

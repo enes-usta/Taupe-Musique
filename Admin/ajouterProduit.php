@@ -2,7 +2,6 @@
 session_start();
 include 'authorized.php';
 
-include 'Functions/AdminLayout.php';
 include 'Functions/Layout.php';
 include 'Functions/AddProductLayout.php';
 ?>
@@ -14,24 +13,21 @@ include 'Functions/AddProductLayout.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-
     <title>TaupeMusique</title>
 
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/public/css/shop-homepage.css" rel="stylesheet">
-    <link rel="stylesheet" href="../public/css/datepicker.min.css"/>
-    <link rel="stylesheet" href="../public/css/datepicker3.min.css"/>
-    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
+    <script type="application/javascript" src="/public/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css"/>
+    <script type="application/javascript" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/jq.js"></script>
-    <script src="../public/js/bootstrap.min.js"></script>
 
     <script>
-        function numChansons() {
+        numChansons = (nb) => {
             let str = '';
-            for (let i = 0; i < $("#nombre").val(); i++)
-                str += '<tr><td>' + (i + 1) + '</td><td><input type="text" name="track' + i + '"/></td></tr>';
-
-            $("#tracks").html(str);
+            for (let i = 0; i < nb; i++)
+                str += `<div class="form-group mb-3">
+                          <input type="text" class="form-control" name="tracks[${i}]" placeholder="Chanson n°${i}" />
+                        </div>`;
+            document.getElementById('tracks').innerHTML = str;
         }
     </script>
 </head>
@@ -40,7 +36,7 @@ include 'Functions/AddProductLayout.php';
 <?php include("includes/navbar.php"); ?>
 
 <div class="container">
-    <div class="row">
+    <div class="row carousel">
         <div class="col-md-3">
             <p class="lead">Votre Profil</p>
             <?php CompteLayout(); ?>
