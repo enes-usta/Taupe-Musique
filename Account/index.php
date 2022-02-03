@@ -2,6 +2,7 @@
 session_start();
 include 'Functions/Layout.php';
 include_once("Database/DB.php");
+include 'Functions/Orders.php';
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +97,11 @@ include_once("Database/DB.php");
                             <td></td>
                         </tr>
                     </table>
+
+                <div class="row carousel-holder">
+                    <?php afficherCommandes(getUserOrders()); ?>
+                    <hr>
+                </div>
                     <?php
                 } else
                     echo "<font color='grey'>Connectez vous pour afficher cette page</font>";

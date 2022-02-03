@@ -28,4 +28,5 @@
             </div>
         </div>
     </nav>
+    <script type="text/javascript" src="/public/js/mmh.js"></script>
 <?php include 'bstrap.php'; ?>

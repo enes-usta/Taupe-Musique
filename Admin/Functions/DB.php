@@ -36,7 +36,7 @@ function getRubByLib($rub_lib): mixed
 function getMainRubriques(): bool|array
 {
     $db = Database::getInstance();
-    $req = $db->prepare("SELECT LIBELLE_RUB FROM rubrique WHERE ID_RUB IN (SELECT ID_ENFANT FROM hierarchie WHERE ID_PARENT = ?);");
+    $req = $db->prepare("SELECT LIBELLE_RUB as libelle FROM rubrique WHERE ID_RUB IN (SELECT ID_ENFANT FROM hierarchie WHERE ID_PARENT = ?);");
     $req->execute(array(getRubByLib('Indice')->ID_RUB));
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
@@ -48,3 +48,4 @@ function getOrders(): mixed
     $req->execute();
     return $req->fetchAll(PDO::FETCH_OBJ);
 }
+

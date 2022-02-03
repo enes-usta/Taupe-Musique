@@ -487,12 +487,14 @@ function removeAlbumById($id): bool
  * @param $auteur
  * @param $prix
  * @param $descriptif
+ * @return bool
  */
-function createAlbum($titre, $chansons, $auteur, $prix, $descriptif)
+function createAlbum($titre, $chansons, $auteur, $prix, $descriptif, $photo)
 {
     $db = Database::getInstance();
     $req = $db->prepare("insert into produits (TITRE, CHANSONS, LIBELLE, PRIX, DESCRIPTIF, PHOTO) values (?, ?, ?, ?, ?, ?);");
-    $req->execute(array($titre . ' ( ' . $auteur . ' )', $chansons, '', $prix, $descriptif));
+    $req->execute(array($titre . ' ( ' . $auteur . ' )', $chansons, '', $prix, $descriptif, $photo));
+    return true;
 }
 
 function getAlbums(): bool|array
@@ -519,4 +521,12 @@ function existeSousRubriques($rub_id): bool
     $req->execute(array($rub_id, $rub_id));
     return $req->fetch(PDO::FETCH_OBJ)->count != 0;
 
+}
+
+function getUserOrders(): mixed
+{
+    $db = Database::getInstance();
+    $req = $db->prepare("SELECT * FROM commande WHERE id_client = :id_client");
+    $req->execute([':id_client' => getLogin()]);
+    return $req->fetchAll(PDO::FETCH_OBJ);
 }

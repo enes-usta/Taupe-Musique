@@ -3,6 +3,7 @@ session_start();
 include 'authorized.php';
 include 'Functions/Layout.php';
 include 'Functions/Orders.php';
+include_once 'Functions/DB.php';
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +38,7 @@ include 'Functions/Orders.php';
         </div>
         <div class="col-md-9">
             <div class="row carousel-holder">
-                <?php afficherCommandes(); ?>
+                <?php afficherCommandes(getOrders()); ?>
                 <hr>
             </div>
         </div>
