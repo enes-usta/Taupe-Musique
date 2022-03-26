@@ -75,7 +75,7 @@ And this, in order to be protected against various known flaws such as SQL Injec
 
 <!-- CONTACT -->
 ## Contact
-* Enes USTA - [ustaenes](https://www.linkedin.com/in/ustaenes/) - usta.enes@outlook.fr
+* Enes USTA - [@Github](https://github.com/enes-usta)
 * Damien MOLLIERE [@Github](https://github.com/M2O2)
 * Hugo SAHNOUNE [@Github](https://github.com/Arhamyss)
 * Paul MULLER [@Github](https://github.com/solsdii)
