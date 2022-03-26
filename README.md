@@ -87,6 +87,7 @@ Project Link: [https://github.com/enes-usta/TaupeMusique](https://github.com/ene
 
 <!-- LICENSE -->
 ## License
+Distributed under the `GNU GPL-3.0` (https://www.gnu.org/licenses/gpl-3.0.en.html).
 See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
