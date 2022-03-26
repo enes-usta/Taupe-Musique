@@ -79,7 +79,7 @@ And this, in order to be protected against various known flaws such as SQL Injec
 * Damien MOLLIERE [@Github](https://github.com/M2O2)
 * Hugo SAHNOUNE [@Github](https://github.com/Arhamyss)
 * Paul MULLER [@Github](https://github.com/solsdii)
-* Guillaume Wasilewski [@Github]()
+* Guillaume Wasilewski [@Github](https://github.com/0wlyW00d)
 
 Project Link: [https://github.com/enes-usta/TaupeMusique](https://github.com/enes-usta/TaupeMusique)
 
